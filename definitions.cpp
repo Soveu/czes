@@ -1,36 +1,17 @@
 #pragma once
 
 #include <stdint.h>
-#include <map>
 
 struct Coord {
   uint16_t x, y;
 
-  /*
-  const uint16_t& operator[](size_t i) const {
-    if(i == 0) return this->x;
-    if(i == 1) return this->y;
-    assert(false);
+  bool operator==(const Coord& a) const {
+    return a.x == this->x && a.y == this->y;
   }
-  uint16_t& operator[](size_t i) {
-    if(i == 0) return this->x;
-    if(i == 1) return this->y;
-    assert(false);
-  }
-  */
 };
 
-bool operator==(const Coord& a, const Coord& b) {
-  return a.x == b.x && a.y == b.y;
-}
-bool operator<(const Coord& a, const Coord& b) {
-  if(a.y == b.y) {
-    return a.x < b.x;
-  }
-  return a.y < b.y;
-}
-
-enum Piece {
+enum PieceType : uint8_t {
+  None = 0,
   Pawn,
   Bishop,
   Knight,
@@ -39,66 +20,101 @@ enum Piece {
   King,
 };
 
-const char* pieces[7] = {
-  "P",
-  "B",
-  "k",
-  "R",
-  "Q",
-  "K"
+/* WARNING: unicode chararacter like these cannot fit into 'char' so that why
+ * they are inside strings */
+const char* UNICODE_PIECES[7] = {
+  " ",
+  "♙",
+  "♖",
+  "♘",
+  "♗",
+  "♕",
+  "♔",
+};
+
+/*
+const char* UNICODE_PIECES[7] = {
+  " ",
+  "♟",
+  "♝",
+  "♞",
+  "♜",
+  "♛",
+  "♚",
+};
+*/
+
+enum PieceColor : uint8_t {
+  Black = 0,
+  White = 1,
+};
+
+struct Piece {
+  /* INVARIANT: color is stored in youngest bit and rest gets shifted */
+  uint8_t _data;
+
+  static Piece with_type_and_color(const PieceType type, const PieceColor color) {
+    uint8_t _type = static_cast<uint8_t>(type);
+    uint8_t _color = static_cast<uint8_t>(color);
+    uint8_t data = (_type << 1) | (_color << 0);
+    return Piece { data };
+  }
+
+  PieceColor color() const {
+    uint8_t col = this->_data & 1;
+    /* SAFETY: color can be either 0 (black) or 1 (white) */
+    return static_cast<PieceColor>(col);
+  }
+
+  PieceType type() const {
+    uint8_t p = this->_data >> 1;
+    /* SAFETY: see invariant */
+    return static_cast<PieceType>(p);
+  }
 };
 
 struct Game {
-  uint16_t height;
-  uint16_t width;
+  Piece board[8][8];
 
-  std::map<Coord, Piece> board;
+  void clear_board() {
+    const Piece EMPTY_FIELD = Piece::with_type_and_color(
+      PieceType::None,
+      PieceColor::Black
+    );
+
+    for(size_t y=0; y<8; y+=1) {
+      for(size_t x=0; x<8; x+=1) {
+        this->board[y][x] = EMPTY_FIELD;
+      }
+    }
+  }
 };
 
-void draw_part_of_board(const Game& game, Coord lu_corner, Coord rd_corner) {
-}
-
 void draw_board(const Game& game) {
-  auto iter = game.board.begin();
-  auto end = game.board.end();
+  std::cout << "\n";
 
-  uint16_t y=0;
-  uint16_t x=0;
+  const char* WHITE_BACKGROUND = "\033[47m";
+  const char* BLACK_BACKGROUND = "\033[100m";
 
-  for(; y<game.height && iter != end; ++y) {
-    x=0;
+  const char* WHITE_FOREGROUND = "\033[97m";
+  const char* BLACK_FOREGROUND = "\033[30m";
 
-    std::cout << '\n';
-    for(int i=0; i<game.height; ++i) {
-      std::cout << "----";
+  const char* RESET = "\033[0m";
+
+  for(size_t y=0; y<8; y+=1) {
+    for(size_t x=0; x<8; x+=1) {
+      bool is_background_white = ((x+y) % 2) == 0;
+      Piece piece = game.board[y][x];
+
+      std::cout << (is_background_white ? WHITE_BACKGROUND : BLACK_BACKGROUND);
+      std::cout << (piece.color() == PieceColor::Black ? BLACK_FOREGROUND : WHITE_FOREGROUND);
+      std::cout << " " << UNICODE_PIECES[piece.type()] << " ";
     }
-    std::cout << '\n';
 
-    for(; x<game.width && iter != end; ++x) {
-      std::cout << ' ';
-
-      if(iter->first == Coord{x,y}) {
-        std::cout << pieces[iter->second];
-        ++iter;
-      } else {
-        std::cout << ' ';
-      }
-
-      std::cout << " |";
-    }
+    std::cout << RESET << "\n";
   }
 
-  for(; y<game.height; ++y) {
-    for(; x<game.width; ++x) {
-      std::cout << "   |";
-    }
-
-    x=0;
-    std::cout << '\n';
-    for(int i=0; i<game.height; ++i) {
-      std::cout << "----";
-    }
-    std::cout << '\n';
-  }
+  /* std::endl also flushes output */
+  std::cout << RESET << std::endl;
 }
 

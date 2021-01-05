@@ -8,12 +8,14 @@ int main(int argc, const char* argv[]) {
   }
 
   Game game;
-  game.width = 8;
-  game.height = 8;
+  game.clear_board();
 
   for(uint16_t i=0; i<5; i += 1) {
     for(uint16_t j=0; j<5; j += 1) {
-      game.board[Coord{i,j}] = Piece::King;
+      game.board[i][j] = Piece::with_type_and_color(
+        PieceType::King,
+        static_cast<PieceColor>((i+j) % 2)
+      );
     }
   }
 
