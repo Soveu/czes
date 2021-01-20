@@ -183,7 +183,7 @@ void wpiszwstepnebiciaK(int xH, int yH)
 }
 bool czybicieK(int xH, int yH)
 {
-	
+	return false;
 }
 bool czybialypionek(int x, int y)
 {
@@ -257,14 +257,44 @@ char liczbachar(int a)
 }
 string czyonmozemat(int x, int y, int xH,int yH)
 {
-	
+	return "";
 }
 
 
 string jakisruchdomata()
 {
 	//zakladamy ze zawsze jest mozliwy mat w jednym ruchu
-	
+	string ruchwygrana;
+	int idH_x, idH_y;
+	for (int i = 0; i < 8; i++)
+		bicieK[i] = false;
+	for (int i = 0; i < 8; i++)
+	{
+		for (int j = 0; j < 8; j++)
+		{
+			if (plansza[i][j]=="K")
+			{
+				idH_x = i;
+				idH_y = j;
+			}
+		}
+	}
+	for (int i = 0; i < 8; i++)
+	{
+		for (int j = 0; j < 8; j++)
+		{
+			if (czybialypionek(i, j))
+			{
+
+				ruchwygrana = czyonmozemat(i, j, idH_x, idH_y); //jezeli tak, to fcja zwroci w jakim ruchu
+				if (ruchwygrana != "")
+				{
+					return ruchwygrana;
+				}	
+			}
+		}
+	}
+	return "";
 }
 int main()
 {
