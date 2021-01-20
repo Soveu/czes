@@ -37,17 +37,6 @@ void gra(string szachy[8][8], int liczbarand)
 			}
 			cout << "  *************************\n";
 			cout << "   a  b  c  d  e  f  g  h\n";
-			/*char a, c;
-			int b, d;
-			cin >> a >> b >> c >> d;
-			if (a == 'a' && b == 7 && c == 'e' && d == 7)
-			{
-				cout << "WYGRANA";
-			}
-			else
-			{
-				cout << "ZLY RUCH\n";
-			}*/
 			string ruch;
 			cin >> ruch;
 			while (ruch[0] != 'a' || (ruch[1] - 48) != 7 || ruch[2] != 'e' || (ruch[3] - 48) != 7 || ruch.length() != 4)
@@ -64,39 +53,380 @@ void gra(string szachy[8][8], int liczbarand)
 		}break;
 		case 2:
 		{
-			
+			for (int i = 0; i < 8; i++)
+			{
+				for (int j = 0; j < 8; j++)
+				{
+					szachy[i][j] = "__";
+				}
+			}
+			szachy[0][5] = "K";
+			szachy[5][7] = "r"; //biala wieza
+			szachy[4][0] = "p"; //bialy pionek
+			cout << "  *************************\n";
+			for (int i = 0; i < 8; i++)
+			{
+				cout << 8 - i << " ";
+				for (int j = 0; j < 8; j++)
+				{
+					cout << "*" << szachy[i][j];
+				}
+				cout << "*" << endl;
+			}
+			cout << "  *************************\n";
+			cout << "   a  b  c  d  e  f  g  h\n";
+			string ruch;
+			cin >> ruch;
+			while (ruch[0] != 'h' || (ruch[1] - 48) != 3 || ruch[2] != 'h' || (ruch[3] - 48) != 8 || ruch.length() != 4)
+			{
+				cout << "ZLY RUCH\n";
+				cin >> ruch;
+				if (ruch == "exit")
+				{
+					break;
+				}
+			}
+			if (ruch != "exit")
+				cout << "WYGRANA";
 		}break;
 		case 3:
 		{
-			
+			for (int i = 0; i < 8; i++)
+			{
+				for (int j = 0; j < 8; j++)
+				{
+					szachy[i][j] = "__";
+				}
+			}
+			szachy[2][3] = "K"; //czarny krol
+			szachy[3][3] = "n"; //bialy skoczek
+			szachy[4][3] = "k"; //bialy krol
+			szachy[4][7] = "q"; //biala krolowa
+			cout << "  *************************\n";
+			for (int i = 0; i < 8; i++)
+			{
+				cout << 8 - i << " ";
+				for (int j = 0; j < 8; j++)
+				{
+					cout << "*" << szachy[i][j];
+				}
+				cout << "*" << endl;
+			}
+			cout << "  *************************\n";
+			cout << "   a  b  c  d  e  f  g  h\n";
+			string ruch;
+			cin >> ruch;
+			while (ruch[0] != 'h' || (ruch[1] - 48) != 4 || ruch[2] != 'd' || (ruch[3] - 48) != 8 || ruch.length() != 4)
+			{
+				cout << "ZLY RUCH\n";
+				cin >> ruch;
+				if (ruch == "exit")
+				{
+					break;
+				}
+			}
+			if (ruch != "exit")
+				cout << "WYGRANA";
 		}break;
 		case 4:
 		{
-			
+			for (int i = 0; i < 8; i++)
+			{
+				for (int j = 0; j < 8; j++)
+				{
+					szachy[i][j] = "__";
+				}
+			}
+			szachy[0][2] = "R";
+			szachy[0][3] = "K"; //czarny krol
+			szachy[0][4] = "R"; //czarna wieza
+			szachy[5][6] = "q"; //biala krolowa
+			szachy[6][6] = "k"; //bialy krol
+			cout << "  *************************\n";
+			for (int i = 0; i < 8; i++)
+			{
+				cout << 8 - i << " ";
+				for (int j = 0; j < 8; j++)
+				{
+					cout << "*" << szachy[i][j];
+				}
+				cout << "*" << endl;
+			}
+			cout << "  *************************\n";
+			cout << "   a  b  c  d  e  f  g  h\n";
+			string ruch;
+			cin >> ruch;
+			while (ruch[0] != 'g' || (ruch[1] - 48) != 3 || ruch[2] != 'd' || (ruch[3] - 48) != 6 || ruch.length() != 4)
+			{
+				cout << "ZLY RUCH\n";
+				cin >> ruch;
+				if (ruch == "exit")
+				{
+					break;
+				}
+			}
+			if (ruch != "exit")
+				cout << "WYGRANA";
 		}break;
 		case 5:
 		{
-			
+			for (int i = 0; i < 8; i++)
+			{
+				for (int j = 0; j < 8; j++)
+				{
+					szachy[i][j] = "__";
+				}
+			}
+			szachy[0][6] = "R"; //czarna wieza
+			szachy[0][7] = "K"; // czarny krol
+			szachy[1][6] = "P"; //czarny pionek
+			szachy[2][6] = "q"; //biala krolowa
+			szachy[6][6] = "k"; //bialy krol
+			cout << "  *************************\n";
+			for (int i = 0; i < 8; i++)
+			{
+				cout << 8 - i << " ";
+				for (int j = 0; j < 8; j++)
+				{
+					cout << "*" << szachy[i][j];
+				}
+				cout << "*" << endl;
+			}
+			cout << "  *************************\n";
+			cout << "   a  b  c  d  e  f  g  h\n";
+			string ruch;
+			cin >> ruch;
+			while (ruch[0] != 'g' || (ruch[1] -48)!= 6 || ruch[2] != 'h' || (ruch[3]-48) != 5 || ruch.length() != 4)
+			{
+				cout << "ZLY RUCH\n";
+				cin >> ruch;
+				if (ruch == "exit")
+				{
+					break;
+				}
+			}
+			if(ruch!="exit")
+				cout << "WYGRANA";
 		}break;
 		case 6:
 		{
-			
+			for (int i = 0; i < 8; i++)
+			{
+				for (int j = 0; j < 8; j++)
+				{
+					szachy[i][j] = "__";
+				}
+			}
+			szachy[2][3] = "K"; //CK czarny krol
+			szachy[0][3] = "N"; //CG czarny skoczek
+			szachy[5][1] = "q"; //BH bialy hetman
+			szachy[4][3] = "k"; //BK- bialy krol
+			cout << "  *************************\n";
+			for (int i = 0; i < 8; i++)
+			{
+				cout << 8 - i << " ";
+				for (int j = 0; j < 8; j++)
+				{
+					cout << "*" << szachy[i][j];
+				}
+				cout << "*" << endl;
+			}
+			cout << "  *************************\n";
+			cout << "   a  b  c  d  e  f  g  h\n";
+			string ruch;
+			cin >> ruch;
+			while (ruch[0] != 'b' || (ruch[1] - 48) != 3 || ruch[2] != 'd' || (ruch[3] - 48) != 5 || ruch.length() != 4)
+			{
+				cout << "ZLY RUCH\n";
+				cin >> ruch;
+				if (ruch == "exit")
+				{
+					break;
+				}
+			}
+			if (ruch != "exit")
+				cout << "WYGRANA";
 		}break;
 		case 7:
 		{
-			
+			for (int i = 0; i < 8; i++)
+			{
+				for (int j = 0; j < 8; j++)
+				{
+					szachy[i][j] = "__";
+				}
+			}
+			szachy[1][0] = "q";//BH biala krolowa
+			szachy[4][0] = "p";//BP bialy pionek
+			szachy[6][6] = "k";//BK bialy krol
+			szachy[2][6] = "n";//BE bialy skoczek
+			szachy[0][4] = "K";//CK czarny krol
+			cout << "  *************************\n";
+			for (int i = 0; i < 8; i++)
+			{
+				cout << 8 - i << " ";
+				for (int j = 0; j < 8; j++)
+				{
+					cout << "*" << szachy[i][j];
+				}
+				cout << "*" << endl;
+			}
+			cout << "  *************************\n";
+			cout << "   a  b  c  d  e  f  g  h\n";
+			string ruch;
+			cin >> ruch;
+			while (ruch[0] != 'a' || (ruch[1] - 48) != 7 || ruch[2] != 'e' || (ruch[3] - 48) != 7 || ruch.length() != 4)
+			{
+				cout << "ZLY RUCH\n";
+				cin >> ruch;
+				if (ruch == "exit")
+				{
+					break;
+				}
+			}
+			if (ruch != "exit")
+				cout << "WYGRANA";
 		}break;
 		case 8:
 		{
-			
+			for (int i = 0; i < 8; i++)
+			{
+				for (int j = 0; j < 8; j++)
+				{
+					szachy[i][j] = "__";
+				}
+			}
+			szachy[0][3] = "K";// czarny krol
+			szachy[2][4] = "k";//bialy krol
+			szachy[6][7] = "q";// bialy hetman
+			cout << "  *************************\n";
+			for (int i = 0; i < 8; i++)
+			{
+				cout << 8 - i << " ";
+				for (int j = 0; j < 8; j++)
+				{
+					cout << "*" << szachy[i][j];
+				}
+				cout << "*" << endl;
+			}
+			cout << "  *************************\n";
+			cout << "   a  b  c  d  e  f  g  h\n";
+			string ruch;
+			cin >> ruch;
+			while (ruch[0] != 'h' || (ruch[1] - 48) != 2 || ruch[2] != 'b' || (ruch[3] - 48) != 8 || ruch.length() != 4)
+			{
+				cout << "ZLY RUCH\n";
+				cin >> ruch;
+				if (ruch == "exit")
+				{
+					break;
+				}
+			}
+			if (ruch != "exit")
+				cout << "WYGRANA";
 		}break;
 		case 9:
 		{
-			
+			for (int i = 0; i < 8; i++)
+			{
+				for (int j = 0; j < 8; j++)
+				{
+					szachy[i][j] = "__";
+				}
+			}
+			szachy[0][7] = "K"; //CK
+			szachy[4][7] = "q";//BH
+			szachy[1][5] = "P";//CP
+			szachy[1][7] = "P";//CP
+			szachy[2][6] = "P";//CP
+			szachy[2][7] = "p";//BP
+			szachy[5][6] = "k";//BK
+			cout << "  *************************\n";
+			for (int i = 0; i < 8; i++)
+			{
+				cout << 8 - i << " ";
+				for (int j = 0; j < 8; j++)
+				{
+					cout << "*" << szachy[i][j];
+				}
+				cout << "*" << endl;
+			}
+			cout << "  *************************\n";
+			cout << "   a  b  c  d  e  f  g  h\n";
+			string ruch;
+			cin >> ruch;
+			while (ruch[0] != 'h' || (ruch[1] - 48) != 4 || ruch[2] != 'd' || (ruch[3] - 48) != 8 || ruch.length() != 4)
+			{
+				cout << "ZLY RUCH\n";
+				cin >> ruch;
+				if (ruch == "exit")
+				{
+					break;
+				}
+			}
+			if (ruch != "exit")
+				cout << "WYGRANA";
 		}break;
 		case 10:
 		{
-			
+			for (int i = 0; i < 8; i++)
+			{
+				for (int j = 0; j < 8; j++)
+				{
+					szachy[i][j] = "__";
+				}
+			}
+			szachy[0][0] = "R";//CW
+			szachy[0][2] = "B";//CG
+			szachy[0][5] = "R";//CW
+			szachy[0][6] = "K";//CK
+			szachy[1][0] = "P";//CP
+			szachy[1][1] = "P";//CP
+			szachy[1][4] = "B";//CG
+			szachy[1][5] = "P";//CP
+			szachy[1][6] = "P";//CP
+			szachy[5][3] = "q";//BH
+			szachy[2][2] = "P";//CP
+			szachy[2][5] = "Q";//CH
+			szachy[3][0] = "N";//CE
+			szachy[4][2] = "p";//
+			szachy[5][1] = "p";//
+			szachy[5][2] = "n";//BE
+			szachy[5][5] = "n";//BE
+			szachy[6][0] = "p";//
+			szachy[6][1] = "b";//
+			szachy[6][2] = "b";//
+			szachy[6][5] = "p";//
+			szachy[6][6] = "p";//
+			szachy[6][7] = "p";//
+			szachy[7][3] = "r";//BW
+			szachy[7][4] = "r";///BW
+			szachy[7][6] = "k"; //BK
+			cout << "  *************************\n";
+			for (int i = 0; i < 8; i++)
+			{
+				cout << 8 - i << " ";
+				for (int j = 0; j < 8; j++)
+				{
+					cout << "*" << szachy[i][j];
+				}
+				cout << "*" << endl;
+			}
+			cout << "  *************************\n";
+			cout << "   a  b  c  d  e  f  g  h\n";
+			string ruch;
+			cin >> ruch;
+			while (ruch[0] != 'd' || (ruch[1] - 48) != 4 || ruch[2] != 'h' || (ruch[3] - 48) != 7 || ruch.length() != 4)
+			{
+				cout << "ZLY RUCH\n";
+				cin >> ruch;
+				if (ruch == "exit")
+				{
+					break;
+				}
+			}
+			if (ruch != "exit")
+				cout << "WYGRANA";
 		}break;
 	}
 }
