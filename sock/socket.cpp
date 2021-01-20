@@ -1,7 +1,10 @@
 #include "NetSock/NetSock.cpp"
 #include <memory>
+#include <vector>
+#include <string>
+#include <assert.h>
 
-const char MAGIC[4] = "czes";
+const char MAGIC[4] = {'c', 'z', 'e', 's'};
 const char PROTOCOL_VERSION = 2;
 
 enum PacketType : uint8_t {
@@ -40,15 +43,12 @@ struct Packet {
   char move[4];
 };
 
-class ClientSocket {
+class Socket {
+public:
   NetSock sock;
   std::vector<char> buffer;
 
-  ClientSocket() : buffer(0, 65600) {}
-  ~ClientSocket() = default;
-  ClientSocket(const ClientSocket&) = delete;
-  ClientSocket(ClientSocket&&) = default;
-
+private:
   void buffer_append(const char* ptr, size_t len) {
     for(size_t i=0; i<len; i+=1) {
       this->buffer.push_back(ptr[i]);
@@ -65,6 +65,11 @@ class ClientSocket {
   }
 
 public:
+  Socket() : buffer(65600, 0) {}
+  ~Socket() = default;
+  Socket(const Socket&) = delete;
+  Socket(Socket&&) = default;
+
   bool connect(const char* host, const char* nickname) {
     if(this->sock.Connect(host, 9998) == false) {
       return false;
@@ -85,7 +90,7 @@ public:
     this->prepare_message(2);
     this->buffer_append(nickname, len);
 
-    return this->send_bufer();
+    return this->send_buffer();
   }
 
   bool ping() {
@@ -111,18 +116,18 @@ public:
     return this->send_buffer();
   }
 
-  bool pause_game() {
+  bool resume_game() {
     this->prepare_message(5);
     return this->send_buffer();
   }
 
   bool move_piece(const char* move) {
     this->prepare_message(6);
-    this->append_buffer(move, 4);
+    this->buffer_append(move, 4);
     return this->send_buffer();
   }
 
-  bool move_piece(const char* move) {
+  bool surrender() {
     this->prepare_message(7);
     return this->send_buffer();
   }
@@ -153,9 +158,26 @@ public:
       return p;
     }
 
+    uint16_t len = 0;
+    std::string nickname;
     switch(this->buffer[5]) {
       case PacketType::Connect:
-        p.error = PacketError::Shrug;
+
+        if(this->sock.ReadAll(&len, 2) == 0) {
+          p.error = PacketError::Socket;
+          return p;
+        }
+
+        nickname.resize(len+1);
+
+        if(this->sock.ReadAll(nickname.data(), len) == 0) {
+          p.error = PacketError::Socket;
+          return p;
+        }
+
+        p.error = PacketError::None;
+        p.type = PacketType::Connect;
+        p.nickname = nickname;
         return p;
 
       case PacketType::Disconnect:
@@ -169,7 +191,7 @@ public:
       case PacketType::Surrender:
       case PacketType::AskForDraw:
         p.error = PacketError::None;
-        p.type = this->buffer[5];
+        p.type = static_cast<PacketType>(this->buffer[5]);
         return p;
 
       case PacketType::MovePiece:
@@ -185,3 +207,36 @@ public:
     return p;
   }
 };
+
+class ServerSocket {
+public:
+  class Socket player_sock[2];
+  NetSock listen_sock;
+
+  ServerSocket() {
+    NetSock sock = NetSock();
+    sock.ListenAll(9998);
+    std::swap(this->listen_sock, sock);
+  }
+  ~ServerSocket() = default;
+  ServerSocket(const ServerSocket&) = delete;
+  ServerSocket(ServerSocket&&) = default;
+
+  int wait_for_player() {
+    int i=0;
+    while(this->player_sock[i].sock.socket == -1) {
+      i += 1;
+      if(i == 2) return 2;
+    }
+
+    NetSock* ptr = this->listen_sock.Accept();
+    assert(ptr != NULL);
+    // TODO: maybe handle it somehow gracefully
+
+    std::swap(*ptr, this->player_sock[i].sock);
+    delete ptr;
+    return i;
+  }
+};
+
+int main() {}
