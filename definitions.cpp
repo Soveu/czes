@@ -25,7 +25,7 @@ enum PieceType : uint8_t {
   King,
 };
 
-/* WARNING: unicode chararacter like these cannot fit into 'char' so that why
+/* WARNING: unicode chararacter like these cannot fit into 'char' so that's why
  * they are inside strings */
 
 const char* UNICODE_PIECES[7] = {
@@ -91,7 +91,7 @@ void Game::clear_board() {
 }
 
 bool Game::move_piece(Position from, Position to) {
-  /* TODO: gdy gracz jest szachowany, nie może wykonać innego ruchu 
+  /* TODO: gdy gracz jest szachowany, nie może wykonać innego ruchu
    * niż ruch królem */
 
   auto can_move_f = MOVE_CHECK_FUNCTIONS[this->board[from.y][from.x].type];
