@@ -20,6 +20,22 @@ std::array<Position, 2> parse_position(const char* str, size_t len) {
   };
 }
 
+bool string_starts_with(const std::string& s1, const char* s2) {
+  if(s2[0] == '\0') {
+    return true;
+  }
+  if(s1.size() == 0) {
+    return false;
+  }
+
+  for(size_t i=0; i<s1.size(); ++i) {
+    if(s2[i] == '\0') return true;
+    if(s2[i] != s1[i]) return false;
+  }
+
+  return false;
+}
+
 int main(int argc, const char* argv[]) {
   for(int i=1; i<argc; ++i) {
     std::cout << '"' << argv[i] << "\"\n";
@@ -42,18 +58,18 @@ int main(int argc, const char* argv[]) {
     std::cout << "Command: " << std::flush;
     if(!std::getline(std::cin, line)) break;
 
-    if(line.starts_with("show")) {
-      draw_board(game);
+    if(line == "show") {
+      game.draw_board();
       continue;
     }
 
-    if(line.starts_with("move ")) {
+    if(string_starts_with(line, "move ")) {
       if(line.size() <= 5) {
         break;
       }
 
-      auto [from, to] = parse_position(line.data() + 5, line.size() - 5);
-      bool has_moved = game.move_piece(from, to);
+      auto positions = parse_position(line.data() + 5, line.size() - 5);
+      bool has_moved = game.move_piece(positions[0], positions[1]);
       std::cout << (has_moved ? "Piece was moved" : "Invalid move") << std::endl;
 
       continue;

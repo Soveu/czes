@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <vector>
 
 #include <stdint.h>
 #include <stddef.h>
@@ -49,16 +50,19 @@ struct Piece {
 
 struct Game {
   Piece board[8][8];
+  std::vector<std::array<Position, 2>> history;
+
   void clear_board();
   bool move_piece(Position from, Position to);
+  void draw_board();
 };
 
 #include "check_funcs.cpp"
 
-bool return_true(const Position from, const Position to, const Game& game) {
+bool return_true(Position from, Position to, const Game& game) {
   return true;
 }
-bool return_false(const Position from, const Position to, const Game& game) {
+bool return_false(Position from, Position to, const Game& game) {
   return false;
 }
 
@@ -66,11 +70,11 @@ using MoveCheckFunction = bool(*)(Position, Position, const Game& game);
 const MoveCheckFunction MOVE_CHECK_FUNCTIONS[7] = {
   return_false,
   is_legal_pawn,
+  is_legal_bishop,
+  is_legal_knight,
   is_legal_rook,
-  return_true,
-  return_true,
-  return_true,
-  return_true,
+  is_legal_queen,
+  is_legal_king,
 };
 
 void Game::clear_board() {
@@ -87,6 +91,9 @@ void Game::clear_board() {
 }
 
 bool Game::move_piece(Position from, Position to) {
+  /* TODO: gdy gracz jest szachowany, nie może wykonać innego ruchu 
+   * niż ruch królem */
+
   auto can_move_f = MOVE_CHECK_FUNCTIONS[this->board[from.y][from.x].type];
   if(can_move_f(from, to, *this) == false) {
     return false;
@@ -94,10 +101,13 @@ bool Game::move_piece(Position from, Position to) {
 
   this->board[to.y][to.x] = this->board[from.y][from.x];
   this->board[from.y][from.x] = Piece{PieceColor::Black, PieceType::None};
+  this->history.push_back({from, to});
+
   return true;
 }
 
-void draw_board(const Game& game) {
+void Game::draw_board() {
+  const Game& game = *this;
   std::cout << "\n";
 
   const char* WHITE_BACKGROUND = "\033[48;5;180m";
@@ -109,8 +119,7 @@ void draw_board(const Game& game) {
   const char* RESET = "\033[0m";
 
   for(int y=7; y>=0; y-=1) {
-    for(int x=7; x>=0; x-=1) {
-    //for(int x=0; x<8; x+=1) {
+    for(int x=0; x<8; x+=1) {
       bool is_background_white = ((x+y) % 2) == 0;
       Piece piece = game.board[y][x];
 
@@ -119,9 +128,12 @@ void draw_board(const Game& game) {
       std::cout << " " << UNICODE_PIECES[piece.type] << " ";
     }
 
-    std::cout << RESET << "\n";
+    std::cout << RESET << ' ' << static_cast<char>(y+'1') << "\n";
   }
 
+  for(int i=0; i<8; i+=1) {
+    std::cout << ' ' << static_cast<char>(i+'a') << ' ';
+  }
   /* std::endl also flushes output */
   std::cout << RESET << std::endl;
 }

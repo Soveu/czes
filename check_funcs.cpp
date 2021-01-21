@@ -40,6 +40,14 @@ bool is_legal_pawn(Position from, Position to, const Game& game) {
   return from.y + directions[piece.color] == to.x;
 }
 
+bool is_legal_bishop(Position from, Position to, const Game& game) {
+  return true;
+}
+
+bool is_legal_knight(Position from, Position to, const Game& game) {
+  return true;
+}
+
 bool is_legal_rook(Position from, Position to, const Game& game) {
   /* We can only go horizontally or vertically */
   if(from.x != to.x && from.y != to.y) {
@@ -78,6 +86,13 @@ bool is_legal_rook(Position from, Position to, const Game& game) {
     }
   }
 
+  return true;
+}
+
+bool is_legal_queen(Position from, Position to, const Game& game) {
+  return true;
+}
+bool is_legal_king(Position from, Position to, const Game& game) {
   return true;
 }
 
