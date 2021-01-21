@@ -7,7 +7,7 @@
 #include <assert.h>
 
 struct Position {
-  uint16_t x, y;
+  int32_t x, y;
 
   bool operator==(const Position& a) const {
     return a.x == this->x && a.y == this->y;
@@ -26,18 +26,6 @@ enum PieceType : uint8_t {
 
 /* WARNING: unicode chararacter like these cannot fit into 'char' so that why
  * they are inside strings */
-
-/*
-const char* UNICODE_PIECES[7] = {
-  " ",
-  "♙",
-  "♖",
-  "♘",
-  "♗",
-  "♕",
-  "♔",
-};
-*/
 
 const char* UNICODE_PIECES[7] = {
   " ",
@@ -59,51 +47,55 @@ struct Piece {
   PieceType type;
 };
 
-struct Game;
-bool return_true(const Position& from, const Position& to, const Game& game) {
+struct Game {
+  Piece board[8][8];
+  void clear_board();
+  bool move_piece(Position from, Position to);
+};
+
+#include "check_funcs.cpp"
+
+bool return_true(const Position from, const Position to, const Game& game) {
   return true;
 }
-bool return_false(const Position& from, const Position& to, const Game& game) {
+bool return_false(const Position from, const Position to, const Game& game) {
   return false;
 }
 
-using MoveCheckFunction = bool(*)(const Position&, const Position&, const Game& game);
+using MoveCheckFunction = bool(*)(Position, Position, const Game& game);
 const MoveCheckFunction MOVE_CHECK_FUNCTIONS[7] = {
   return_false,
-  return_true,
-  return_true,
+  is_legal_pawn,
+  is_legal_rook,
   return_true,
   return_true,
   return_true,
   return_true,
 };
 
-struct Game {
-  Piece board[8][8];
+void Game::clear_board() {
+  const Piece EMPTY_FIELD = Piece {
+    PieceColor::Black,
+    PieceType::None
+  };
 
-  void clear_board() {
-    const Piece EMPTY_FIELD = Piece {
-      PieceColor::Black,
-      PieceType::None
-    };
-
-    for(size_t y=0; y<8; y+=1) {
-      for(size_t x=0; x<8; x+=1) {
-        this->board[y][x] = EMPTY_FIELD;
-      }
+  for(size_t y=0; y<8; y+=1) {
+    for(size_t x=0; x<8; x+=1) {
+      this->board[y][x] = EMPTY_FIELD;
     }
   }
+}
 
-  bool move_piece(const Position& from, const Position& to) {
-    auto can_move_f = MOVE_CHECK_FUNCTIONS[this->board[from.y][from.x].type];
-    if(can_move_f(from, to, *this) == false) {
-      return false;
-    }
-
-    this->board[to.y][to.x] = this->board[from.y][from.x];
-    this->board[from.y][from.x] = Piece { PieceColor::Black, PieceType::None };
+bool Game::move_piece(Position from, Position to) {
+  auto can_move_f = MOVE_CHECK_FUNCTIONS[this->board[from.y][from.x].type];
+  if(can_move_f(from, to, *this) == false) {
+    return false;
   }
-};
+
+  this->board[to.y][to.x] = this->board[from.y][from.x];
+  this->board[from.y][from.x] = Piece{PieceColor::Black, PieceType::None};
+  return true;
+}
 
 void draw_board(const Game& game) {
   std::cout << "\n";
@@ -116,8 +108,9 @@ void draw_board(const Game& game) {
 
   const char* RESET = "\033[0m";
 
-  for(size_t y=0; y<8; y+=1) {
-    for(size_t x=0; x<8; x+=1) {
+  for(int y=7; y>=0; y-=1) {
+    for(int x=7; x>=0; x-=1) {
+    //for(int x=0; x<8; x+=1) {
       bool is_background_white = ((x+y) % 2) == 0;
       Piece piece = game.board[y][x];
 

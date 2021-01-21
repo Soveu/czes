@@ -32,7 +32,7 @@ int main(int argc, const char* argv[]) {
     for(uint16_t j=0; j<5; j += 1) {
       game.board[i][j] = Piece {
         static_cast<PieceColor>((i) % 2),
-        PieceType::King
+        PieceType::Rook
       };
     }
   }
