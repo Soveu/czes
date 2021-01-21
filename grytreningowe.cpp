@@ -513,7 +513,46 @@ void wpiszwstepnebiciaK(int xH, int yH)
 }
 bool czybicieK(int xH, int yH)
 {
-	return false;
+		if ((xH != 0 && yH != 0) && (xH!=7 && yH!=7))
+		{
+			for (int j = 0; j < 8; j++)
+			{
+				if (bicieK[j] == false) return false;
+			}
+		}
+		else if (xH == 0 && yH == 0)
+		{
+			if (bicieK[2] == false || bicieK[3] == false || bicieK[4] == false) return false;
+		}
+		else if (xH == 0 && yH == 7)
+		{
+			if (bicieK[4] == false || bicieK[5] == false || bicieK[6] == false) return false;
+		}
+		else if (xH == 7 && yH == 0)
+		{
+			if (bicieK[0] == false || bicieK[1] == false || bicieK[2] == false) return false;
+		}
+		else if (xH == 7 && yH == 7)
+		{
+			if (bicieK[6] == false || bicieK[7] == false || bicieK[0] == false) return false;
+		}
+		else if (xH == 0)
+		{
+			if (bicieK[2] == false || bicieK[3] == false || bicieK[4] == false || bicieK[5]==false || bicieK[6]==false) return false;
+		}
+		else if (xH == 7)
+		{
+			if (bicieK[6] == false || bicieK[7] == false || bicieK[0] == false || bicieK[1] == false || bicieK[2] == false) return false;
+		}
+		else if (yH == 0)
+		{
+			if (bicieK[0] == false || bicieK[1] == false || bicieK[2] == false || bicieK[3] == false || bicieK[4] == false) return false;
+		}
+		else if (yH == 7)
+		{
+			if (bicieK[4] == false || bicieK[5] == false || bicieK[6] == false || bicieK[7] == false || bicieK[0] == false) return false;
+		}
+	return true;
 }
 bool czybialypionek(int x, int y)
 {
