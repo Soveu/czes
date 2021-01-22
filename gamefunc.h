@@ -4,17 +4,14 @@ typedef struct figura
     int tim; //1 = biały, 2 = czarny
 } figura;
 
-#ifndef __unix__
-const char* PIECES[7] = {
-  " ",//0
-  "♟",//1
-  "♝",//2
-  "♞",//3
-  "♜",//4
-  "♛",//5
-  "♚",//6
-};
-#endif
+typedef struct savedMove
+{
+    unsigned char fig;  // 'P', 'T', 'B', 'N', 'Q', 'K'
+    int tim;            // 1 = biały, 2 = czarny
+    int coords[4];      // yP,xP,yK,xK
+}savedMove;
+
+
 
 void initboard(figura board[8][8],int tryb);
 
@@ -26,6 +23,8 @@ bool isChecked(int yKing, int xKing, figura board[8][8]);
 
 bool isMating(int yKing, int xKing, figura board[8][8]);
 
-int inputMove(char *xP,char *yP,char *xK,char *yK,int mode);
+void inputMove(char *xP,char *yP,char *xK,char *yK,int mode);
+
+void outputMsg(bool local,int mesydz, int tim);
 
 int chessGame(int mode);
