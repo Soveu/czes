@@ -10,8 +10,6 @@
 #endif // __unix__
 
 
-using namespace std;
-
 
 void initboard(figura board[8][8],int tryb)
 {
@@ -79,7 +77,7 @@ void initboard(figura board[8][8],int tryb)
     }
     else
     {
-        cout<<"Bledny tryb"<<endl;
+        std::cout<<"Bledny tryb\n";
 
     }
 
@@ -94,7 +92,16 @@ void printBoard(figura board[8][8],int tryb /*1==biale 0==czarne*/)
 #endif
 
 #ifdef __unix__
-    // cout<<"\033[50:10x20";
+
+    const char* WHITE_BG = "\033[48;5;180m";
+    const char* BLACK_BG = "\033[48;5;94m";
+
+    const char* WHITE_FG = "\033[38;5;254m";
+    const char* BLACK_FG = "\033[38;5;235m";
+
+    //const char* RESET = "\033[0m";
+
+    int f;
 #endif // WIN32
     if(tryb==1)
         printf("  a b c d e f g h\n");
@@ -119,18 +126,17 @@ void printBoard(figura board[8][8],int tryb /*1==biale 0==czarne*/)
 #endif
 #ifdef __unix__
 
+                std::cout<<BLACK_BG;
                 if(board[tryb==1?7-y:y][tryb==0?7-x:x].tim==1)
-                    cout<<"\u001b[37m\u001b[41m";//white
+                    std::cout<<WHITE_FG;//white
                 else if(board[tryb==1?7-y:y][tryb==0?7-x:x].tim==2)
-                    cout<<"\u001b[30m\u001b[41m";//black
-                else
-                    cout<<"\u001b[41m";
-#endif // WIN32
+                    std::cout<<BLACK_FG;//black
+#endif
 
             }
             else
             {
-#ifdef WIN32
+#ifndef __unix__
                 if(board[tryb==1?7-y:y][tryb==0?7-x:x].tim==1)
                     SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_GREEN| BACKGROUND_BLUE | FOREGROUND_INTENSITY | BACKGROUND_INTENSITY);
                 else if(board[tryb==1?7-y:y][tryb==0?7-x:x].tim==2)
@@ -138,34 +144,66 @@ void printBoard(figura board[8][8],int tryb /*1==biale 0==czarne*/)
                 else
                     SetConsoleTextAttribute(hConsole, BACKGROUND_BLUE | FOREGROUND_INTENSITY | BACKGROUND_INTENSITY);
 #endif
-#ifndef WIN32
+#ifdef __unix__
+                std::cout<<WHITE_BG;
                 if(board[tryb==1?7-y:y][tryb==0?7-x:x].tim==1)
-                    cout<<"\u001b[37m\u001b[45m";//white
+                    std::cout<<WHITE_FG;//white
                 else if(board[tryb==1?7-y:y][tryb==0?7-x:x].tim==2)
-                    cout<<"\u001b[30m\u001b[45m";//black
-                else
-                    cout<<"\u001b[45m";
-#endif // WIN32
+                    std::cout<<BLACK_FG;//black
 
+#endif
             }
             i++;
+//#ifndef __unix__
+            std::cout<<board[tryb==1?7-y:y][tryb==0?7-x:x].fig<<" ";
+//#endif
 
-            printf("%c ",board[tryb==1?7-y:y][tryb==0?7-x:x].fig);
+#ifndef __unix__
+            switch(board[tryb==1?7-y:y][tryb==0?7-x:x].fig)
+            {
+                case ' ':
+                    f=0;
+                    break;
+
+                case 'P':
+                    f=1;
+                    break;
+
+                case 'B':
+                    f=2;
+                    break;
+
+                case 'N':
+                    f=3;
+                    break;
+
+                case 'R':
+                    f=4;
+                    break;
+
+                case 'Q':
+                    f=5;
+                    break;
+
+                case 'K':
+                    f=6;
+                    break;
+            }
+            std::cout<<PIECES[f]<<" ";
+#endif
         }
-#ifdef WIN32
+#ifndef __unix__
         SetConsoleTextAttribute(hConsole, 0x7);
-#endif // WIN32
-#ifndef WIN32
-        cout<<"\u001b[0m";
+#endif
+#ifdef __unix__
+        std::cout<<"\u001b[0m";
+#endif
 
-#endif // WIN32
-
-
-        printf("\n");
+        std::cout<<"\n";
     }
 }
 
-int isLegal(figura board[8][8],int yP,int xP,int yK,int xK,int cas[4])
+bool isLegal(figura board[8][8],int yP,int xP,int yK,int xK,int cas[4])
 {
     if(board[yP][xP].fig==' ')
         return 0;
@@ -183,7 +221,7 @@ int isLegal(figura board[8][8],int yP,int xP,int yK,int xK,int cas[4])
         /////jesli bije
         if(board[yK][xK].tim!=-1&&board[yK][xK].tim!=board[yP][xP].tim)
         {
-            if(abs(yK-yP)!=1||abs(xK-xP)!=1)
+            if(((yK-yP!=1)&&(board[yP][xP].tim==1))||abs(xK-xP)!=1)
                 return 0;
 
         }////jesli nie bije
@@ -442,7 +480,7 @@ int isLegal(figura board[8][8],int yP,int xP,int yK,int xK,int cas[4])
     return 1;
 }
 
-int isChecked(int yKing, int xKing, figura board[8][8])
+bool isChecked(int yKing, int xKing, figura board[8][8])
 {
     //krolowie
     int yr[]= {-1,-1,-1,0,1,1, 1, 0};
@@ -579,7 +617,7 @@ int isChecked(int yKing, int xKing, figura board[8][8])
     {
         if(board[yKing+i][xKing+i].fig!=' ')
         {
-            if(board[yKing+i][xKing+i].tim==board[yKing+i][xKing+i].tim)
+            if(board[yKing+i][xKing+i].tim==board[yKing][xKing].tim)
                 break;
             else if(board[yKing+i][xKing+i].fig=='B'||board[yKing+i][xKing+i].fig=='Q')
                 return 1;
@@ -603,7 +641,7 @@ int isChecked(int yKing, int xKing, figura board[8][8])
     return 0;
 }
 
-int isMating(int yKing, int xKing, figura board[8][8])
+bool isMating(int yKing, int xKing, figura board[8][8])
 {
     int castle[]= {0,0,0,0};
     int timK=board[yKing][xKing].tim;
@@ -656,7 +694,7 @@ int inputMove(char *xP,char *yP,char *xK,char *yK,int mode)
     char input[4];
     if(mode==0) //mode==0 - gra lokalna
     {
-        cin>>input;
+        std::cin>>input;
         *xP=input[0];
         *yP=input[1];
         *xK=input[2];
@@ -672,7 +710,7 @@ int inputMove(char *xP,char *yP,char *xK,char *yK,int mode)
     }
     else
     {
-        cout<<"bledny tryb"<<endl;
+        std::cout<<"bledny tryb\n";
         return 0;
     }
 }
@@ -680,32 +718,32 @@ int inputMove(char *xP,char *yP,char *xK,char *yK,int mode)
 int chessGame(int mode)
 {
     figura board[8][8];
-    cout<<"Zaczynamy gre"<<endl;
+    std::cout<<"Zaczynamy gre\n";
     int czywczytac,display;
 
 
     /////inicjalizacja szachownicy//////
-    cout<<"Instrukcje:"<<endl<<"Aby poruszyc sie figura nalezy wpisac koordynaty poczatku ruchu i końca np \"a2a4\", malymi literami, razem"<<endl;
-    cout<<"Zeby poprosic o remis wpisz \"draw\""<<endl;
-    cout<<"Zeby przerwac gre z mozliwoscia kontynuacji wpisz \"stop\""<<endl;
-    cout<<"Zeby zakonczyc gre bez zapisywania wpisz \"quit\""<<endl;
-    cout<<"Zeby poddac sie wpisz \"surr\""<<endl<<endl;
-    cout<<"Chcesz rozpoczac nowa gre, czy kontynuowac zapisana rozgrywke?"<<endl<<"1 - nowa gra, 2 - zapisana gra"<<endl;
-    cin>>czywczytac;
-    cout<<"Perspektywa 1 - biale, 2 - czarne"<<endl;
-    cin>>display;
+    std::cout<<"Instrukcje:\n"<<"Aby poruszyc sie figura nalezy wpisac koordynaty poczatku ruchu i końca np \"a2a4\", malymi literami, razem\n";
+    std::cout<<"Zeby poprosic o remis wpisz \"draw\"\n";
+    std::cout<<"Zeby przerwac gre z mozliwoscia kontynuacji wpisz \"stop\"\n";
+    std::cout<<"Zeby zakonczyc gre bez zapisywania wpisz \"quit\"\n";
+    std::cout<<"Zeby poddac sie wpisz \"surr\"\n"<<"\n";
+    std::cout<<"Chcesz rozpoczac nowa gre, czy kontynuowac zapisana rozgrywke?\n"<<"1 - nowa gra, 2 - zapisana gra\n";
+    std::cin>>czywczytac;
+    std::cout<<"Perspektywa 1 - biale, 2 - czarne\n";
+    std::cin>>display;
     initboard(board,czywczytac);
 
 #ifdef WIN32
     system("cls");
 #endif // WIN32
 #ifndef WIN32
-    cout<<"\u001b[2J\033[0;0H\033[0;0H";
+    std::cout<<"\u001b[2J\033[0;0H\033[0;0H";
 #endif // WIN32
 
     printBoard(board,display);
 
-    cout<<"Ruch bialego"<<endl;
+    std::cout<<"Ruch bialego\n";
 
     char xPc,xKc,yPc,yKc;
     int xP, xK, yP, yK;
@@ -742,17 +780,17 @@ int chessGame(int mode)
 
         if(yP<0||yP>7||yK<0||yK>7||xP<0||xP>7||xK<0||xK>7)
         {
-            cout<<"Bledny ruch"<<endl;
+            std::cout<<"Bledny ruch\n";
             continue;
         }
 
         if(board[yP][xP].tim!=tura)
         {
-            cout<<"To nie twoja figura"<<endl;
+            std::cout<<"To nie twoja figura\n";
             continue;
         }
 
-        if(isLegal(board,yP,xP,yK,xK,castle)==1)
+        if(isLegal(board,yP,xP,yK,xK,castle))
         {
             /////zmiana pozycji króla
             if(board[yP][xP].fig=='K')
@@ -778,13 +816,13 @@ int chessGame(int mode)
             board[yP][xP].tim=-1;
 
             ////sprawdzenie czy jest szach, cofniecie ruchu jesli tak
-            if(isChecked(posKing[tura==1?0:2],posKing[tura==1?1:3],board)==1)
+            if(isChecked(posKing[tura==1?0:2],posKing[tura==1?1:3],board))
             {
                 board[yP][xP].fig=board[yK][xK].fig;
                 board[yP][xP].tim=board[yK][xK].tim;
                 board[yK][xK].fig=temp.fig;
                 board[yK][xK].tim=temp.tim;
-                cout<<"Twoj krol bylby szachowany"<<endl;
+                std::cout<<"Twoj krol bylby szachowany\n";
 
                 if(board[yP][xP].fig=='K')
                 {
@@ -848,7 +886,7 @@ int chessGame(int mode)
                 system("cls");
 #endif // WIN32
 #ifndef WIN32
-                cout<<"\u001b[2J\033[0;0H";
+                std::cout<<"\u001b[2J\033[0;0H";
 #endif // WIN32
                 printBoard(board,display);
 
@@ -856,10 +894,10 @@ int chessGame(int mode)
                 if(yK==(tura==1?7:0)&&board[yK][xK].fig=='P')
                 {
                     char f;
-                    cout<<"Na jaka figure chcesz zamienic swojego pionka?"<<endl;
+                    std::cout<<"Na jaka figure chcesz zamienic swojego pionka?\n";
                     while(1)
                     {
-                        cin>>f;
+                        std::cin>>f;
                         if(f=='T')
                         {
                             board[yK][xK].fig='T';
@@ -882,7 +920,7 @@ int chessGame(int mode)
                         }
                         else
                         {
-                            cout<<"Bledna figura"<<endl;
+                            std::cout<<"Bledna figura\n";
                         }
                     }
                 }
@@ -890,34 +928,34 @@ int chessGame(int mode)
                 system("cls");
 #endif // WIN32
 #ifndef WIN32
-                cout<<"\u001b[2J\033[0;0H";
+                std::cout<<"\u001b[2J\033[0;0H";
 #endif // WIN32
                 printBoard(board,display);
 
 
                 //Sprawdzenie szacha i mata
-                if(isChecked(posKing[tura==1?2:0],posKing[tura==1?3:1],board)==1)
+                if(isChecked(posKing[tura==1?2:0],posKing[tura==1?3:1],board))
                 {
-                    if(isMating(posKing[tura==1?2:0],posKing[tura==1?3:1],board)==1)
-                        cout<<"Szach i mat!"<<endl;
+                    if(isMating(posKing[tura==1?2:0],posKing[tura==1?3:1],board))
+                        std::cout<<"Szach i mat!\n";
                     else
-                        cout<<"Szach!"<<endl;
+                        std::cout<<"Szach!\n";
                 }
                 if(tura==1)
                 {
                     tura++;
-                    cout<<"Ruch czarnego"<<endl;
+                    std::cout<<"Ruch czarnego\n";
                 }
                 else
                 {
                     tura--;
-                    cout<<"Ruch bialego"<<endl;
+                    std::cout<<"Ruch bialego\n";
                 }
             }
         }
         else
         {
-            cout<<"Nielegalny ruch!!!"<<endl;
+            std::cout<<"Nielegalny ruch!!!\n";
         }
     }
 
