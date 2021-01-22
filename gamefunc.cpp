@@ -100,7 +100,6 @@ void printBoard(figura board[8][8],int tryb /*1==biale 0==czarne*/)
 
     const char* CLEAR = "\u001b[0m";
 
-    int f;
     std::cout<<"\u001b[2J\033[0;0H\033[0;0H";
 
 const char* PIECES[7] = {
@@ -199,11 +198,11 @@ const char* PIECES[7] = {
     }
 }
 
-bool isLegal(figura board[8][8],int yP,int xP,int yK,int xK,int cas[4])
-{
+bool isLegal(figura board[8][8],int yP,int xP,int yK,int xK,int cas[4],savedMove saved, int *passant)
+{int *pass=passant;
+
     if(board[yP][xP].fig==' ')
         return 0;
-
 
     if(yP<0||xP<0||yK>7||xK>7||yK<0||xK<0||yP>7||xP>7)
         return 0;
@@ -228,8 +227,18 @@ bool isLegal(figura board[8][8],int yP,int xP,int yK,int xK,int cas[4])
                     return 0;
             }
 
+        }////en passant
+        else if(((board[yP][xP+1].fig=='P')&&(board[yP][xP+1].tim!=board[yP][xP].tim))||((board[yP][xP-1].fig=='P')&&(board[yP][xP-1].tim!=board[yP][xP].tim)))
+        {
+            if(saved.fig!='P')
+                return 0;
+            else if(abs(saved.coords[0]-saved.coords[2])!=2)
+                return 0;
+            else
+                *pass=1;
+
         }////jesli nie bije
-        else if( (board[yP][xP].tim==1)?(yP==1):(yP==6))
+        else if((board[yP][xP].tim==1)?(yP==1):(yP==6))
         {
             if(abs(yK-yP)>2||xP!=xK)
                 return 0;
@@ -645,7 +654,7 @@ bool isChecked(int yKing, int xKing, figura board[8][8])
     return 0;
 }
 
-bool isMating(int yKing, int xKing, figura board[8][8])
+bool isMating(int yKing, int xKing, figura board[8][8],savedMove saved)
 {
     int castle[]= {0,0,0,0};
     int timK=board[yKing][xKing].tim;
@@ -660,7 +669,7 @@ bool isMating(int yKing, int xKing, figura board[8][8])
                 {
                     for(int xk=0; xk<8; xk++)
                     {
-                        if(isLegal(board,yp,xp,yk,xk,castle))
+                        if(isLegal(board,yp,xp,yk,xk,castle,saved,NULL))
                         {
                             temp.fig=board[yk][xk].fig;
                             temp.tim=board[yk][xk].tim;
@@ -791,9 +800,11 @@ int chessGame(int mode)
     char xPc,xKc,yPc,yKc;
     int xP, xK, yP, yK;
     int tura=1;
+    int passant=0;
     int posKing[4]= {0,4,7,4}; //////yWhite=0,xWhite=1,yBlack=2,xBlack=3
     int castle[4]= {1,1,1,1}; ///////castle[0]==e8g8, castle[1]==e8c8, castle[2]==e1g1, castle[3]=e1c1
     figura temp;
+    savedMove prevMove={' ',-1,0,0,1,0,false};
 
     outputMsg(true,2,tura);
 
@@ -841,7 +852,7 @@ int chessGame(int mode)
             continue;
         }
 
-        if(isLegal(board,yP,xP,yK,xK,castle))
+        if(isLegal(board,yP,xP,yK,xK,castle,prevMove,&passant))
         {
             /////zmiana pozycji króla
             if(board[yP][xP].fig=='K')
@@ -969,21 +980,44 @@ int chessGame(int mode)
                     }
                     printBoard(board,display);
                 }
+                ////wykonanie zbicia en passant
+                if(passant==1)
+                {
+                    if(board[yK][xK].tim==1)
+                    {
+                        board[yK-1][xK].tim=-1;
+                        board[yK-1][xK].fig=' ';
+                        passant=0;
+                    }
+                }
 
-                ///////////////////////////MIEJSCE NA ZAPISANIE DO PGN/////////////////////////////////////
+                ////Zapisanie poprzedniego ruchu
+                prevMove.fig=board[yK][xK].fig;
+                prevMove.tim=board[yK][xK].tim;
+                prevMove.coords[0]=yP;
+                prevMove.coords[1]=xP;
+                prevMove.coords[2]=yK;
+                prevMove.coords[3]=yP;
 
-
-
-
-                ////////////////////////////////////////////////////////////////////////////////////////////
                 //Sprawdzenie szacha i mata
                 if(isChecked(posKing[tura==1?2:0],posKing[tura==1?3:1],board))
                 {
-                    if(isMating(posKing[tura==1?2:0],posKing[tura==1?3:1],board))
+                    if(isMating(posKing[tura==1?2:0],posKing[tura==1?3:1],board,prevMove))
+                    {
                         outputMsg(true,4,tura);
+                    }
                     else
+                    {
                         outputMsg(true,3,tura);
+                    }
                 }
+
+                ///////////////////////////MIEJSCE NA ZAPISANIE DO PGN(chyba tu)/////////////////////////////////////
+
+
+
+
+                /////////////////////////////////////////////////////////////////////////////////////////////////////
                 if(tura==1)
                     tura++;
                 else

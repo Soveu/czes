@@ -9,9 +9,8 @@ typedef struct savedMove
     unsigned char fig;  // 'P', 'T', 'B', 'N', 'Q', 'K'
     int tim;            // 1 = biały, 2 = czarny
     int coords[4];      // yP,xP,yK,xK
+    bool szach;         // czy w tym ruchu byl szach
 }savedMove;
-
-
 
 void initboard(figura board[8][8],int tryb);
 
