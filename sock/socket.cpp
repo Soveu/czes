@@ -1,8 +1,31 @@
 #include "NetSock/NetSock.cpp"
-#include <memory>
 #include <vector>
 #include <string>
 #include <assert.h>
+
+/*
+ * class Socket
+ * Ta klasa służy jako interfejs do wysyłania wiadomości.
+ * Zamiast ręcznie przygotowywać pakiet, po prostu używasz dostępnych funkcji.
+ * Każda (z wyjątkiem `recieve_message`) zwraca boola oznaczającego czy wiadomość udało się wysłać.
+ *
+ * `recieve_message` zwraca całego structa `Packet`
+ * Najpierw należy sprawdzić, czy error == PacketError::None, następnie typ pakietu.
+ * - PacketType::Connect == `nickname` będzie zawierał nazwe użytkownika
+ * - PacketType::MovePiece == `move` będzie zawierał opis ruchu taki sam jak użytkowik ma wpisać
+ * - PacketType::Board == `board` będzie zawierał opis planszy
+ */
+
+/*
+ * class ServerSocket
+ * Ta klasa zawiera 2 pola:
+ * - `player_sock` == tablica 2 `class Socket`, każda na gracza
+ * - `nickname` == tablica 2 `std::string`, każda na gracza
+ *
+ * oraz 1 metode `wait_for_player`, która czeka na połączenie od gracza, gdy jeszcze nie ma ich dwóch
+ *
+ * Żeby odebrać wiadomość od gracza, po prostu użyj `player_sock[i].recieve_message()`
+ */
 
 const char MAGIC[4] = {'c', 'z', 'e', 's'};
 const char PROTOCOL_VERSION = 2;
@@ -230,10 +253,10 @@ public:
 };
 
 class ServerSocket {
+  NetSock listen_sock;
 public:
   class Socket player_sock[2];
   std::string nickname[2];
-  NetSock listen_sock;
 
   ServerSocket() {
     NetSock sock = NetSock();
