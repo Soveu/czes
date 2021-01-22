@@ -625,7 +625,10 @@ bool czybialypionek(int x, int y)
 	if (plansza[x][y] == "k" || plansza[x][y] == "q" || plansza[x][y] == "r" || plansza[x][y] == "b" || plansza[x][y] == "n" || plansza[x][y] == "p") return true;
 	return false;
 }
-
+bool wolnebicie(int x1, int y1, int x2, int y2, char figura) //,int uklad)
+{
+	return false;
+}
 void wypelnbiciaH(int xH,int yH, bool uklad) //jak uklad=0 to bia³e s¹ na dole tablicy, uklad=1 to przypadek przeciwny
 {
 	wpiszwstepnebiciaK(xH,yH);
@@ -999,6 +1002,634 @@ char liczbachar(int a)
 }
 string czyonmozemat(int x, int y, int xH,int yH)
 {
+	char b =liczbachar(x);
+	string a = zIntNaAbc(y);
+	char c = plansza[x][y][0];
+	int currx = x;
+	int curry = y;
+	string wynik = "";
+	switch (c)
+	{
+		case'k': //krol
+		{
+			for (int i = 0; i < 8; i++)
+			{
+				if (i == 0 && currx-1>=0 && currx-1<8  && wolnebicie(x, y, x - 1, y, 'k'))// &&plansza[x-1][y]== " " )//ten ostatni warunek chyba jest niedobry??
+				{
+					czyscbicia();
+					plansza[currx][curry] = " ";
+					plansza[x - 1][y] = c;
+					currx = x - 1;
+					curry = y;
+					wypelnbiciaH(xH,yH,uklad);
+					//wpiszwstepnebiciaK(xH, yH);
+					if (czybicieK(xH,yH))
+					{
+						char pomoc2 = currx + 48;
+						wynik =  a+ b + zIntNaAbc(curry) + pomoc2;
+						return wynik;
+					}
+				}
+				if (i == 1  && x - 1 >= 0 && x - 1 < 8 && y+1>=0 && y+1<8 && wolnebicie(x, y, x - 1, y+1, 'k'))// && plansza[x-1][y+1]==" ")
+				{
+					czyscbicia();
+					plansza[currx][curry] = " ";
+					plansza[x - 1][y+1] = c;
+					currx = x-1;
+					curry = y+1;
+					wypelnbiciaH(xH, yH, uklad);
+					//wpiszwstepnebiciaK(xH, yH);
+					if (czybicieK(xH,yH))
+					{
+						char pomoc2 = currx + 48;
+						wynik = a + b + zIntNaAbc(curry) + pomoc2;
+						return wynik;
+					}
+				}
+				if (i == 2 && x >= 0 && x < 8 && y + 1 >= 0 && y + 1 < 8 && wolnebicie(x, y, x , y+1, 'k'))//&& plansza[x ][y + 1] == " ")
+				{
+					czyscbicia();
+					plansza[currx][curry] = " ";
+					plansza[x ][y+1] = c;
+					currx = x;
+					curry = y + 1;
+					wypelnbiciaH(xH, yH, uklad);
+					//wpiszwstepnebiciaK(xH, yH);
+					if (czybicieK(xH,yH))
+					{
+						char pomoc2 = currx + 48;
+						wynik = a + b + zIntNaAbc(curry) + pomoc2;
+						return wynik;
+					}
+				}
+				if (i == 3 && x + 1 >= 0 && x + 1 < 8 && y + 1 >= 0 && y + 1 < 8 && wolnebicie(x, y, x + 1, y+1, 'k'))//&& plansza[x + 1][y + 1] == " ")
+				{
+					czyscbicia();
+					plansza[currx][curry] = " ";
+					plansza[x + 1][y+1] = c;
+					currx=x+1;
+					curry = y+1;
+					wypelnbiciaH(xH, yH, uklad);
+					//wpiszwstepnebiciaK(xH, yH);
+					if (czybicieK(xH, yH))
+					{
+						char pomoc2 = currx + 48;
+						wynik = a + b + zIntNaAbc(curry) + pomoc2;
+						return wynik;
+					}
+				}
+				if (i == 4 && x + 1 >= 0 && x + 1 < 8 && y  >= 0 && y  < 8 && wolnebicie(x, y, x + 1, y, 'k'))//&& plansza[x + 1][y ] == " ")
+				{
+					czyscbicia();
+					plansza[currx][curry] = " ";
+					plansza[x + 1][y] = c;
+					currx = x+1;
+					curry = y;
+					wypelnbiciaH(xH, yH, uklad);
+					//wpiszwstepnebiciaK(xH, yH);
+					if (czybicieK(xH, yH))
+					{
+						char pomoc2 = currx + 48;
+						wynik = a + b + zIntNaAbc(curry) + pomoc2;
+						return wynik;
+					}
+				}
+				if (i == 5 && x + 1 >= 0 && x + 1 < 8 && y - 1 >= 0 && y - 1 < 8 && wolnebicie(x, y, x + 1, y-1, 'k'))// && plansza[x + 1][y - 1] == " ")
+				{
+					czyscbicia();
+					plansza[currx][curry] = " ";
+					plansza[x + 1][y-1] = c;
+					currx = x + 1;
+					curry = y-1;
+					wypelnbiciaH(xH, yH, uklad);
+					//wpiszwstepnebiciaK(xH, yH);
+					if (czybicieK(xH, yH))
+					{
+						char pomoc2 = currx + 48;
+						wynik = a + b + zIntNaAbc(curry) + pomoc2;
+						return wynik;
+					}
+				}
+				if (i == 6 && x  >= 0 && x  < 8 && y - 1 >= 0 && y - 1 < 8 && wolnebicie(x, y, x , y-1, 'k'))//&& plansza[x ][y - 1] == " ")
+				{
+					czyscbicia();
+					plansza[currx][curry] = " ";
+					plansza[x ][y-1] = c;
+					currx = x;
+					curry = y-1;
+					wypelnbiciaH(xH, yH, uklad);
+					//wpiszwstepnebiciaK(xH, yH);
+					if (czybicieK(xH, yH))
+					{
+						char pomoc2 = currx + 48;
+						wynik = a + b + zIntNaAbc(curry) + pomoc2;
+						return wynik;
+					}
+				}
+				if (i == 7 && x - 1 >= 0 && x - 1 < 8 && y - 1 >= 0 && y - 1 < 8 && wolnebicie(x, y, x - 1, y-1, 'k'))// && plansza[x - 1][y - 1] == " ")
+				{
+					czyscbicia();
+					plansza[currx][curry] = " ";
+					plansza[x - 1][y-1] = c;
+					currx = x - 1;
+					curry = y-1;
+					wypelnbiciaH(xH, yH, uklad);
+					//wpiszwstepnebiciaK(xH, yH);
+					if (czybicieK(xH, yH))
+					{
+						char pomoc2 = currx + 48;
+						wynik = a + b + zIntNaAbc(curry) + pomoc2;
+						return wynik;
+					}
+				}
+			}
+		}break;
+		case'q'://krolowa
+		{
+			for (int i = 1; i < 8; i++)
+			{
+				if (x - i >= 0 && x - i < 8 && wolnebicie(x, y, x - i, y, 'q'))// && plansza[x - i][y] == " ") //w gore
+				{
+					czyscbicia();
+					plansza[currx][curry] = " ";
+					plansza[x - i][y] = c;
+					currx = x - i;
+					curry = y;
+					wypelnbiciaH(xH, yH, uklad);
+					//wpiszwstepnebiciaK(xH, yH);
+					if (czybicieK(xH, yH))
+					{
+						char pomoc2 = currx + 48;
+						wynik = a + b + zIntNaAbc(curry) + pomoc2;
+						return wynik;
+					}
+				}
+				if (x + i >= 0 && x + i < 8 && wolnebicie(x, y, x + i, y, 'q'))//&& plansza[x + i][y ] == " ") //w dol
+				{
+					czyscbicia();
+					plansza[currx][curry] = " ";
+					plansza[x + i][y] = c;
+					currx = x + i;
+					curry = y;
+					wypelnbiciaH(xH, yH, uklad);
+					//wpiszwstepnebiciaK(xH, yH);
+					if (czybicieK(xH, yH))
+					{
+						char pomoc2 = currx + 48;
+						wynik = a + b + zIntNaAbc(curry) + pomoc2;
+						return wynik;
+					}
+				}
+				if (y - i >= 0 && y - i < 8 && wolnebicie(x, y, x , y-i, 'q'))// && plansza[x ][y - i] == " ") //w lewo
+				{
+					czyscbicia();
+					plansza[currx][curry] = " ";
+					plansza[x][y - i] = c;
+					currx = x;
+					curry = y - i;
+					wypelnbiciaH(xH, yH, uklad);
+					//wpiszwstepnebiciaK(xH, yH);
+					if (czybicieK(xH, yH))
+					{
+						char pomoc2 = currx + 48;
+						wynik = a + b + zIntNaAbc(curry) + pomoc2;
+						return wynik;
+					}
+				}
+				if (y + i >= 0 && y + i < 8 && wolnebicie(x, y, x , y+i, 'q'))// && plansza[x][y + i] == " ")//w prawo
+				{
+					czyscbicia();
+					plansza[currx][curry] = " ";
+					plansza[x][y + i] = c;
+					currx = x;
+					curry = y + i;
+					wypelnbiciaH(xH, yH, uklad);
+					//wpiszwstepnebiciaK(xH, yH);
+					if (czybicieK(xH, yH))
+					{
+						char pomoc2 = liczbachar(currx);
+						wynik = a + b + zIntNaAbc(curry) + pomoc2;
+						return wynik;
+					}
+				}
+				if (x - i >= 0 && x - i < 8 && y - i >= 0 && y - i < 8 && wolnebicie(x, y, x - i, y-i, 'q'))// && plansza[x - i][y - i] == " ") //po ukosie w prawy gorny rog
+				{
+					czyscbicia();
+					plansza[currx][curry] = " ";
+					plansza[x - i][y - i] = c;
+					currx = x - i;
+					curry = y - i;
+					wypelnbiciaH(xH, yH, uklad);
+					//wpiszwstepnebiciaK(xH, yH);
+					if (czybicieK(xH, yH))
+					{
+						char pomoc2 = currx + 48;
+						wynik = a + b + zIntNaAbc(curry) + pomoc2;
+						return wynik;
+					}
+				}
+				if (x - i >= 0 && x - i < 8 && y + i >= 0 && y + i < 8 && wolnebicie(x, y, x - i, y+i, 'q'))// && plansza[x - i][y + i] == " ") //po ukosie w lewy gorny rog
+				{
+					czyscbicia();
+					plansza[currx][curry] = " ";
+					plansza[x - i][y + i] = c;
+					currx = x - i;
+					curry = y + i;
+					wypelnbiciaH(xH, yH, uklad);
+					//wpiszwstepnebiciaK(xH, yH);
+					if (czybicieK(xH, yH))
+					{
+						char pomoc2 = currx + 48;
+						wynik = a + b + zIntNaAbc(curry) + pomoc2;
+						return wynik;
+					}
+				}
+				if (x + i >= 0 && x + i < 8 && y + i >= 0 && y + i < 8 && wolnebicie(x, y, x + i, y+i, 'q'))//&& plansza[x + i][y + i] == " ") //po ukosie w prawy dolny rog
+				{
+					czyscbicia();
+					plansza[currx][curry] = " ";
+					plansza[x + i][y + i] = c;
+					currx = x + i;
+					curry = y + i;
+					wypelnbiciaH(xH, yH, uklad);
+					//wpiszwstepnebiciaK(xH, yH);
+					if (czybicieK(xH, yH))
+					{
+						char pomoc2 = currx + 48;
+						wynik = a + b + zIntNaAbc(curry) + pomoc2;
+						return wynik;
+					}
+				}
+				if (x + i >= 0 && x + i < 8 && y - i >= 0 && y - i < 8 && wolnebicie(x, y, x + i, y-i, 'q'))//&& plansza[x +i][y - i] == " ") //po ukosie w lewy dolny rog
+				{
+					czyscbicia();
+					plansza[currx][curry] = " ";
+					plansza[x + i][y - i] = c;
+					currx = x + i;
+					curry = y - i;
+					wypelnbiciaH(xH, yH, uklad);
+					//wpiszwstepnebiciaK(xH, yH);
+					if (czybicieK(xH, yH))
+					{
+						char pomoc2 = currx + 48;
+						wynik = a + b + zIntNaAbc(curry) + pomoc2;
+						return wynik;
+					}
+				}
+			}
+		}break;
+		case'r'://wieza
+		{
+			for (int i = 1; i < 8; i++)
+			{
+				if (x - i >= 0 && x -i< 8 && wolnebicie(x, y, x - i, y, 'r'))// && plansza[x - i][y ] == " ") //w gore
+				{
+					czyscbicia();
+					plansza[currx][curry] = " ";
+					plansza[x - i][y ] = c;
+					currx = x - i;
+					curry = y;
+					wypelnbiciaH(xH, yH, uklad);
+					//wpiszwstepnebiciaK(xH, yH);
+					if (czybicieK(xH, yH))
+					{
+						char pomoc2 = currx + 48;
+						wynik = a + b + zIntNaAbc(curry) + pomoc2;
+						return wynik;
+					}
+				}
+				if (x+i>=0 && x+i<8 && wolnebicie(x, y, x + i, y, 'r'))// && plansza[x + i][y ] == " ") //w dol
+				{
+					czyscbicia();
+					plansza[currx][curry] = " ";
+					plansza[x + i][y ] = c;
+					currx = x +i;
+					curry = y ;
+					wypelnbiciaH(xH, yH, uklad);
+					//wpiszwstepnebiciaK(xH, yH);
+					if (czybicieK(xH, yH))
+					{
+						char pomoc2 = currx + 48;
+						wynik = a + b + zIntNaAbc(curry) + pomoc2;
+						return wynik;
+					}
+				}
+				if (y-i>=0 && y-i<8 && wolnebicie(x, y, x , y-i, 'r'))//&& plansza[x ][y - i] == " ") //w lewo
+				{
+					czyscbicia();
+					plansza[currx][curry] = " ";
+					plansza[x ][y - i] = c;
+					currx = x ;
+					curry = y - i;
+					wypelnbiciaH(xH, yH, uklad);
+					//wpiszwstepnebiciaK(xH, yH);
+					if (czybicieK(xH, yH))
+					{
+						char pomoc2 = currx + 48;
+						wynik = a + b + zIntNaAbc(curry) + pomoc2;
+						return wynik;
+					}
+				}
+				if (y + i >= 0 && y + i < 8 && wolnebicie(x, y, x , y+i, 'r'))//&& plansza[x ][y + i] == " ")//w prawo
+				{
+					czyscbicia();
+					plansza[currx][curry] = " ";
+					plansza[x ][y + i] = c;
+					currx = x ;
+					curry = y + i;
+					wypelnbiciaH(xH, yH, uklad);
+					//wpiszwstepnebiciaK(xH, yH);
+					if (czybicieK(xH, yH))
+					{
+						char pomoc2 = currx + 48;
+						wynik = a + b + zIntNaAbc(curry) + pomoc2;
+						return wynik;
+					}
+				}
+			}
+		}break;
+		case'b'://goniec
+		{
+			for (int i = 1; i < 8; i++)
+			{
+				if (x-i>=0 && x-i<8 && y-i>=0 && y-i<8 && wolnebicie(x, y, x - i, y-i, 'b'))// && plansza[x - i][y - i] == " ")
+				{
+					czyscbicia();
+					plansza[currx][curry] = " ";
+					plansza[x-i][y - i] = c;
+					currx = x-i;
+					curry = y - i;
+					wypelnbiciaH(xH, yH, uklad);
+					//wpiszwstepnebiciaK(xH, yH);
+					if (czybicieK(xH, yH))
+					{
+						char pomoc2 = currx + 48;
+						wynik = a + b + zIntNaAbc(curry) + pomoc2;
+						return wynik;
+					}
+				}
+				if (x - i >= 0 && x - i < 8 && y + i >= 0 && y + i < 8 && wolnebicie(x, y, x - i, y + i, 'b'))// && plansza[x - i][y + i] == " ")
+				{
+					czyscbicia();
+					plansza[currx][curry] = " ";
+					plansza[x-i][y + i] = c;
+					currx = x-i;
+					curry = y + i;
+					wypelnbiciaH(xH, yH, uklad);
+					//wpiszwstepnebiciaK(xH, yH);
+					if (czybicieK(xH, yH))
+					{
+						char pomoc2 = currx + 48;
+						wynik = a + b + zIntNaAbc(curry) + pomoc2;
+						return wynik;
+					}
+				}
+				if (x + i >= 0 && x + i < 8 && y + i >= 0 && y + i < 8 && wolnebicie(x, y, x + i, y + i, 'b'))// && plansza[x + i][y + i] == " ")
+				{
+					czyscbicia();
+					plansza[currx][curry] = " ";
+					plansza[x+i][y + i] = c;
+					currx = x+i;
+					curry = y + i;
+					wypelnbiciaH(xH, yH, uklad);
+					//wpiszwstepnebiciaK(xH, yH);
+					if (czybicieK(xH, yH))
+					{
+						char pomoc2 = currx + 48;
+						wynik = a + b + zIntNaAbc(curry) + pomoc2;
+						return wynik;
+					}
+				}
+				if (x + i >= 0 && x + i < 8 && y - i >= 0 && y - i < 8 && wolnebicie(x, y, x + i, y - i, 'b'))// && plansza[x + i][y - i] == " ")
+				{
+					czyscbicia();
+					plansza[currx][curry] = " ";
+					plansza[x+i][y - i] = c;
+					currx = x+i;
+					curry = y - i;
+					wypelnbiciaH(xH, yH, uklad);
+					//wpiszwstepnebiciaK(xH, yH);
+					if (czybicieK(xH, yH))
+					{
+						char pomoc2 = currx + 48;
+						wynik = a + b + zIntNaAbc(curry) + pomoc2;
+						return wynik;
+					}
+				}
+			}
+		}break;
+		case'n': //skoczek
+		{
+			for (int i = 0; i < 8; i++)
+			{
+				if (i == 0 && x-2>=0 && x-2<8 && y-1>=0 && y-1<8 && wolnebicie(x, y, x - 2, y - 1, 'n'))//&& plansza[x - 2][y - 1] == " ")
+				{
+					czyscbicia();
+					plansza[currx][curry] = " ";
+					plansza[x - 2][y - 1] = c;
+					currx = x - 2;
+					curry = y - 1;
+					wypelnbiciaH(xH, yH, uklad);
+					//wpiszwstepnebiciaK(xH, yH);
+					if (czybicieK(xH, yH))
+					{
+						char pomoc2 = currx + 48;
+						wynik = a + b + zIntNaAbc(curry) + pomoc2;
+						return wynik;
+					}
+				}
+				if (i == 1 && x - 2 >= 0 && x - 2 < 8 && y + 1 >= 0 && y + 1 < 8 && wolnebicie(x, y, x - 2, y +1, 'n'))// && plansza[x - 2][y + 1] == " ")
+				{
+					czyscbicia();
+					plansza[currx][curry] = " ";
+					plansza[x - 2][y + 1] = c;
+					currx = x - 2;
+					curry = y + 1;
+					wypelnbiciaH(xH, yH, uklad);
+					//wpiszwstepnebiciaK(xH, yH);
+					if (czybicieK(xH, yH))
+					{
+						char pomoc2 = currx + 48;
+						wynik = a + b + zIntNaAbc(curry) + pomoc2;
+						return wynik;
+					}
+				}
+				if (i == 2 && x - 1 >= 0 && x - 1 < 8 && y + 2 >= 0 && y +2 < 8 && wolnebicie(x, y, x - 1, y +2, 'n'))// && plansza[x - 1][y + 2] == " ")
+				{
+					czyscbicia();
+					plansza[currx][curry] = " ";
+					plansza[x - 1][y + 2] = c;
+					currx = x - 1;
+					curry = y + 2;
+					wypelnbiciaH(xH, yH, uklad);
+					//wpiszwstepnebiciaK(xH, yH);
+					if (czybicieK(xH, yH))
+					{
+						char pomoc2 = currx + 48;
+						wynik = a + b + zIntNaAbc(curry) + pomoc2;
+						return wynik;
+					}
+				}
+				if (i == 3 && x + 1 >= 0 && x + 1 < 8 && y + 2 >= 0 && y + 2 < 8 && wolnebicie(x, y, x +1, y +2, 'n'))// && plansza[x + 1][y + 2] == " ")
+				{
+					czyscbicia();
+					plansza[currx][curry] = " ";
+					plansza[x + 1][y + 2] = c;
+					currx = x + 1;
+					curry = y + 2;
+					wypelnbiciaH(xH, yH, uklad);
+					//wpiszwstepnebiciaK(xH, yH);
+					if (czybicieK(xH, yH))
+					{
+						char pomoc2 = currx + 48;
+						wynik = a + b + zIntNaAbc(curry) + pomoc2;
+						return wynik;
+					}
+				}
+				if (i == 4 && x + 2 >= 0 && x + 2 < 8 && y + 1 >= 0 && y + 1 < 8 && wolnebicie(x, y, x +2, y +1, 'n'))// && plansza[x + 2][y + 1] == " ")
+				{
+					czyscbicia();
+					plansza[currx][curry] = " ";
+					plansza[x + 2][y + 1] = c;
+					currx = x + 2;
+					curry = y + 1;
+					wypelnbiciaH(xH, yH, uklad);
+					//wpiszwstepnebiciaK(xH, yH);
+					if (czybicieK(xH, yH))
+					{
+						char pomoc2 = currx + 48;
+						wynik = a + b + zIntNaAbc(curry) + pomoc2;
+						return wynik;
+					}
+				}
+				if (i == 5 && x + 2 >= 0 && x + 2 < 8 && y - 1 >= 0 && y - 1 < 8 && wolnebicie(x, y, x +2, y - 1, 'n'))//&& plansza[x + 2][y - 1] == " ")
+				{
+					czyscbicia();
+					plansza[currx][curry] = " ";
+					plansza[x + 2][y - 1] = c;
+					currx = x + 2;
+					curry = y - 1;
+					wypelnbiciaH(xH, yH, uklad);
+					//wpiszwstepnebiciaK(xH, yH);
+					if (czybicieK(xH, yH))
+					{
+						char pomoc2 = currx + 48;
+						wynik = a + b + zIntNaAbc(curry) + pomoc2;
+						return wynik;
+					}
+				}
+				if (i == 6 && x +1 >= 0 && x + 1 < 8 && y - 2 >= 0 && y - 2 < 8 && wolnebicie(x, y, x +1, y - 2, 'n'))// && plansza[x + 1][y - 2] == " ")
+				{
+					czyscbicia();
+					plansza[currx][curry] = " ";
+					plansza[x + 1][y - 2] = c;
+					currx = x + 1;
+					curry = y - 2;
+					wypelnbiciaH(xH, yH, uklad);
+					//wpiszwstepnebiciaK(xH, yH);
+					if (czybicieK(xH, yH))
+					{
+						char pomoc2 = currx + 48;
+						wynik = a + b + zIntNaAbc(curry) + pomoc2;
+						return wynik;
+					}
+				}
+				if (i == 7 && x - 1 >= 0 && x - 1 < 8 && y - 2 >= 0 && y - 2 < 8 && wolnebicie(x, y, x - 1, y - 2, 'n'))// && plansza[x - 1][y - 2] == " ")
+				{
+					czyscbicia();
+					plansza[currx][curry] = " ";
+					plansza[x - 1][y -2] = c;
+					currx = x - 1;
+					curry = y -2;
+					wypelnbiciaH(xH, yH, uklad);
+					//wpiszwstepnebiciaK(xH, yH);
+					if (czybicieK(xH, yH))
+					{
+						char pomoc2 = currx + 48;
+						wynik = a + b + zIntNaAbc(curry) + pomoc2;
+						return wynik;
+					}
+				}
+			}
+		}break;
+		case'p': //pionek
+		{
+			if (uklad == 0) //biale sa na dole
+			{
+				if (x - 1 >= 0 && x - 1 < 8 && wolnebicie(x, y, x - 1, y , 'p'))//&& plansza[x - 1][y] == " ")
+				{
+					czyscbicia();
+					plansza[currx][curry] = " ";
+					plansza[x - 1][y] = c;
+					currx = x - 1;
+					curry = y;
+					wypelnbiciaH(xH, yH, uklad);
+					//wpiszwstepnebiciaK(xH, yH);
+					if (czybicieK(xH, yH))
+					{
+						char pomoc2 = currx + 48;
+						wynik = a + b + zIntNaAbc(curry) + pomoc2;
+						return wynik;
+					}
+				}
+				if (x - 2 >= 0 && x - 2 < 8 && wolnebicie(x, y, x - 2, y, 'p'))// && plansza[x - 2][y ] == " ")
+				{
+					czyscbicia();
+					plansza[currx][curry] = " ";
+					plansza[x - 2][y] = c;
+					currx = x - 2;
+					curry = y;
+					wypelnbiciaH(xH, yH, uklad);
+					//wpiszwstepnebiciaK(xH, yH);
+					if (czybicieK(xH, yH))
+					{
+						char pomoc2 = currx + 48;
+						wynik = a + b + zIntNaAbc(curry) + pomoc2;
+						return wynik;
+					}
+				}
+			}
+			else
+			{
+				if (x + 1 >= 0 && x + 1 < 8 && wolnebicie(x, y, x +1, y , 'p'))// && plansza[x + 1][y] == " ")
+				{
+					czyscbicia();
+					plansza[currx][curry] = " ";
+					plansza[x + 1][y] = c;
+					currx = x + 1;
+					curry = y;
+					wypelnbiciaH(xH, yH, uklad);
+					//wpiszwstepnebiciaK(xH, yH);
+					if (czybicieK(xH, yH))
+					{
+						char pomoc2 = currx + 48;
+						wynik = a + b + zIntNaAbc(curry) + pomoc2;
+						return wynik;
+					}
+				}
+				if (x + 2 >= 0 && x + 2 < 8 && wolnebicie(x, y, x +2, y , 'p'))// && plansza[x + 2][y] == " ")
+				{
+					czyscbicia();
+					plansza[currx][curry] = " ";
+					plansza[x + 2][y] = c;
+					currx = x + 2;
+					curry = y;
+					wypelnbiciaH(xH, yH, uklad);
+					//wpiszwstepnebiciaK(xH, yH);
+					if (czybicieK(xH, yH))
+					{
+						char pomoc2 = currx + 48;
+						wynik = a + b + zIntNaAbc(curry) + pomoc2;
+						return wynik;
+					}
+				}
+			}
+		}break;
+		default: 
+		{
+			return "";
+		}break;
+	}
 	return "";
 }
 
