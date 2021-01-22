@@ -509,7 +509,73 @@ void wgrajplansze()
 }
 void wpiszwstepnebiciaK(int xH, int yH)
 {
-	
+	if ((xH != 0 && yH != 0) && (xH != 7 && yH != 7))
+	{
+		if (plansza[xH - 1][yH] != " ") bicieK[0] = true;
+		if (plansza[xH - 1][yH+1] != " ") bicieK[1] = true;
+		if (plansza[xH][yH+1] != " ") bicieK[2] = true;
+		if (plansza[xH + 1][yH+1] != " ") bicieK[3] = true;
+		if (plansza[xH + 1][yH] != " ") bicieK[4] = true;
+		if (plansza[xH + 1][yH-1] != " ") bicieK[5] = true;
+		if (plansza[xH][yH-1] != " ") bicieK[6] = true;
+		if (plansza[xH - 1][yH-1] != " ") bicieK[7] = true;
+	}
+	else if (xH == 0 && yH == 0)
+	{
+		if (plansza[xH][yH + 1] != " ") bicieK[2] = true;
+		if (plansza[xH + 1][yH + 1] != " ") bicieK[3] = true;
+		if (plansza[xH + 1][yH] != " ") bicieK[4] = true;
+	}
+	else if (xH == 0 && yH == 7)
+	{
+		if (plansza[xH+1][yH] != " ") bicieK[4] = true;
+		if (plansza[xH + 1][yH - 1] != " ") bicieK[5] = true;
+		if (plansza[xH ][yH-1] != " ") bicieK[6] = true;
+	}
+	else if (xH == 7 && yH == 0)
+	{
+		if (plansza[xH - 1][yH] != " ") bicieK[0] = true;
+		if (plansza[xH - 1][yH + 1] != " ") bicieK[1] = true;
+		if (plansza[xH][yH+1] != " ") bicieK[2] = true;
+	}
+	else if (xH == 7 && yH == 7)
+	{
+		if (plansza[xH][yH - 1] != " ") bicieK[6] = true;
+		if (plansza[xH - 1][yH - 1] != " ") bicieK[7] = true;
+		if (plansza[xH -1][yH] != " ") bicieK[0] = true;
+	}
+	else if (xH == 0)
+	{
+		if (plansza[xH][yH + 1] != " ") bicieK[2] = true;
+		if (plansza[xH + 1][yH + 1] != " ") bicieK[3] = true;
+		if (plansza[xH + 1][yH] != " ") bicieK[4] = true;
+		if (plansza[xH + 1][yH - 1] != " ") bicieK[5] = true;
+		if (plansza[xH][yH - 1] != " ") bicieK[6] = true;
+	}
+	else if (xH == 7)
+	{
+		if (plansza[xH - 1][yH] != " ") bicieK[0] = true;
+		if (plansza[xH - 1][yH + 1] != " ") bicieK[1] = true;
+		if (plansza[xH][yH + 1] != " ") bicieK[2] = true;
+		if (plansza[xH][yH - 1] != " ") bicieK[6] = true;
+		if (plansza[xH - 1][yH - 1] != " ") bicieK[7] = true;
+	}
+	else if (yH == 0)
+	{
+		if (plansza[xH - 1][yH] != " ") bicieK[0] = true;
+		if (plansza[xH - 1][yH + 1] != " ") bicieK[1] = true;
+		if (plansza[xH][yH + 1] != " ") bicieK[2] = true;
+		if (plansza[xH + 1][yH + 1] != " ") bicieK[3] = true;
+		if (plansza[xH + 1][yH] != " ") bicieK[4] = true;
+	}
+	else if (yH == 7)
+	{
+		if (plansza[xH + 1][yH] != " ") bicieK[4] = true;
+		if (plansza[xH + 1][yH - 1] != " ") bicieK[5] = true;
+		if (plansza[xH][yH - 1] != " ") bicieK[6] = true;
+		if (plansza[xH][yH + 1] != " ") bicieK[7] = true;
+		if (plansza[xH - 1][yH] != " ") bicieK[0] = true;
+	}
 }
 bool czybicieK(int xH, int yH)
 {
