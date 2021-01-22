@@ -7,6 +7,8 @@
 const char MAGIC[4] = {'c', 'z', 'e', 's'};
 const char PROTOCOL_VERSION = 2;
 
+using BoardType = short[8][8];
+
 enum PacketType : uint8_t {
   Ping = 0,
   Pong,
@@ -18,6 +20,7 @@ enum PacketType : uint8_t {
   Surrender,
   AskForDraw,
   Board,
+  SomethingWentWrong,
 };
 
 enum PacketError : uint8_t {
@@ -40,7 +43,10 @@ struct Packet {
   std::string nickname;
 
   // Only contains data if type == MovePiece
-  char move[4];
+  char move[8];
+
+  // Only contains data if type == Board 
+  BoardType board;
 };
 
 class Socket {
@@ -76,13 +82,8 @@ public:
     }
 
     size_t len = 0;
-    while(nickname[len] != '\0') {
-      len += 1;
-    }
-
-    if(len > 65530) {
-      return false;
-    }
+    len = strlen(nickname);
+    assert(len > 1 && len < 65530);
 
     this->buffer.push_back(static_cast<uint8_t>(len));
     this->buffer.push_back(static_cast<uint8_t>(len >> 8));
@@ -121,9 +122,14 @@ public:
     return this->send_buffer();
   }
 
-  bool move_piece(const char* move) {
+  bool move_piece(const char* move, size_t len) {
+    assert(len <= 7 && len >= 4);
+    char buf[8];
+    memset(buf, 0, sizeof(buf));
+    memcpy(buf, move, len);
+
     this->prepare_message(6);
-    this->buffer_append(move, 4);
+    this->buffer_append(buf, sizeof(buf));
     return this->send_buffer();
   }
 
@@ -137,7 +143,16 @@ public:
     return this->send_buffer();
   }
 
-  /* TODO: send_board */
+  bool send_board(const BoardType& board) {
+    this->prepare_message(9);
+    this->buffer_append((char*)board, sizeof(BoardType));
+    return this->send_buffer();
+  }
+
+  bool something_went_wrong() {
+    this->prepare_message(10);
+    return this->send_buffer();
+  }
 
   Packet recieve_message() {
     this->buffer.resize(65600);
@@ -168,12 +183,14 @@ public:
           return p;
         }
 
+        assert(len > 0);
         nickname.resize(len+1);
 
-        if(this->sock.ReadAll(nickname.data(), len) == 0) {
+        if(this->sock.ReadAll(&nickname[0], len) == 0) {
           p.error = PacketError::Socket;
           return p;
         }
+        nickname[len] = '\0';
 
         p.error = PacketError::None;
         p.type = PacketType::Connect;
@@ -201,6 +218,10 @@ public:
           p.error = PacketError::Socket;
         }
         return p;
+
+      case PacketType::SomethingWentWrong:
+        p.error = PacketError::Shrug;
+        return p;
     }
 
     assert(false);
@@ -211,6 +232,7 @@ public:
 class ServerSocket {
 public:
   class Socket player_sock[2];
+  std::string nickname[2];
   NetSock listen_sock;
 
   ServerSocket() {
@@ -235,8 +257,13 @@ public:
 
     std::swap(*ptr, this->player_sock[i].sock);
     delete ptr;
+
+    Packet msg = this->player_sock[i].recieve_message();
+    assert(msg.error == PacketError::None);
+    assert(msg.type == PacketType::Connect);
+    std::swap(this->nickname[i], msg.nickname);
+
     return i;
   }
 };
 
-int main() {}
