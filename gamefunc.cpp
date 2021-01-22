@@ -3,11 +3,13 @@
 #include <stdlib.h>
 #include <math.h>
 #include <iostream>
-#include "gamefunc.h"
+#include <ctime>
 
+#include "gamefunc.h"
 #ifndef __unix__
 #include <windows.h>
 #endif // __unix__
+
 
 void initboard(figura board[8][8],int tryb)
 {
@@ -102,15 +104,16 @@ void printBoard(figura board[8][8],int tryb /*1==biale 0==czarne*/)
 
     std::cout<<"\u001b[2J\033[0;0H\033[0;0H";
 
-const char* PIECES[7] = {
-  " ",//0
-  "♟",//1
-  "♝",//2
-  "♞",//3
-  "♜",//4
-  "♛",//5
-  "♚",//6
-};
+    const char* PIECES[7] =
+    {
+        " ",//0
+        "♟",//1
+        "♝",//2
+        "♞",//3
+        "♜",//4
+        "♛",//5
+        "♚",//6
+    };
 
 #endif // WIN32
 
@@ -199,7 +202,8 @@ const char* PIECES[7] = {
 }
 
 bool isLegal(figura board[8][8],int yP,int xP,int yK,int xK,int cas[4],savedMove saved, int *passant)
-{int *pass=passant;
+{
+    int *pass=passant;
 
     if(board[yP][xP].fig==' ')
         return 0;
@@ -779,8 +783,34 @@ void outputMsg(bool local,int mesydz, int tim)
 int chessGame(int mode)
 {
     figura board[8][8];
+    std::ofstream plik;
+    std::ostringstream dane;
+    std::string edycja;
+    plik.open("temp.txt");
+    int licznik=1;
+    time_t now = time(0);
+    tm *ltm = localtime(&now);
     std::cout<<"Zaczynamy gre\n";
     int czywczytac,display;
+
+    ////zapisywanie tagow PGN
+
+    dane<<"[Event \"-\"]\n";
+    dane<<"[Site \"-\"]\n";
+    dane<<"[Date \"";
+    dane<<1900+ltm->tm_year;
+    dane<<".";
+    dane<< 1+ltm->tm_mon;
+    dane<< ".";
+    dane<< ltm->tm_mday;
+    dane<< "\"]\n";
+    dane<<"[Round \"-\"]\n";
+    dane<< "[White \"bialy\"]\n";
+    dane<< "[Black \"czarny\"]\n";
+    dane<< "[Result \"*\"]\n\n";
+
+
+
 
     /////inicjalizacja szachownicy//////
     std::cout<<"Instrukcje:\n"<<"Aby poruszyc sie figura nalezy wpisac koordynaty poczatku ruchu i końca np \"a2a4\", malymi literami, razem\n";
@@ -804,9 +834,11 @@ int chessGame(int mode)
     int posKing[4]= {0,4,7,4}; //////yWhite=0,xWhite=1,yBlack=2,xBlack=3
     int castle[4]= {1,1,1,1}; ///////castle[0]==e8g8, castle[1]==e8c8, castle[2]==e1g1, castle[3]=e1c1
     figura temp;
-    savedMove prevMove={' ',-1,0,0,1,0,false};
+    savedMove prevMove= {' ',-1,0,0,1,0,false,false};
 
     outputMsg(true,2,tura);
+
+
 
     while(1) //gameloop
     {
@@ -910,14 +942,14 @@ int chessGame(int mode)
                 /////////roszady - wykonanie dla bialych
                 if(yP==0&&xP==4&&board[yK][xK].fig=='K')
                 {
-                    if(yK==0&&xK==6&&castle[2]==1)
+                    if(yK==0&&xK==6)
                     {
                         board[0][5].fig='T';
                         board[0][5].tim=1;
                         board[0][7].fig=' ';
                         board[0][7].tim=-1;
                     }
-                    else if(yK==0&&xK==2&&castle[3]==1)
+                    else if(yK==0&&xK==2)
                     {
                         board[0][3].fig='T';
                         board[0][3].tim=1;
@@ -927,14 +959,14 @@ int chessGame(int mode)
                 }////////roszady - wykonanie dla czarnych
                 else if(yP==7&&xP==4&&board[yK][xK].fig=='K')
                 {
-                    if(yK==7&&xK==6&&castle[0]==1)
+                    if(yK==7&&xK==6)
                     {
                         board[7][5].fig='T';
                         board[7][5].tim=2;
                         board[7][7].fig=' ';
                         board[7][7].tim=-1;
                     }
-                    else if(yK==7&&xK==2&&castle[1]==1)
+                    else if(yK==7&&xK==2)
                     {
                         board[7][3].fig='T';
                         board[7][3].tim=2;
@@ -997,7 +1029,7 @@ int chessGame(int mode)
                 prevMove.coords[0]=yP;
                 prevMove.coords[1]=xP;
                 prevMove.coords[2]=yK;
-                prevMove.coords[3]=yP;
+                prevMove.coords[3]=xK;
 
                 //Sprawdzenie szacha i mata
                 if(isChecked(posKing[tura==1?2:0],posKing[tura==1?3:1],board))
@@ -1005,14 +1037,54 @@ int chessGame(int mode)
                     if(isMating(posKing[tura==1?2:0],posKing[tura==1?3:1],board,prevMove))
                     {
                         outputMsg(true,4,tura);
+                        prevMove.mat=true;
                     }
                     else
                     {
                         outputMsg(true,3,tura);
+                        prevMove.szach=true;
+                    }
+                }
+                else
+                {
+                    prevMove.szach=false;
+                }
+
+
+
+                ///////////////////////////MIEJSCE NA ZAPISANIE DO PGN(chyba tu)/////////////////////////////////////
+
+
+
+                checkStar(edycja, dane);
+
+                if(tura==1)
+                {
+                    dane<<licznik;
+                    dane<<". ";
+                }
+
+                if(checkRoszada(prevMove)==true)
+                {
+                    roszadaMove(prevMove, dane, tura);
+                }
+                else
+                {
+                    if(temp.fig!=' ')
+                    {
+                        zbicieMove(prevMove, dane, tura);
+                    }
+                    else
+                    {
+                        basicMove(prevMove, dane, tura);
                     }
                 }
 
-                ///////////////////////////MIEJSCE NA ZAPISANIE DO PGN(chyba tu)/////////////////////////////////////
+                if(licznik==4&&tura==2)
+                {
+                    plik<<dane.str();
+                    plik.flush();
+                }
 
 
 
@@ -1023,6 +1095,9 @@ int chessGame(int mode)
                 else
                     tura--;
 
+                if(tura==2)
+                    licznik+=1;
+
                 outputMsg(true,2,tura);
             }
         }
@@ -1030,7 +1105,201 @@ int chessGame(int mode)
         {
             outputMsg(true,1,tura);
         }
-    }
 
+    }
+    plik.close();
     return 1;
 }
+
+bool checkRoszada(savedMove& prevMove)
+{
+    if(prevMove.coords[1]==4&&prevMove.fig=='K'&&(prevMove.coords[3]==2||prevMove.coords[3]==6))
+        return 1;
+    else
+        return 0;
+
+}
+void roszadaMove(savedMove& prevMove, std::ostringstream &dane, int tura)
+{
+    if(prevMove.coords[3]==2)
+    {
+        dane<<"O-O-O";
+    }
+    if(prevMove.coords[3]==6)
+    {
+        dane<<"O-O";
+    }
+    if(prevMove.szach==true&&prevMove.mat==false)
+    {
+        dane<<"+";
+        dane<<" *";
+    }
+    if(prevMove.mat==true)
+    {
+        if(tura==1)
+            dane<<" 1-0";
+        if(tura==2)
+            dane<<" 0-1";
+    }
+}
+void zbicieMove(savedMove& prevMove, std::ostringstream &dane, int tura)
+{
+    switch(prevMove.fig)
+    {
+    case 'P':
+        dane<<converter(prevMove.coords[1]);
+        dane<<prevMove.coords[0]+1;
+        dane<<"x";
+        dane<<converter(prevMove.coords[3]);
+        dane<<prevMove.coords[2]+1;
+        break;
+    case 'N':
+        dane<<"N";
+        dane<<converter(prevMove.coords[1]);
+        dane<<prevMove.coords[0]+1;
+        dane<<"x";
+        dane<<converter(prevMove.coords[3]);
+        dane<<prevMove.coords[2]+1;
+        break;
+    case 'B':
+        dane<<"B";
+        dane<<converter(prevMove.coords[1]);
+        dane<<prevMove.coords[0]+1;
+        dane<<"x";
+        dane<<converter(prevMove.coords[3]);
+        dane<<prevMove.coords[2]+1;
+        break;
+    case 'T':
+        dane<<"R";
+        dane<<converter(prevMove.coords[1]);
+        dane<<prevMove.coords[0]+1;
+        dane<<"x";
+        dane<<converter(prevMove.coords[3]);
+        dane<<prevMove.coords[2]+1;
+        break;
+    case 'Q':
+        dane<<"Q";
+        dane<<converter(prevMove.coords[1]);
+        dane<<prevMove.coords[0]+1;
+        dane<<"x";
+        dane<<converter(prevMove.coords[3]);
+        dane<<prevMove.coords[2]+1;
+        break;
+    case 'K':
+        dane<<"K";
+        dane<<converter(prevMove.coords[1]);
+        dane<<prevMove.coords[0]+1;
+        dane<<"x";
+        dane<<converter(prevMove.coords[3]);
+        dane<<prevMove.coords[2]+1;
+        break;
+    }
+    if(prevMove.szach==true)
+    {
+        dane<<"+";
+        dane<<" *";
+    }
+    if(prevMove.mat==true)
+    {
+        if(tura==1)
+            dane<<" 1-0";
+        if(tura==2)
+            dane<<" 0-1";
+    }
+
+}
+
+void basicMove(savedMove& prevMove, std::ostringstream &dane, int tura)
+{
+    switch(prevMove.fig)
+    {
+    case 'P':
+        dane<<converter(prevMove.coords[3]);
+        dane<<prevMove.coords[2]+1;
+        break;
+    case 'N':
+        dane<<"N";
+        dane<<converter(prevMove.coords[1]);
+        dane<<prevMove.coords[0]+1;
+        dane<<converter(prevMove.coords[3]);
+        dane<<prevMove.coords[2]+1;
+        break;
+    case 'B':
+        dane<<"B";
+        dane<<converter(prevMove.coords[1]);
+        dane<<prevMove.coords[0]+1;
+        dane<<converter(prevMove.coords[3]);
+        dane<<prevMove.coords[2]+1;
+        break;
+    case 'T':
+        dane<<"R";
+        dane<<converter(prevMove.coords[1]);
+        dane<<prevMove.coords[0]+1;
+        dane<<converter(prevMove.coords[3]);
+        dane<<prevMove.coords[2]+1;
+        break;
+    case 'Q':
+        dane<<"Q";
+        dane<<converter(prevMove.coords[1]);
+        dane<<prevMove.coords[0]+1;
+        dane<<converter(prevMove.coords[3]);
+        dane<<prevMove.coords[2]+1;
+        break;
+    case 'K':
+        dane<<"K";
+        dane<<converter(prevMove.coords[1]);
+        dane<<prevMove.coords[0]+1;
+        dane<<converter(prevMove.coords[3]);
+        dane<<prevMove.coords[2]+1;
+        break;
+    }
+    if(prevMove.szach==true)
+    {
+        dane<<"+";
+        dane<<" *";
+    }
+
+    if(prevMove.mat==true)
+    {
+        if(tura==1)
+            dane<<" 1-0";
+        if(tura==2)
+            dane<<" 0-1";
+    }
+}
+
+char converter(int znak)
+{
+    char a;
+    if(znak==0)
+        a='a';
+    if(znak==1)
+        a='b';
+    if(znak==2)
+        a='c';
+    if(znak==3)
+        a='d';
+    if(znak==4)
+        a='e';
+    if(znak==5)
+        a='f';
+    if(znak==6)
+        a='g';
+    if(znak==7)
+        a='h';
+    return a;
+}
+
+void checkStar(std::string &edytowane, std::ostringstream &strim)
+{
+    edytowane=strim.str();
+    if(edytowane[edytowane.length()-1]=='*')
+    {
+        edytowane.pop_back();
+        strim.str("");
+        strim.clear();
+        strim<<edytowane;
+    }
+
+}
+
