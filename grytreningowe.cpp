@@ -628,7 +628,314 @@ bool czybialypionek(int x, int y)
 
 void wypelnbiciaH(int xH,int yH, bool uklad) //jak uklad=0 to bia³e s¹ na dole tablicy, uklad=1 to przypadek przeciwny
 {
-	
+	wpiszwstepnebiciaK(xH,yH);
+	for (int i = 0; i < 8; i++)
+	{
+		for (int j = 0; j < 8; j++)
+		{
+			if (czybialypionek(i, j))
+			{
+				char c = plansza[i][j][0];
+				switch (c)
+				{
+					case 'k': //krol
+					{
+						for (int k = 0; k < 8; k++)
+						{
+							if (k==0 && i + 1 >= 0 && i + 1 == xH - 1 && (j == yH - 1 || j == yH || j == yH + 1)) //czy atak na 0 pole od czarnego hetmana
+								//   7  0  1
+								//   6  K  2
+								//   5  4  3
+								bicieK[0] = true;
+							else if (k == 1 && ((i==xH-2 && j>=yH && j<=yH+2) || (j==yH+2 && i>=xH-2 && i<=xH))) //czy atak na 1 pole od czarnego hetmana
+							{
+								bicieK[1] = true;
+							}
+							else if (k == 2 && j==yH+2 && i>=xH-1 && i<=xH+1)
+							{
+								bicieK[2] = true;
+							}
+							else if (k == 3 && ((j == yH + 2 && i >= xH && i <= xH + 2) || (i == xH + 2 && j >= yH && j <= yH+2)))
+							{
+								bicieK[3] = true;
+							}
+							else if (k == 4 && i == xH + 2 && j >= yH - 1 && j <= yH + 1)
+							{
+								bicieK[4] = true;
+							}
+							else if (k == 5 && ((i == xH + 2 && j >= yH-2 && j <= yH) || (j == yH - 2 && i >= xH && i <= xH+2)))
+							{
+								bicieK[5] = true;
+							}
+							else if (k == 6 && j == yH - 2 && i >= xH - 1 && i <= xH + 1)
+							{
+								bicieK[6] = true;
+							}
+							else if (k == 7 && ((i == xH - 2 && j >= yH - 2 && j <= yH) || (j == yH - 2 && i >= xH-2 && i <= xH)))
+							{
+								bicieK[7] = true;
+							}
+						}
+					}break;
+					case 'q': //krolowa
+					{
+						if (i == xH - 1)
+						{
+							if (xH - 1 >= 0 && xH - 1 < 8 && yH - 1 >= 0 && yH - 1 < 8 && plansza[xH - 1][yH - 1] != " " && j < yH)
+							{
+								;
+							}
+							else if (xH - 1 >= 0 && xH - 1 < 8 && yH - 1 >= 0 && yH - 1 < 8 && plansza[xH - 1][yH] != " " && j < yH)//q z lewej strony krola
+							{
+								for (int b = i; b < yH - 1; b++)
+								{
+									;
+								}
+							}
+							bicieK[7] = true;
+							bicieK[0] = true;
+							bicieK[1] = true;
+						}
+						else if (i == xH)
+						{
+							bicieK[6] = true;
+							bicieK[2] = true;
+						}
+						else if (i == xH + 1)
+						{
+							bicieK[5] = true;
+							bicieK[4] = true;
+							bicieK[3] = true;
+						}
+						if (j == yH - 1)
+						{
+							bicieK[7] = true;
+							bicieK[6] = true;
+							bicieK[5] = true;
+						}
+						else if (j == yH)
+						{
+							bicieK[4] = true;
+							bicieK[0] = true;
+						}
+						else if (j == yH + 1)
+						{
+							bicieK[1] = true;
+							bicieK[2] = true;
+							bicieK[3] = true;
+						}
+						// \ ukosna
+						if (j - i == (yH - 1) - (xH + 1)) bicieK[5] = true;
+						else if (j - i == yH - (xH + 1))
+						{
+							bicieK[4] = true;
+							bicieK[6] = true;
+						}
+						else if (j - i == yH - xH)
+						{
+							bicieK[3] = true;
+							bicieK[7] = true;
+						}
+						else if (j - i == yH - (xH - 1))
+						{
+							bicieK[0] = true;
+							bicieK[2] = true;
+						}
+						else if (j - i == (yH + 1) - (xH - 1))
+						{
+							bicieK[1] = true;
+						}
+						// / ukosna
+						if (j + i == (yH + 1) + (xH + 1)) bicieK[3] = true;
+						else if (j + i == yH + (xH + 1))
+						{
+							bicieK[4] = true;
+							bicieK[2] = true;
+						}
+						else if (j + i == yH + xH)
+						{
+							bicieK[5] = true;
+							bicieK[1] = true;
+						}
+						else if (j + i == yH + (xH - 1))
+						{
+							bicieK[0] = true;
+							bicieK[6] = true;
+						}
+						else if (j + i == (yH - 1) + (xH - 1))
+						{
+							bicieK[7] = true;
+						}
+					}break;
+					case 'r': //wieza
+					{
+						if (i == xH - 1)
+						{
+							bicieK[7] = true;
+							bicieK[0] = true;
+							bicieK[1] = true;
+						}
+						else if (i == xH)
+						{
+							bicieK[6] = true;
+							bicieK[2] = true;
+						}
+						else if (i == xH + 1)
+						{
+							bicieK[5] = true;
+							bicieK[4] = true;
+							bicieK[3] = true;
+						}
+						if (j == yH - 1)
+						{
+							bicieK[7] = true;
+							bicieK[6] = true;
+							bicieK[5] = true;
+						}
+						else if (j == yH)
+						{
+							bicieK[4] = true;
+							bicieK[0] = true;
+						}
+						else if (j == yH + 1)
+						{
+							bicieK[1] = true;
+							bicieK[2] = true;
+							bicieK[3] = true;
+						}
+					}break;
+					case 'b': //goniec-po ukosie
+					{
+						// \ ukosna
+						if (j - i == (yH - 1) - (xH + 1)) bicieK[5] = true;
+						else if (j - i == yH - (xH + 1))
+						{
+							bicieK[4]=true;
+							bicieK[6] = true;
+						}
+						else if (j - i == yH - xH)
+						{
+							bicieK[3] = true;
+							bicieK[7] = true;
+						}
+						else if (j-i==yH-(xH-1))
+						{
+							bicieK[0] = true;
+							bicieK[2] = true;
+						}
+						else if (j - i == (yH + 1) - (xH - 1))
+						{
+							bicieK[1] = true;
+						}
+						// / ukosna
+						if (j + i == (yH + 1) + (xH + 1)) bicieK[3] = true;
+						else if (j + i == yH + (xH + 1))
+						{
+							bicieK[4] = true;
+							bicieK[2] = true;
+						}
+						else if (j + i == yH + xH)
+						{
+							bicieK[5] = true;
+							bicieK[1] = true;
+						}
+						else if (j + i == yH + (xH - 1))
+						{
+							bicieK[0] = true;
+							bicieK[6] = true;
+						}
+						else if (j + i == (yH - 1) + (xH - 1))
+						{
+							bicieK[7] = true;
+						}
+					}break;
+					case 'n': //kon
+					{
+						for (int k = 0; k < 8; k++)
+						{
+							if (k == 0 && ((i - 2 == xH - 1 && j + 1 == yH) || (i - 1 == xH - 1 && j + 2 == yH) || (i + 1 == xH - 1 && j + 2 == yH) || (i + 2 == xH - 1 && j + 1 == yH) || (i + 2 == xH - 1 && j - 1 == yH) || (i + 1 == xH - 1 && j - 2 == yH) || (i - 1 == xH - 1 && j - 2 == yH) || (i - 2 == xH - 1 && j - 1 == yH)))
+							{
+								bicieK[0] = true;
+							}
+							if (k == 1 && ((i - 2 == xH - 1 && j + 1 == yH+1) || (i - 1 == xH - 1 && j + 2 == yH + 1) || (i + 1 == xH - 1 && j + 2 == yH + 1) || (i + 2 == xH - 1 && j + 1 == yH + 1) || (i + 2 == xH - 1 && j - 1 == yH + 1) || (i + 1 == xH - 1 && j - 2 == yH + 1) || (i - 1 == xH - 1 && j - 2 == yH + 1) || (i - 2 == xH - 1 && j - 1 == yH + 1)))
+							{
+								bicieK[1] = true;
+							}
+							if (k == 2 && ((i - 2 == xH && j + 1 == yH + 1) || (i - 1 == xH && j + 2 == yH + 1) || (i + 1 == xH  && j + 2 == yH + 1) || (i + 2 == xH  && j + 1 == yH + 1) || (i + 2 == xH  && j - 1 == yH + 1) || (i + 1 == xH  && j - 2 == yH + 1) || (i - 1 == xH  && j - 2 == yH + 1) || (i - 2 == xH  && j - 1 == yH + 1)))
+							{
+								bicieK[2] = true;
+							}
+							if (k == 3 && ((i - 2 == xH + 1 && j + 1 == yH + 1) || (i - 1 == xH + 1 && j + 2 == yH + 1) || (i + 1 == xH + 1 && j + 2 == yH + 1) || (i + 2 == xH + 1 && j + 1 == yH + 1) || (i + 2 == xH + 1 && j - 1 == yH + 1) || (i + 1 == xH + 1 && j - 2 == yH + 1) || (i - 1 == xH + 1 && j - 2 == yH + 1) || (i - 2 == xH + 1 && j - 1 == yH + 1)))
+							{
+								bicieK[3] = true;
+							}
+							if (k == 4 && ((i - 2 == xH + 1 && j + 1 == yH) || (i - 1 == xH + 1 && j + 2 == yH) || (i + 1 == xH + 1 && j + 2 == yH) || (i + 2 == xH + 1 && j + 1 == yH) || (i + 2 == xH + 1 && j - 1 == yH) || (i + 1 == xH + 1 && j - 2 == yH) || (i - 1 == xH + 1 && j - 2 == yH) || (i - 2 == xH + 1 && j - 1 == yH)))
+							{
+								bicieK[4] = true;
+							}
+							if (k == 5 && ((i - 2 == xH + 1 && j + 1 == yH-1) || (i - 1 == xH + 1 && j + 2 == yH-1) || (i + 1 == xH + 1 && j + 2 == yH-1) || (i + 2 == xH + 1 && j + 1 == yH-1) || (i + 2 == xH + 1 && j - 1 == yH-1) || (i + 1 == xH + 1 && j - 2 == yH-1) || (i - 1 == xH + 1 && j - 2 == yH-1) || (i - 2 == xH + 1 && j - 1 == yH-1)))
+							{
+								bicieK[5] = true;
+							}
+							if (k == 6 && ((i - 2 == xH  && j + 1 == yH-1) || (i - 1 == xH  && j + 2 == yH-1) || (i + 1 == xH  && j + 2 == yH-1) || (i + 2 == xH  && j + 1 == yH-1) || (i + 2 == xH  && j - 1 == yH-1) || (i + 1 == xH  && j - 2 == yH-1) || (i - 1 == xH  && j - 2 == yH-1) || (i - 2 == xH && j - 1 == yH-1)))
+							{
+								bicieK[6] = true;
+							}
+							if (k == 7 && ((i - 2 == xH - 1 && j + 1 == yH-1) || (i - 1 == xH - 1 && j + 2 == yH-1) || (i + 1 == xH - 1 && j + 2 == yH-1) || (i + 2 == xH - 1 && j + 1 == yH-1) || (i + 2 == xH - 1 && j - 1 == yH-1) || (i + 1 == xH - 1 && j - 2 == yH-1) || (i - 1 == xH - 1 && j - 2 == yH-1) || (i - 2 == xH - 1 && j - 1 == yH-1)))
+							{
+								bicieK[7] = true;
+							}
+						}
+					}break;
+					case 'p': //pionek
+					{
+						if (!uklad)
+						{
+							if (i - 1 >= 0 && i - 1 == xH + 1 )
+							{
+								if(j == yH)
+									bicieK[4] = true;
+								else if (j == yH - 1)
+									bicieK[5] = true;
+								else if (j == yH + 1)
+									bicieK[3] = true;
+							}
+							else if (i - 2 >= 0 && i - 2 == xH + 1)
+							{
+								if (j == yH)
+									bicieK[4] = true;
+								else if (j == yH - 1)
+									bicieK[5] = true;
+								else if (j == yH + 1)
+									bicieK[3] = true;
+							}
+						}
+						else
+						{
+							if (i + 1 >= 0 && i + 1 == xH - 1)
+							{
+								if (j == yH)
+									bicieK[4] = true;
+								else if (j == yH - 1)
+									bicieK[5] = true;
+								else if (j == yH + 1)
+									bicieK[3] = true;
+							}
+							else if (i + 2 >= 0 && i + 2 == xH - 1)
+							{
+								if (j == yH)
+									bicieK[4] = true;
+								else if (j == yH - 1)
+									bicieK[5] = true;
+								else if (j == yH + 1)
+									bicieK[3] = true;
+							}
+						}
+					}break;
+				}
+			}
+		}
+	}
 }
 void czyscbicia()
 {
