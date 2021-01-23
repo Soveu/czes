@@ -4,11 +4,72 @@
 #include <cstdlib>
 #include <ctime>
 using namespace std;
-string plansza[8][8];
-string kopia[8][8];
-int uklad;
+typedef struct figura
+{
+	unsigned char fig; //' ', 'P', 'R', 'B', 'N', 'Q', 'K'
+	int tim; //1 = bialy, 2 = czarny
+} figura;
+
+string plansza[8][8]; //moze zmieniac sie w zaleznosci od robionych ruchow
+string kopia[8][8]; //niezmienia swojego utawienia od poczatku gry do konca
+int uklad; //jezeli uklad=0 to biale figury sa na dole planszy, w przeciwnym przypadku sa na gorze
 bool bicieK[8]; //tablica,ktora zawiera pola wokol krola czarnego, 0-gdy pole nie jest bite, 1-gdy pole jest bite
-void gra(string szachy[8][8], int liczbarand)
+void printBoard(figura board[8][8], int tryb /*1==biale 0==czarne*/)//potrzebna do wyswietlania na ekran planszy w unicode
+{
+	return;
+}
+void printboard(string tab[8][8]) //wpisywanie do tablicy struktur planszy
+{
+	figura board[8][8];
+	for (int i = 0; i < 8; i++)
+	{
+		for (int j = 0; j < 8; j++)
+		{
+			if (tab[i][j] == " ")
+			{
+				board[i][j].fig = ' ';
+				board[i][j].tim = -1;
+			}
+			else if (tab[i][j] == "P" || tab[i][j] == "R" || tab[i][j] == "B" || tab[i][j] == "N" || tab[i][j] == "Q" || tab[i][j] == "K")
+			{
+				board[i][j].fig = tab[i][j][0];
+				board[i][j].tim = 2;
+			}
+			else if (tab[i][j] == "p")
+			{
+				board[i][j].fig = 'P';
+				board[i][j].tim = 1;
+			}
+			else if (tab[i][j] == "r")
+			{
+				board[i][j].fig = 'R';
+				board[i][j].tim = 1;
+			}
+			else if (tab[i][j] == "b")
+			{
+				board[i][j].fig = 'B';
+				board[i][j].tim = 1;
+			}
+			else if (tab[i][j] == "n")
+			{
+				board[i][j].fig = 'N';
+				board[i][j].tim = 1;
+			}
+			else if (tab[i][j] == "q")
+			{
+				board[i][j].fig = 'Q';
+				board[i][j].tim = 1;
+			}
+			else if (tab[i][j] == "k")
+			{
+				board[i][j].fig = 'K';
+				board[i][j].tim = 1;
+			}
+		}
+	}
+	printBoard(board, uklad /*1==biale 0==czarne*/);
+}
+void gra(string szachy[8][8], int liczbarand) //opcja druga reneruje losowo gre jedna z dziesieciu
 {
 	switch (liczbarand)
 	{
@@ -18,26 +79,15 @@ void gra(string szachy[8][8], int liczbarand)
 			{
 				for (int j = 0; j < 8; j++)
 				{
-					szachy[i][j]="__";
+					szachy[i][j]=" ";
 				}
 			}
-			szachy[0][4]="K";
+			szachy[0][4]="K"; //czarny krol
 			szachy[2][3] = "n"; //bialy skoczek
-			szachy[4][0] = "p";
+			szachy[4][0] = "p"; //bialy pionek
 			szachy[1][0] = "r"; //biala wieza
 			szachy[6][6] = "k"; //bialy krol
-			cout << "  *************************\n";
-			for (int i = 0; i < 8; i++)
-			{
-				cout << 8-i << " ";
-				for (int j=0;j<8;j++)
-				{
-					cout <<"*" << szachy[i][j];
-				}
-				cout << "*" << endl;
-			}
-			cout << "  *************************\n";
-			cout << "   a  b  c  d  e  f  g  h\n";
+			printboard(szachy); //wyswietla plansze
 			string ruch;
 			cin >> ruch;
 			while (ruch[0] != 'a' || (ruch[1] - 48) != 7 || ruch[2] != 'e' || (ruch[3] - 48) != 7 || ruch.length() != 4)
@@ -58,24 +108,13 @@ void gra(string szachy[8][8], int liczbarand)
 			{
 				for (int j = 0; j < 8; j++)
 				{
-					szachy[i][j] = "__";
+					szachy[i][j] = " ";
 				}
 			}
-			szachy[0][5] = "K";
+			szachy[0][5] = "K"; //czarny krol
 			szachy[5][7] = "r"; //biala wieza
 			szachy[4][0] = "p"; //bialy pionek
-			cout << "  *************************\n";
-			for (int i = 0; i < 8; i++)
-			{
-				cout << 8 - i << " ";
-				for (int j = 0; j < 8; j++)
-				{
-					cout << "*" << szachy[i][j];
-				}
-				cout << "*" << endl;
-			}
-			cout << "  *************************\n";
-			cout << "   a  b  c  d  e  f  g  h\n";
+			printboard(szachy); //wyswietla plansze
 			string ruch;
 			cin >> ruch;
 			while (ruch[0] != 'h' || (ruch[1] - 48) != 3 || ruch[2] != 'h' || (ruch[3] - 48) != 8 || ruch.length() != 4)
@@ -96,25 +135,14 @@ void gra(string szachy[8][8], int liczbarand)
 			{
 				for (int j = 0; j < 8; j++)
 				{
-					szachy[i][j] = "__";
+					szachy[i][j] = " ";
 				}
 			}
 			szachy[2][3] = "K"; //czarny krol
 			szachy[3][3] = "n"; //bialy skoczek
 			szachy[4][3] = "k"; //bialy krol
 			szachy[4][7] = "q"; //biala krolowa
-			cout << "  *************************\n";
-			for (int i = 0; i < 8; i++)
-			{
-				cout << 8 - i << " ";
-				for (int j = 0; j < 8; j++)
-				{
-					cout << "*" << szachy[i][j];
-				}
-				cout << "*" << endl;
-			}
-			cout << "  *************************\n";
-			cout << "   a  b  c  d  e  f  g  h\n";
+			printboard(szachy); //wyswietla plansze
 			string ruch;
 			cin >> ruch;
 			while (ruch[0] != 'h' || (ruch[1] - 48) != 4 || ruch[2] != 'd' || (ruch[3] - 48) != 8 || ruch.length() != 4)
@@ -135,26 +163,15 @@ void gra(string szachy[8][8], int liczbarand)
 			{
 				for (int j = 0; j < 8; j++)
 				{
-					szachy[i][j] = "__";
+					szachy[i][j] = " ";
 				}
 			}
-			szachy[0][2] = "R";
+			szachy[0][2] = "R"; //czarna wieza
 			szachy[0][3] = "K"; //czarny krol
 			szachy[0][4] = "R"; //czarna wieza
 			szachy[5][6] = "q"; //biala krolowa
 			szachy[6][6] = "k"; //bialy krol
-			cout << "  *************************\n";
-			for (int i = 0; i < 8; i++)
-			{
-				cout << 8 - i << " ";
-				for (int j = 0; j < 8; j++)
-				{
-					cout << "*" << szachy[i][j];
-				}
-				cout << "*" << endl;
-			}
-			cout << "  *************************\n";
-			cout << "   a  b  c  d  e  f  g  h\n";
+			printboard(szachy); //wyswietla plansze
 			string ruch;
 			cin >> ruch;
 			while (ruch[0] != 'g' || (ruch[1] - 48) != 3 || ruch[2] != 'd' || (ruch[3] - 48) != 6 || ruch.length() != 4)
@@ -175,7 +192,7 @@ void gra(string szachy[8][8], int liczbarand)
 			{
 				for (int j = 0; j < 8; j++)
 				{
-					szachy[i][j] = "__";
+					szachy[i][j] = " ";
 				}
 			}
 			szachy[0][6] = "R"; //czarna wieza
@@ -183,18 +200,7 @@ void gra(string szachy[8][8], int liczbarand)
 			szachy[1][6] = "P"; //czarny pionek
 			szachy[2][6] = "q"; //biala krolowa
 			szachy[6][6] = "k"; //bialy krol
-			cout << "  *************************\n";
-			for (int i = 0; i < 8; i++)
-			{
-				cout << 8 - i << " ";
-				for (int j = 0; j < 8; j++)
-				{
-					cout << "*" << szachy[i][j];
-				}
-				cout << "*" << endl;
-			}
-			cout << "  *************************\n";
-			cout << "   a  b  c  d  e  f  g  h\n";
+			printboard(szachy); //wyswietla plansze
 			string ruch;
 			cin >> ruch;
 			while (ruch[0] != 'g' || (ruch[1] -48)!= 6 || ruch[2] != 'h' || (ruch[3]-48) != 5 || ruch.length() != 4)
@@ -215,25 +221,14 @@ void gra(string szachy[8][8], int liczbarand)
 			{
 				for (int j = 0; j < 8; j++)
 				{
-					szachy[i][j] = "__";
+					szachy[i][j] = " ";
 				}
 			}
 			szachy[2][3] = "K"; //CK czarny krol
 			szachy[0][3] = "b"; //CG czarny skoczek
 			szachy[0][4] = "k"; //BH bialy hetman
 			szachy[5][1] = "q"; //BK- bialy krol
-			cout << "  *************************\n";
-			for (int i = 0; i < 8; i++)
-			{
-				cout << 8 - i << " ";
-				for (int j = 0; j < 8; j++)
-				{
-					cout << "*" << szachy[i][j];
-				}
-				cout << "*" << endl;
-			}
-			cout << "  *************************\n";
-			cout << "   a  b  c  d  e  f  g  h\n";
+			printboard(szachy); //wyswietla plansze
 			string ruch;
 			cin >> ruch;
 			while (ruch[0] != 'b' || (ruch[1] - 48) != 3 || ruch[2] != 'd' || (ruch[3] - 48) != 5 || ruch.length() != 4)
@@ -254,7 +249,7 @@ void gra(string szachy[8][8], int liczbarand)
 			{
 				for (int j = 0; j < 8; j++)
 				{
-					szachy[i][j] = "__";
+					szachy[i][j] = " ";
 				}
 			}
 			szachy[1][0] = "q";//BH biala krolowa
@@ -262,18 +257,7 @@ void gra(string szachy[8][8], int liczbarand)
 			szachy[6][6] = "k";//BK bialy krol
 			szachy[2][6] = "n";//BE bialy skoczek
 			szachy[0][4] = "K";//CK czarny krol
-			cout << "  *************************\n";
-			for (int i = 0; i < 8; i++)
-			{
-				cout << 8 - i << " ";
-				for (int j = 0; j < 8; j++)
-				{
-					cout << "*" << szachy[i][j];
-				}
-				cout << "*" << endl;
-			}
-			cout << "  *************************\n";
-			cout << "   a  b  c  d  e  f  g  h\n";
+			printboard(szachy); //wyswietla plansze
 			string ruch;
 			cin >> ruch;
 			while (ruch[0] != 'a' || (ruch[1] - 48) != 7 || ruch[2] != 'e' || (ruch[3] - 48) != 7 || ruch.length() != 4)
@@ -294,25 +278,14 @@ void gra(string szachy[8][8], int liczbarand)
 			{
 				for (int j = 0; j < 8; j++)
 				{
-					szachy[i][j] = "__";
+					szachy[i][j] = " ";
 				}
 			}
 			szachy[0][5] = "K";// czarny krol
 			szachy[2][4] = "k";//bialy krol
 			szachy[6][7] = "q";// bialy hetman
-			szachy[1][3]= "p";
-			cout << "  *************************\n";
-			for (int i = 0; i < 8; i++)
-			{
-				cout << 8 - i << " ";
-				for (int j = 0; j < 8; j++)
-				{
-					cout << "*" << szachy[i][j];
-				}
-				cout << "*" << endl;
-			}
-			cout << "  *************************\n";
-			cout << "   a  b  c  d  e  f  g  h\n";
+			szachy[1][3]= "p"; //bialy pionek
+			printboard(szachy); //wyswietla plansze
 			string ruch;
 			cin >> ruch;
 			while (ruch[0] != 'h' || (ruch[1] - 48) != 2 || ruch[2] != 'g' || (ruch[3] - 48) != 2 || ruch.length() != 4)
@@ -333,7 +306,7 @@ void gra(string szachy[8][8], int liczbarand)
 			{
 				for (int j = 0; j < 8; j++)
 				{
-					szachy[i][j] = "__";
+					szachy[i][j] = " ";
 				}
 			}
 			szachy[0][7] = "K"; //CK
@@ -343,18 +316,7 @@ void gra(string szachy[8][8], int liczbarand)
 			szachy[2][6] = "P";//CP
 			szachy[2][7] = "p";//BP
 			szachy[5][6] = "k";//BK
-			cout << "  *************************\n";
-			for (int i = 0; i < 8; i++)
-			{
-				cout << 8 - i << " ";
-				for (int j = 0; j < 8; j++)
-				{
-					cout << "*" << szachy[i][j];
-				}
-				cout << "*" << endl;
-			}
-			cout << "  *************************\n";
-			cout << "   a  b  c  d  e  f  g  h\n";
+			printboard(szachy); //wyswietla plansze
 			string ruch;
 			cin >> ruch;
 			while (ruch[0] != 'h' || (ruch[1] - 48) != 4 || ruch[2] != 'd' || (ruch[3] - 48) != 8 || ruch.length() != 4)
@@ -375,47 +337,36 @@ void gra(string szachy[8][8], int liczbarand)
 			{
 				for (int j = 0; j < 8; j++)
 				{
-					szachy[i][j] = "__";
+					szachy[i][j] = " ";
 				}
 			}
-			szachy[0][0] = "R";//CW
-			szachy[0][2] = "B";//CG
-			szachy[0][5] = "R";//CW
-			szachy[0][6] = "K";//CK
-			szachy[1][0] = "P";//CP
-			szachy[1][1] = "P";//CP
-			szachy[1][4] = "B";//CG
-			szachy[1][5] = "P";//CP
-			szachy[1][6] = "P";//CP
-			szachy[5][3] = "q";//BH
-			szachy[2][2] = "P";//CP
-			szachy[2][5] = "Q";//CH
-			szachy[3][0] = "N";//CE
-			szachy[4][2] = "p";//
-			szachy[5][1] = "p";//
-			szachy[5][2] = "n";//BE
-			szachy[5][5] = "n";//BE
-			szachy[6][0] = "p";//
-			szachy[6][1] = "b";//
-			szachy[6][2] = "b";//
-			szachy[6][5] = "p";//
-			szachy[6][6] = "p";//
-			szachy[6][7] = "p";//
-			szachy[7][3] = "r";//BW
-			szachy[7][4] = "r";///BW
-			szachy[7][6] = "k"; //BK
-			cout << "  *************************\n";
-			for (int i = 0; i < 8; i++)
-			{
-				cout << 8 - i << " ";
-				for (int j = 0; j < 8; j++)
-				{
-					cout << "*" << szachy[i][j];
-				}
-				cout << "*" << endl;
-			}
-			cout << "  *************************\n";
-			cout << "   a  b  c  d  e  f  g  h\n";
+			szachy[0][0] = "R";//czarna wieza
+			szachy[0][2] = "B";//czarny goniec
+			szachy[0][5] = "R";//czarna wieza
+			szachy[0][6] = "K";//czarny krol
+			szachy[1][0] = "P";//czarny pionek 
+			szachy[1][1] = "P";
+			szachy[1][4] = "B";
+			szachy[1][5] = "P";
+			szachy[1][6] = "P";
+			szachy[5][3] = "q";//bialy hetman
+			szachy[2][2] = "P";
+			szachy[2][5] = "Q";//czarny hetman
+			szachy[3][0] = "N";// czarny skoczek
+			szachy[4][2] = "p";//bialy pionek
+			szachy[5][1] = "p";
+			szachy[5][2] = "n";//bilay skoczek
+			szachy[5][5] = "n";//bialy skoczek
+			szachy[6][0] = "p";//bialy pionek
+			szachy[6][1] = "b";//bialy goniec
+			szachy[6][2] = "b";//bialy goniec
+			szachy[6][5] = "p";
+			szachy[6][6] = "p";
+			szachy[6][7] = "p";
+			szachy[7][3] = "r";//biala wieza
+			szachy[7][4] = "r";///biala wieza
+			szachy[7][6] = "k"; //bialy krol
+			printboard(szachy);//wyswietla plansze
 			string ruch;
 			cin >> ruch;
 			while (ruch[0] != 'd' || (ruch[1] - 48) != 4 || ruch[2] != 'h' || (ruch[3] - 48) != 7 || ruch.length() != 4)
@@ -498,18 +449,7 @@ void wgrajplansze()
 		plansza[id_x][id_y] = pionek;
 		kopia[id_x][id_y] = pionek;
 	}
-	cout << "  *****************\n";
-	for (int i = 0; i < 8; i++)
-	{
-		cout << 8 - i << " ";
-		for (int j = 0; j < 8; j++)
-		{
-			cout << "*" << plansza[i][j];
-		}
-		cout << "*" << endl;
-	}
-	cout << "  *****************\n";
-	cout << "  a b c d e f g h\n";
+	printboard(kopia);
 }
 void wpiszwstepnebiciaK(int xH, int yH)
 {
@@ -2310,6 +2250,8 @@ int main()
 			string ruchdomata=jakisruchdomata();
 			opcjatrzecia(ruchdomata);
 		}break;
+		default:
+			break;
 	}
 	return 0;
 }
