@@ -2,21 +2,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include <iostream>
 #include <ctime>
 
-#include "gamefunc.h"
 #ifndef __unix__
 #include <windows.h>
 #endif // __unix__
 
+#include "gamefunc.h"
 
 void initboard(figura board[8][8],int tryb)
 {
     //tryb 1 - wczytanie nowej tablicy //tryb 2 - wczytanie z pgn
     if(tryb==1)
     {
-        board[0][0].fig='T';
+        board[0][0].fig='R';
         board[0][0].tim=1;
         board[0][1].fig='N';
         board[0][1].tim=1;
@@ -30,7 +29,7 @@ void initboard(figura board[8][8],int tryb)
         board[0][5].tim=1;
         board[0][6].fig='N';
         board[0][6].tim=1;
-        board[0][7].fig='T';
+        board[0][7].fig='R';
         board[0][7].tim=1;
 
         for(int i=0; i<8; i++)
@@ -48,7 +47,7 @@ void initboard(figura board[8][8],int tryb)
             }
         }
 
-        board[7][0].fig='T';
+        board[7][0].fig='R';
         board[7][0].tim=2;
         board[7][1].fig='N';
         board[7][1].tim=2;
@@ -62,7 +61,7 @@ void initboard(figura board[8][8],int tryb)
         board[7][5].tim=2;
         board[7][6].fig='N';
         board[7][6].tim=2;
-        board[7][7].fig='T';
+        board[7][7].fig='R';
         board[7][7].tim=2;
 
         for(int i=0; i<8; i++)
@@ -73,19 +72,19 @@ void initboard(figura board[8][8],int tryb)
     }
     else if(tryb==2)
     {
-		/////////////////////////////////////////////MIEJSCE NA IMPORT Z PGN////////////////////////////////////////
-		//mozesz napisac calosc importu tutaj, mozesz napisac osobne funkcje i w tym miejscu ich uzywac jak wolisz//
-		//																										  //
-		//																										  //
-		//																										  //
-		//																										  //
-		//																										  //
-		//																										  //
-		//																										  //
-		//																										  //
-		//																										  //
-		//																										  //
-		////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////MIEJSCE NA IMPORT Z PGN////////////////////////////////////////
+        //mozesz napisac calosc importu tutaj, mozesz napisac osobne funkcje i w tym miejscu ich uzywac jak wolisz//
+        //																										  //
+        //																										  //
+        //																										  //
+        //																										  //
+        //																										  //
+        //																										  //
+        //																										  //
+        //																										  //
+        //																										  //
+        //																										  //
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
     else
     {
@@ -194,7 +193,7 @@ void printBoard(figura board[8][8],int tryb /*1==biale 0==czarne*/)
                 std::cout<<PIECES[2]<<" ";
             if(board[tryb==1?7-y:y][tryb==0?7-x:x].fig=='N')
                 std::cout<<PIECES[3]<<" ";
-            if(board[tryb==1?7-y:y][tryb==0?7-x:x].fig=='T')
+            if(board[tryb==1?7-y:y][tryb==0?7-x:x].fig=='R')
                 std::cout<<PIECES[4]<<" ";
             if(board[tryb==1?7-y:y][tryb==0?7-x:x].fig=='Q')
                 std::cout<<PIECES[5]<<" ";
@@ -213,10 +212,8 @@ void printBoard(figura board[8][8],int tryb /*1==biale 0==czarne*/)
     }
 }
 
-bool isLegal(figura board[8][8],int yP,int xP,int yK,int xK,int cas[4],savedMove saved, int *passant)
+bool isLegal(figura board[8][8],int yP,int xP,int yK,int xK,int cas[4],savedMove saved)
 {
-    int *pass=passant;
-
     if(board[yP][xP].fig==' ')
         return 0;
 
@@ -250,26 +247,48 @@ bool isLegal(figura board[8][8],int yP,int xP,int yK,int xK,int cas[4],savedMove
                 return 0;
             else if(abs(saved.coords[0]-saved.coords[2])!=2)
                 return 0;
-            else
-                *pass=1;
-
+            else if(saved.coords[1]!=xK)
+                return 0;
         }////jesli nie bije
         else if((board[yP][xP].tim==1)?(yP==1):(yP==6))
         {
-            if(abs(yK-yP)>2||xP!=xK)
-                return 0;
-
-            if(abs(yK-yP)==2)
-                if(board[yK>yP ? yK-1 : yK+1][xP].fig!=' '||xP!=xK)
+            if(board[yP][xP].tim==1)
+            {
+                if(yK-yP>2||xP!=xK)
                     return 0;
+
+                if(yK-yP==2)
+                    if(board[yK>yP ? yK-1 : yK+1][xP].fig!=' '||xP!=xK)
+                        return 0;
+
+                if(yK<yP)
+                    return 0;
+            }
+            else
+            {
+                if(yP-yK>2||xP!=xK)
+                    return 0;
+
+                if(yP-yK==2)
+                    if(board[yK>yP ? yK-1 : yK+1][xP].fig!=' '||xP!=xK)
+                        return 0;
+                if(yP<yK)
+                    return 0;
+            }
         }
         else
         {
             if(abs(yK-yP)>1||xP!=xK)
                 return 0;
+
+            if(board[yP][xP].tim==1)
+                if(yK<yP)
+                    return 0;
+                else if(yP>yK)
+                    return 0;
         }
     }////wieza
-    else if(board[yP][xP].fig=='T')
+    else if(board[yP][xP].fig=='R')
     {
         if(yP!=yK&&xP!=xK)
             return 0;
@@ -551,26 +570,26 @@ bool isChecked(int yKing, int xKing, figura board[8][8])
         }
     }
     // pionowo-góra
-    for(int y=yKing-1; y>=0; y--)
-    {
-        if(board[y][xKing].fig!=' ')
-        {
-            if(board[y][xKing].tim==board[yKing][xKing].tim)
-                break;
-            else if(board[y][xKing].fig=='T'||board[y][xKing].fig=='Q')
-                return 1;
-            else
-                break;
-        }
-    }
-    // pionowo-dół
     for(int y=yKing+1; y<8; y++)
     {
         if(board[y][xKing].fig!=' ')
         {
             if(board[y][xKing].tim==board[yKing][xKing].tim)
                 break;
-            else if(board[y][xKing].fig=='T'||board[y][xKing].fig=='Q')
+            else if(board[y][xKing].fig=='R'||board[y][xKing].fig=='Q')
+                return 1;
+            else
+                break;
+        }
+    }
+    // pionowo-dół
+    for(int y=yKing-1; y>=0; y--)
+    {
+        if(board[y][xKing].fig!=' ')
+        {
+            if(board[y][xKing].tim==board[yKing][xKing].tim)
+                break;
+            else if(board[y][xKing].fig=='R'||board[y][xKing].fig=='Q')
                 return 1;
             else
                 break;
@@ -583,7 +602,7 @@ bool isChecked(int yKing, int xKing, figura board[8][8])
         {
             if(board[yKing][x].tim==board[yKing][xKing].tim)
                 break;
-            else if(board[yKing][x].fig=='T'||board[yKing][x].fig=='Q')
+            else if(board[yKing][x].fig=='R'||board[yKing][x].fig=='Q')
                 return 1;
             else
                 break;
@@ -596,40 +615,14 @@ bool isChecked(int yKing, int xKing, figura board[8][8])
         {
             if(board[yKing][x].tim==board[yKing][xKing].tim)
                 break;
-            else if(board[yKing][x].fig=='T'||board[yKing][x].fig=='Q')
+            else if(board[yKing][x].fig=='R'||board[yKing][x].fig=='Q')
                 return 1;
             else
                 break;
         }
     }
     //góra-lewo
-    for(int i=1; yKing-i>=0&&xKing-i>=0; i++)
-    {
-        if(board[yKing-i][xKing-i].fig!=' ')
-        {
-            if(board[yKing-i][xKing-i].tim==board[yKing][xKing].tim)
-                break;
-            else if(board[yKing-i][xKing-i].fig=='B'||board[yKing-i][xKing-i].fig=='Q')
-                return 1;
-            else
-                break;
-        }
-    }
-    //góra-prawo
-    for(int i=1; yKing-i>=0&&xKing+i<8; i++)
-    {
-        if(board[yKing-i][xKing+i].fig!=' ')
-        {
-            if(board[yKing-i][xKing+i].tim==board[yKing][xKing].tim)
-                break;
-            else if(board[yKing-i][xKing+i].fig=='B'||board[yKing-i][xKing+i].fig=='Q')
-                return 1;
-            else
-                break;
-        }
-    }
-    //dół-lewo
-    for(int i=1; yKing+i<8&&xKing-i>=0; i++)
+    for(int i=1; yKing+i>=0&&xKing-i>=0; i++)
     {
         if(board[yKing+i][xKing-i].fig!=' ')
         {
@@ -641,14 +634,40 @@ bool isChecked(int yKing, int xKing, figura board[8][8])
                 break;
         }
     }
-    //dół-prawo
-    for(int i=1; yKing+i<8&&xKing+i<8; i++)
+    //góra-prawo
+    for(int i=1; yKing+i>=0&&xKing+i<8; i++)
     {
         if(board[yKing+i][xKing+i].fig!=' ')
         {
             if(board[yKing+i][xKing+i].tim==board[yKing][xKing].tim)
                 break;
             else if(board[yKing+i][xKing+i].fig=='B'||board[yKing+i][xKing+i].fig=='Q')
+                return 1;
+            else
+                break;
+        }
+    }
+    //dół-lewo
+    for(int i=1; yKing-i<8&&xKing-i>=0; i++)
+    {
+        if(board[yKing-i][xKing-i].fig!=' ')
+        {
+            if(board[yKing-i][xKing-i].tim==board[yKing][xKing].tim)
+                break;
+            else if(board[yKing-i][xKing-i].fig=='B'||board[yKing-i][xKing-i].fig=='Q')
+                return 1;
+            else
+                break;
+        }
+    }
+    //dół-prawo
+    for(int i=1; yKing-i<8&&xKing+i<8; i++)
+    {
+        if(board[yKing-i][xKing+i].fig!=' ')
+        {
+            if(board[yKing-i][xKing+i].tim==board[yKing][xKing].tim)
+                break;
+            else if(board[yKing-i][xKing+i].fig=='B'||board[yKing-i][xKing+i].fig=='Q')
                 return 1;
             else
                 break;
@@ -670,9 +689,10 @@ bool isChecked(int yKing, int xKing, figura board[8][8])
     return 0;
 }
 
-bool isMating(int yKing, int xKing, figura board[8][8],savedMove saved)
+bool isMating(int yKing, int xKing, figura board[8][8])
 {
-    int castle[]= {0,0,0,0};
+    savedMove saved= {' ',-1,0,0,0,0,false,false,false};
+    int castle[4]= {0,0,0,0};
     int timK=board[yKing][xKing].tim;
     figura temp= {' ',-1};
     for(int yp=0; yp<8; yp++)
@@ -685,7 +705,7 @@ bool isMating(int yKing, int xKing, figura board[8][8],savedMove saved)
                 {
                     for(int xk=0; xk<8; xk++)
                     {
-                        if(isLegal(board,yp,xp,yk,xk,castle,saved,NULL))
+                        if(isLegal(board,yp,xp,yk,xk,castle,saved))
                         {
                             temp.fig=board[yk][xk].fig;
                             temp.tim=board[yk][xk].tim;
@@ -693,6 +713,11 @@ bool isMating(int yKing, int xKing, figura board[8][8],savedMove saved)
                             board[yk][xk].tim=board[yp][xp].tim;
                             board[yp][xp].fig=' ';
                             board[yp][xp].tim=-1;
+                            if(board[yk][xk].fig=='K')
+                            {
+                                yKing=yk;
+                                xKing=xk;
+                            }
 
                             if(isChecked(yKing,xKing,board)==false)
                             {
@@ -700,6 +725,7 @@ bool isMating(int yKing, int xKing, figura board[8][8],savedMove saved)
                                 board[yp][xp].tim=board[yk][xk].tim;
                                 board[yk][xk].fig=temp.fig;
                                 board[yk][xk].tim=temp.tim;
+                                std::cout<<yp<<" "<<xp<<" "<<yk<<" "<<xk<<"\n";
                                 return false;
                             }
                             else
@@ -709,6 +735,12 @@ bool isMating(int yKing, int xKing, figura board[8][8],savedMove saved)
                                 board[yk][xk].fig=temp.fig;
                                 board[yk][xk].tim=temp.tim;
                             }
+                            if(board[yp][xp].fig=='K')
+                            {
+                                yKing=yp;
+                                xKing=xp;
+                            }
+
                         }
                     }
                 }
@@ -718,10 +750,10 @@ bool isMating(int yKing, int xKing, figura board[8][8],savedMove saved)
     return true;
 }
 
-void inputMove(char *xP,char *yP,char *xK,char *yK,int mode)
+void inputMove(char *xP,char *yP,char *xK,char *yK,bool local)
 {
     char input[4];
-    if(mode==0) //mode==0 - gra lokalna
+    if(local) // gra lokalna
     {
         std::cin>>input;
         *xP=input[0];
@@ -729,14 +761,10 @@ void inputMove(char *xP,char *yP,char *xK,char *yK,int mode)
         *xK=input[2];
         *yK=input[3];
     }
-    else if(mode==1) //mode==1 - gra sieciowa
+    else    // gra sieciowa
     {
         //costamcsotam
         //costamcostam
-    }
-    else
-    {
-        std::cout<<"bledny tryb\n";
     }
 }
 
@@ -769,20 +797,21 @@ void outputMsg(bool local,int mesydz, int tim)
             break;
         case 7: //remis
             std::cout<<"Gra zakonczona remisem\n";
+            std::cout<<"Czy chcesz zapisac rozgrywke? T/N\n";
             break;
         case 8://gra przerwana
             std::cout<<"Gra przerwana\n";
+            std::cout<<"Czy chcesz zapisac rozgrywke? T/N\n";
             break;
-        case 9://gra zakonczona
-            std::cout<<"Gra zakonczona\n";
+        case 9: //wygrana bialych
+            std::cout<<"Wygrywa bialy\n";
+            std::cout<<"Czy chcesz zapisac rozgrywke? T/N\n";
             break;
-        case 10: //wygrana bialych
-            std::cout<<"Wygrywa biały\n";
-            break;
-        case 11: //wygrana czarnych
+        case 10: //wygrana czarnych
             std::cout<<"Wygrywa czarny\n";
+            std::cout<<"Czy chcesz zapisac rozgrywke? T/N\n";
             break;
-        case 12:
+        case 11:
             break;
         }
     }
@@ -792,7 +821,33 @@ void outputMsg(bool local,int mesydz, int tim)
     }
 }
 
-int chessGame(int mode)
+void inputMsg(bool local, int ktora, int *mesydz, char *msg)
+{
+    if(local)
+    {
+        char f;
+        int n;
+        if(ktora==1)
+        {//////////////char
+            std::cin>>f;
+            *msg=f;
+            return;
+        }
+        else
+        {//////////////int
+            std::cin>>n;
+            *mesydz=n;
+            return;
+        }
+    }
+    else
+    {
+
+    }
+}
+
+
+int chessGame(bool mode)
 {
     figura board[8][8];
     std::ofstream plik;
@@ -802,8 +857,18 @@ int chessGame(int mode)
     int licznik=1;
     time_t now = time(0);
     tm *ltm = localtime(&now);
-    std::cout<<"Zaczynamy gre\n";
+
     int czywczytac,display;
+    std::cout<<"Zaczynamy gre\n";
+    std::cout<<"Instrukcje:\n"<<"Aby poruszyc sie figura nalezy wpisac koordynaty poczatku ruchu i końca np \"a2a4\", malymi literami, razem\n";
+    std::cout<<"Zeby poprosic o remis wpisz \"draw\"\n";
+    std::cout<<"Zeby przerwac gre z mozliwoscia kontynuacji wpisz \"stop\"\n";
+    std::cout<<"Zeby zakonczyc gre bez zapisywania wpisz \"quit\"\n";
+    std::cout<<"Zeby poddac sie wpisz \"surr\"\n"<<"\n";
+    std::cout<<"Chcesz rozpoczac nowa gre, czy kontynuowac zapisana rozgrywke?\n"<<"1 - nowa gra, 2 - zapisana gra\n";
+    std::cin>>czywczytac;
+    std::cout<<"Perspektywa 1 - biale, 2 - czarne\n";
+    std::cin>>display;
 
     ////zapisywanie tagow PGN
 
@@ -821,20 +886,6 @@ int chessGame(int mode)
     dane<< "[Black \"czarny\"]\n";
     dane<< "[Result \"*\"]\n\n";
 
-
-
-
-    /////inicjalizacja szachownicy//////
-    std::cout<<"Instrukcje:\n"<<"Aby poruszyc sie figura nalezy wpisac koordynaty poczatku ruchu i końca np \"a2a4\", malymi literami, razem\n";
-    std::cout<<"Zeby poprosic o remis wpisz \"draw\"\n";
-    std::cout<<"Zeby przerwac gre z mozliwoscia kontynuacji wpisz \"stop\"\n";
-    std::cout<<"Zeby zakonczyc gre bez zapisywania wpisz \"quit\"\n";
-    std::cout<<"Zeby poddac sie wpisz \"surr\"\n"<<"\n";
-    std::cout<<"Chcesz rozpoczac nowa gre, czy kontynuowac zapisana rozgrywke?\n"<<"1 - nowa gra, 2 - zapisana gra\n";
-    std::cin>>czywczytac;
-    std::cout<<"Perspektywa 1 - biale, 2 - czarne\n";
-    std::cin>>display;
-
     initboard(board,czywczytac);
 
     printBoard(board,display);
@@ -842,13 +893,13 @@ int chessGame(int mode)
     char xPc,xKc,yPc,yKc;
     int xP, xK, yP, yK;
     int tura=1;
-    int passant=0;
     int posKing[4]= {0,4,7,4}; //////yWhite=0,xWhite=1,yBlack=2,xBlack=3
     int castle[4]= {1,1,1,1}; ///////castle[0]==e8g8, castle[1]==e8c8, castle[2]==e1g1, castle[3]=e1c1
+    char odp;
     figura temp;
-    savedMove prevMove= {' ',-1,0,0,1,0,false,false};
+    savedMove prevMove= {' ',-1,0,0,1,0,false,false,false};
 
-    outputMsg(true,2,tura);
+    outputMsg(mode,2,tura);
 
 
 
@@ -856,26 +907,26 @@ int chessGame(int mode)
     {
         inputMove(&xPc,&yPc,&xKc, &yKc,mode);
 
-
         // Komendy na przerwanie gry - surr, quit, stop, draw
         if(xPc=='d'&&yPc=='r'&&xKc=='a'&&yKc=='w')
         {
-            outputMsg(true,7,tura);
+            outputMsg(mode,7,tura);
+            inputMsg(mode,1,NULL,&odp);////<-------------zapytanie o zapisanie do PGN
+
             break;
         }
         if(xPc=='q'&&yPc=='u'&&xKc=='i'&&yKc=='t')
         {
-            outputMsg(true,8,tura);
-            break;
-        }
-        if(xPc=='s'&&yPc=='t'&&xKc=='o'&&yKc=='p')
-        {
-            outputMsg(true,9,tura);
+            outputMsg(mode,8,tura);
+            inputMsg(mode,1,NULL,&odp);////<-------------zapytanie o zapisanie do PGN
+
             break;
         }
         if(xPc=='s'&&yPc=='u'&&xKc=='r'&&yKc=='r')
         {
-            outputMsg(true,(tura==1?11:10),tura);
+            outputMsg(mode,(tura==1?10:9),tura);
+            inputMsg(mode,1,NULL,&odp);////<-------------zapytanie o zapisanie do PGN
+
             break;
         }
 
@@ -884,19 +935,13 @@ int chessGame(int mode)
         yP=yPc-49;
         yK=yKc-49;
 
-        if(yP<0||yP>7||yK<0||yK>7||xP<0||xP>7||xK<0||xK>7)
-        {
-            outputMsg(true,1,tura);
-            continue;
-        }
-
         if(board[yP][xP].tim!=tura)
         {
-            outputMsg(true,1,tura);
+            outputMsg(mode,1,tura);
             continue;
         }
 
-        if(isLegal(board,yP,xP,yK,xK,castle,prevMove,&passant))
+        if(isLegal(board,yP,xP,yK,xK,castle,prevMove))
         {
             /////zmiana pozycji króla
             if(board[yP][xP].fig=='K')
@@ -928,7 +973,7 @@ int chessGame(int mode)
                 board[yP][xP].tim=board[yK][xK].tim;
                 board[yK][xK].fig=temp.fig;
                 board[yK][xK].tim=temp.tim;
-                outputMsg(true,1,tura);
+                outputMsg(mode,1,tura);
 
                 if(board[yP][xP].fig=='K')
                 {
@@ -939,7 +984,7 @@ int chessGame(int mode)
             else
             {
                 /////////roszady - wylaczenie
-                if(board[yK][xK].fig=='T')
+                if(board[yK][xK].fig=='R')
                 {
                     if(xP==0)
                         castle[tura==1?3:1]=0;
@@ -956,14 +1001,14 @@ int chessGame(int mode)
                 {
                     if(yK==0&&xK==6)
                     {
-                        board[0][5].fig='T';
+                        board[0][5].fig='R';
                         board[0][5].tim=1;
                         board[0][7].fig=' ';
                         board[0][7].tim=-1;
                     }
                     else if(yK==0&&xK==2)
                     {
-                        board[0][3].fig='T';
+                        board[0][3].fig='R';
                         board[0][3].tim=1;
                         board[0][0].fig=' ';
                         board[0][0].tim=-1;
@@ -973,18 +1018,38 @@ int chessGame(int mode)
                 {
                     if(yK==7&&xK==6)
                     {
-                        board[7][5].fig='T';
+                        board[7][5].fig='R';
                         board[7][5].tim=2;
                         board[7][7].fig=' ';
                         board[7][7].tim=-1;
                     }
                     else if(yK==7&&xK==2)
                     {
-                        board[7][3].fig='T';
+                        board[7][3].fig='R';
                         board[7][3].tim=2;
                         board[7][0].fig=' ';
                         board[7][0].tim=-1;
                     }
+                }
+
+                ////wykonanie zbicia en passant
+                if(temp.fig==' '&&board[yK][xK].fig=='P'&&xK!=xP)
+                {
+                    if(board[yK][xK].tim==1)
+                    {
+                        board[yK-1][xK].tim=-1;
+                        board[yK-1][xK].fig=' ';
+                    }
+                    else
+                    {
+                        board[yK+1][xK].tim=-1;
+                        board[yK+1][xK].fig=' ';
+                    }
+                    prevMove.passant=true;
+                }
+                else
+                {
+                    prevMove.passant=false;
                 }
 
                 printBoard(board,display);
@@ -993,13 +1058,13 @@ int chessGame(int mode)
                 if(yK==(tura==1?7:0)&&board[yK][xK].fig=='P')
                 {
                     char f;
-                    outputMsg(true,5,tura);
+                    outputMsg(mode,5,tura);
                     while(1)
                     {
-                        std::cin>>f;
-                        if(f=='T')
+                        inputMsg(mode,1,NULL,&f);
+                        if(f=='R')
                         {
-                            board[yK][xK].fig='T';
+                            board[yK][xK].fig='R';
                             break;
                         }
                         else if(f=='B')
@@ -1019,20 +1084,10 @@ int chessGame(int mode)
                         }
                         else
                         {
-                            outputMsg(true,6,tura);
+                            outputMsg(mode,6,tura);
                         }
                     }
                     printBoard(board,display);
-                }
-                ////wykonanie zbicia en passant
-                if(passant==1)
-                {
-                    if(board[yK][xK].tim==1)
-                    {
-                        board[yK-1][xK].tim=-1;
-                        board[yK-1][xK].fig=' ';
-                        passant=0;
-                    }
                 }
 
                 ////Zapisanie poprzedniego ruchu
@@ -1046,14 +1101,14 @@ int chessGame(int mode)
                 //Sprawdzenie szacha i mata
                 if(isChecked(posKing[tura==1?2:0],posKing[tura==1?3:1],board))
                 {
-                    if(isMating(posKing[tura==1?2:0],posKing[tura==1?3:1],board,prevMove))
+                    if(isMating(posKing[tura==1?2:0],posKing[tura==1?3:1],board))
                     {
-                        outputMsg(true,4,tura);
+                        outputMsg(mode,4,tura);
                         prevMove.mat=true;
                     }
                     else
                     {
-                        outputMsg(true,3,tura);
+                        outputMsg(mode,3,tura);
                         prevMove.szach=true;
                     }
                 }
@@ -1062,11 +1117,7 @@ int chessGame(int mode)
                     prevMove.szach=false;
                 }
 
-
-
                 ///////////////////////////MIEJSCE NA ZAPISANIE DO PGN(chyba tu)/////////////////////////////////////
-
-
 
                 checkStar(edycja, dane);
 
@@ -1099,9 +1150,15 @@ int chessGame(int mode)
                 }
 
 
-
-
                 /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+                if(prevMove.mat)
+                {
+                    outputMsg(mode,8+tura,tura);
+                    inputMsg(mode,1,NULL,&odp);////<-------------zapytanie o zapisanie do PGN
+                    break;
+                }
+
                 if(tura==1)
                     tura++;
                 else
@@ -1109,6 +1166,7 @@ int chessGame(int mode)
 
                 if(tura==2)
                     licznik+=1;
+
 
                 outputMsg(true,2,tura);
             }
@@ -1131,6 +1189,7 @@ bool checkRoszada(savedMove& prevMove)
         return 0;
 
 }
+
 void roszadaMove(savedMove& prevMove, std::ostringstream &dane, int tura)
 {
     if(prevMove.coords[3]==2)
@@ -1154,6 +1213,7 @@ void roszadaMove(savedMove& prevMove, std::ostringstream &dane, int tura)
             dane<<" 0-1";
     }
 }
+
 void zbicieMove(savedMove& prevMove, std::ostringstream &dane, int tura)
 {
     switch(prevMove.fig)
@@ -1181,7 +1241,7 @@ void zbicieMove(savedMove& prevMove, std::ostringstream &dane, int tura)
         dane<<converter(prevMove.coords[3]);
         dane<<prevMove.coords[2]+1;
         break;
-    case 'T':
+    case 'R':
         dane<<"R";
         dane<<converter(prevMove.coords[1]);
         dane<<prevMove.coords[0]+1;
@@ -1243,7 +1303,7 @@ void basicMove(savedMove& prevMove, std::ostringstream &dane, int tura)
         dane<<converter(prevMove.coords[3]);
         dane<<prevMove.coords[2]+1;
         break;
-    case 'T':
+    case 'R':
         dane<<"R";
         dane<<converter(prevMove.coords[1]);
         dane<<prevMove.coords[0]+1;
@@ -1314,4 +1374,3 @@ void checkStar(std::string &edytowane, std::ostringstream &strim)
     }
 
 }
-
