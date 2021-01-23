@@ -73,7 +73,19 @@ void initboard(figura board[8][8],int tryb)
     }
     else if(tryb==2)
     {
-
+		/////////////////////////////////////////////MIEJSCE NA IMPORT Z PGN////////////////////////////////////////
+		//mozesz napisac calosc importu tutaj, mozesz napisac osobne funkcje i w tym miejscu ich uzywac jak wolisz//
+		//																										  //
+		//																										  //
+		//																										  //
+		//																										  //
+		//																										  //
+		//																										  //
+		//																										  //
+		//																										  //
+		//																										  //
+		//																										  //
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
     else
     {
