@@ -241,7 +241,7 @@ bool isLegal(figura board[8][8],int yP,int xP,int yK,int xK,int cas[4],savedMove
             }
 
         }////en passant
-        else if(((board[yP][xP+1].fig=='P')&&(board[yP][xP+1].tim!=board[yP][xP].tim))||((board[yP][xP-1].fig=='P')&&(board[yP][xP-1].tim!=board[yP][xP].tim)))
+        else if(((board[yP][xP+1].fig=='P')&&(board[yP][xP+1].tim!=board[yP][xP].tim)&&xP!=xK)||((board[yP][xP-1].fig=='P')&&(board[yP][xP-1].tim!=board[yP][xP].tim)&&xP!=xK))
         {
             if(saved.fig!='P')
                 return 0;
@@ -278,14 +278,25 @@ bool isLegal(figura board[8][8],int yP,int xP,int yK,int xK,int cas[4],savedMove
         }
         else
         {
-            if(abs(yK-yP)>1||xP!=xK)
+            if(xP!=xK)
                 return 0;
 
             if(board[yP][xP].tim==1)
-                if(yK<yP)
+            {
+                if(yP>yK)
                     return 0;
-                else if(yP>yK)
+
+                if(yK-yP>1)
                     return 0;
+            }
+            else
+            {
+                if(yK>yP)
+                    return 0;
+
+                if(yP-yK>1)
+                    return 0;
+            }
         }
     }////wieza
     else if(board[yP][xP].fig=='R')
