@@ -5,6 +5,7 @@
 #include <ctime>
 using namespace std;
 string plansza[8][8];
+string kopia[8][8];
 int uklad;
 bool bicieK[8]; //tablica,ktora zawiera pola wokol krola czarnego, 0-gdy pole nie jest bite, 1-gdy pole jest bite
 void gra(string szachy[8][8], int liczbarand)
@@ -41,12 +42,12 @@ void gra(string szachy[8][8], int liczbarand)
 			cin >> ruch;
 			while (ruch[0] != 'a' || (ruch[1] - 48) != 7 || ruch[2] != 'e' || (ruch[3] - 48) != 7 || ruch.length() != 4)
 			{
-				cout << "ZLY RUCH\n";
-				cin >> ruch;
 				if (ruch == "exit")
 				{
 					break;
 				}
+				cout << "ZLY RUCH\n";
+				cin >> ruch;
 			}
 			if (ruch != "exit")
 				cout << "WYGRANA";
@@ -79,12 +80,12 @@ void gra(string szachy[8][8], int liczbarand)
 			cin >> ruch;
 			while (ruch[0] != 'h' || (ruch[1] - 48) != 3 || ruch[2] != 'h' || (ruch[3] - 48) != 8 || ruch.length() != 4)
 			{
-				cout << "ZLY RUCH\n";
-				cin >> ruch;
 				if (ruch == "exit")
 				{
 					break;
 				}
+				cout << "ZLY RUCH\n";
+				cin >> ruch;
 			}
 			if (ruch != "exit")
 				cout << "WYGRANA";
@@ -118,12 +119,12 @@ void gra(string szachy[8][8], int liczbarand)
 			cin >> ruch;
 			while (ruch[0] != 'h' || (ruch[1] - 48) != 4 || ruch[2] != 'd' || (ruch[3] - 48) != 8 || ruch.length() != 4)
 			{
-				cout << "ZLY RUCH\n";
-				cin >> ruch;
 				if (ruch == "exit")
 				{
 					break;
 				}
+				cout << "ZLY RUCH\n";
+				cin >> ruch;
 			}
 			if (ruch != "exit")
 				cout << "WYGRANA";
@@ -158,12 +159,12 @@ void gra(string szachy[8][8], int liczbarand)
 			cin >> ruch;
 			while (ruch[0] != 'g' || (ruch[1] - 48) != 3 || ruch[2] != 'd' || (ruch[3] - 48) != 6 || ruch.length() != 4)
 			{
-				cout << "ZLY RUCH\n";
-				cin >> ruch;
 				if (ruch == "exit")
 				{
 					break;
 				}
+				cout << "ZLY RUCH\n";
+				cin >> ruch;
 			}
 			if (ruch != "exit")
 				cout << "WYGRANA";
@@ -198,12 +199,12 @@ void gra(string szachy[8][8], int liczbarand)
 			cin >> ruch;
 			while (ruch[0] != 'g' || (ruch[1] -48)!= 6 || ruch[2] != 'h' || (ruch[3]-48) != 5 || ruch.length() != 4)
 			{
-				cout << "ZLY RUCH\n";
-				cin >> ruch;
 				if (ruch == "exit")
 				{
 					break;
 				}
+				cout << "ZLY RUCH\n";
+				cin >> ruch;
 			}
 			if(ruch!="exit")
 				cout << "WYGRANA";
@@ -218,9 +219,9 @@ void gra(string szachy[8][8], int liczbarand)
 				}
 			}
 			szachy[2][3] = "K"; //CK czarny krol
-			szachy[0][3] = "N"; //CG czarny skoczek
-			szachy[5][1] = "q"; //BH bialy hetman
-			szachy[4][3] = "k"; //BK- bialy krol
+			szachy[0][3] = "b"; //CG czarny skoczek
+			szachy[0][4] = "k"; //BH bialy hetman
+			szachy[5][1] = "q"; //BK- bialy krol
 			cout << "  *************************\n";
 			for (int i = 0; i < 8; i++)
 			{
@@ -237,12 +238,12 @@ void gra(string szachy[8][8], int liczbarand)
 			cin >> ruch;
 			while (ruch[0] != 'b' || (ruch[1] - 48) != 3 || ruch[2] != 'd' || (ruch[3] - 48) != 5 || ruch.length() != 4)
 			{
-				cout << "ZLY RUCH\n";
-				cin >> ruch;
 				if (ruch == "exit")
 				{
 					break;
 				}
+				cout << "ZLY RUCH\n";
+				cin >> ruch;
 			}
 			if (ruch != "exit")
 				cout << "WYGRANA";
@@ -277,12 +278,12 @@ void gra(string szachy[8][8], int liczbarand)
 			cin >> ruch;
 			while (ruch[0] != 'a' || (ruch[1] - 48) != 7 || ruch[2] != 'e' || (ruch[3] - 48) != 7 || ruch.length() != 4)
 			{
-				cout << "ZLY RUCH\n";
-				cin >> ruch;
 				if (ruch == "exit")
 				{
 					break;
 				}
+				cout << "ZLY RUCH\n";
+				cin >> ruch;
 			}
 			if (ruch != "exit")
 				cout << "WYGRANA";
@@ -296,9 +297,10 @@ void gra(string szachy[8][8], int liczbarand)
 					szachy[i][j] = "__";
 				}
 			}
-			szachy[0][3] = "K";// czarny krol
+			szachy[0][5] = "K";// czarny krol
 			szachy[2][4] = "k";//bialy krol
 			szachy[6][7] = "q";// bialy hetman
+			szachy[1][3]= "p";
 			cout << "  *************************\n";
 			for (int i = 0; i < 8; i++)
 			{
@@ -313,14 +315,14 @@ void gra(string szachy[8][8], int liczbarand)
 			cout << "   a  b  c  d  e  f  g  h\n";
 			string ruch;
 			cin >> ruch;
-			while (ruch[0] != 'h' || (ruch[1] - 48) != 2 || ruch[2] != 'b' || (ruch[3] - 48) != 8 || ruch.length() != 4)
+			while (ruch[0] != 'h' || (ruch[1] - 48) != 2 || ruch[2] != 'g' || (ruch[3] - 48) != 2 || ruch.length() != 4)
 			{
-				cout << "ZLY RUCH\n";
-				cin >> ruch;
 				if (ruch == "exit")
 				{
 					break;
 				}
+				cout << "ZLY RUCH\n";
+				cin >> ruch;
 			}
 			if (ruch != "exit")
 				cout << "WYGRANA";
@@ -357,12 +359,12 @@ void gra(string szachy[8][8], int liczbarand)
 			cin >> ruch;
 			while (ruch[0] != 'h' || (ruch[1] - 48) != 4 || ruch[2] != 'd' || (ruch[3] - 48) != 8 || ruch.length() != 4)
 			{
-				cout << "ZLY RUCH\n";
-				cin >> ruch;
 				if (ruch == "exit")
 				{
 					break;
 				}
+				cout << "ZLY RUCH\n";
+				cin >> ruch;
 			}
 			if (ruch != "exit")
 				cout << "WYGRANA";
@@ -418,12 +420,12 @@ void gra(string szachy[8][8], int liczbarand)
 			cin >> ruch;
 			while (ruch[0] != 'd' || (ruch[1] - 48) != 4 || ruch[2] != 'h' || (ruch[3] - 48) != 7 || ruch.length() != 4)
 			{
-				cout << "ZLY RUCH\n";
-				cin >> ruch;
 				if (ruch == "exit")
 				{
 					break;
 				}
+				cout << "ZLY RUCH\n";
+				cin >> ruch;
 			}
 			if (ruch != "exit")
 				cout << "WYGRANA";
@@ -436,12 +438,12 @@ void opcjatrzecia(string ruchwygrany)
 	cin >> ruch;
 	while (ruch[0] != ruchwygrany[0] || (ruch[1] - 48) != (ruchwygrany[1]-48 ) || ruch[2] != ruchwygrany[2] || (ruch[3] - 48) != (ruchwygrany[3] - 48) || ruch.length() != 4)
 	{
-		cout << "ZLY RUCH\n";
-		cin >> ruch;
 		if (ruch == "exit")
 		{
 			break;
 		}
+		cout << "ZLY RUCH\n";
+		cin >> ruch;
 	}
 	if (ruch != "exit")
 		cout << "WYGRANA";
@@ -485,6 +487,7 @@ void wgrajplansze()
 		for (int j = 0; j < 8; j ++)
 		{
 			plansza[i][j] = " ";
+			kopia[i][j]=" ";
 		}
 	}
 	for (int i = 0; i < ustawienie.length(); i+=3)
@@ -493,6 +496,7 @@ void wgrajplansze()
 		int id_x = 8-(ustawienie[i + 2] - 48);
 		int id_y = zAbcNaInt(ustawienie[i + 1]);
 		plansza[id_x][id_y] = pionek;
+		kopia[id_x][id_y] = pionek;
 	}
 	cout << "  *****************\n";
 	for (int i = 0; i < 8; i++)
@@ -627,6 +631,325 @@ bool czybialypionek(int x, int y)
 }
 bool wolnebicie(int x1, int y1, int x2, int y2, char figura) //,int uklad)
 {
+	switch (figura)
+	{
+		case 'k': 
+		{
+			return true;
+		}break;
+		case'q':
+		{
+			if (x1 == x2 || y1 == y2) //tak samo jak w przypadku wiezy
+			{
+				int pomx, pomy;
+				if (x2 < x1) //ruch w gore wieza
+				{
+					pomx = x1 - 1;
+					pomy = y1;
+					while (pomx != x2)
+					{
+						if (plansza[pomx][pomy] != " ")
+						{
+							return false;
+						}
+						pomx--;
+					}
+					return true;
+				}
+				else if (y2 > y1)//ruch w prawo wieza
+				{
+					pomx = x1;
+					pomy = y1 + 1;
+					while (pomy != y2)
+					{
+						if (plansza[pomx][pomy] != " ")
+						{
+							return false;
+						}
+						pomy++;
+					}
+					return true;
+				}
+				else if (x2 > x1)//ruch w dol wieza
+				{
+					pomx = x1 + 1;
+					pomy = y1;
+					while (pomx != x2)
+					{
+						if (plansza[pomx][pomy] != " ")
+						{
+							return false;
+						}
+						pomx++;
+					}
+					return true;
+				}
+				else if (y2 < y1)//ruch w lewo wieza
+				{
+					pomx = x1;
+					pomy = y1 - 1;
+					while (pomy != y2)
+					{
+						if (plansza[pomx][pomy] != " ")
+						{
+							return false;
+						}
+						pomy--;
+					}
+					return true;
+				}
+			}
+			else //tak samo jak goniec 
+			{
+				int pomx, pomy;
+				if (x2<x1 && y2>y1) //ruch po ukosie w prawy gorny rog
+				{
+					pomx = x1 - 1;
+					pomy = y1 + 1;
+					while (pomx != x2 || pomy != y2)
+					{
+						if (plansza[pomx][pomy] != " ")
+						{
+							return false;
+						}
+						pomx--;
+						pomy++;
+					}
+					return true;
+				}
+				else if (x2 > x1 && y2 > y1) //ruch po ukosie w prwy dolny rog
+				{
+					pomx = x1 + 1;
+					pomy = y1 + 1;
+					while (pomx != x2 || pomy != y2)
+					{
+						if (plansza[pomx][pomy] != " ")
+						{
+							return false;
+						}
+						pomx++;
+						pomy++;
+					}
+					return true;
+				}
+				else if (x2 > x1 && y2 < y1) //ruch po ukosie w lewy dolny rog
+				{
+					pomx = x1 + 1;
+					pomy = y1 - 1;
+					while (pomx != x2 || pomy != y2)
+					{
+						if (plansza[pomx][pomy] != " ")
+						{
+							return false;
+						}
+						pomx++;
+						pomy--;
+					}
+					return true;
+				}
+				else if (x2 < x1 && y2 < y1) //ruch w lewy gorny rog
+				{
+					pomx = x1 - 1;
+					pomy = y1 - 1;
+					while (pomx != x2 || pomy != y2)
+					{
+						if (plansza[pomx][pomy] != " ")
+						{
+							return false;
+						}
+						pomx--;
+						pomy--;
+					}
+					return true;
+				}
+			}
+		}break;
+		case'r':
+		{
+			int pomx, pomy;
+			if(x2<x1) //ruch w gore wieza
+			{
+				pomx = x1 - 1;
+				pomy = y1;
+				while (pomx != x2)
+				{
+					if (plansza[pomx][pomy] != " ")
+					{
+						return false;
+					}
+					pomx--;
+				}
+				return true;
+			}
+			else if (y2>y1)//ruch w prawo wieza
+			{
+				pomx = x1;
+				pomy = y1+1;
+				while (pomy != y2)
+				{
+					if (plansza[pomx][pomy] != " ")
+					{
+						return false;
+					}
+					pomy++;
+				}
+				return true;
+			}
+			else if (x2>x1)//ruch w dol wieza
+			{
+				pomx = x1+1;
+				pomy = y1;
+				while (pomx != x2)
+				{
+					if (plansza[pomx][pomy] != " ")
+					{
+						return false;
+					}
+					pomx++;
+				}
+				return true;
+			}
+			else if (y2<y1)//ruch w lewo wieza
+			{
+				pomx = x1;
+				pomy = y1-1;
+				while (pomy != y2)
+				{
+					if (plansza[pomx][pomy] != " ")
+					{
+						return false;
+					}
+					pomy--;
+				}
+				return true;
+			}
+		}break;
+		case'b':
+		{
+			int pomx,pomy;
+			if (x2<x1 && y2>y1) //ruch po ukosie w prawy gorny rog
+			{
+				pomx = x1 - 1;
+				pomy = y1 + 1;
+				while (pomx != x2 || pomy != y2)
+				{
+					if (plansza[pomx][pomy] != " ")
+					{
+						return false;
+					}
+					pomx--;
+					pomy++;
+				}
+				return true;
+			}
+			else if (x2>x1 && y2>y1) //ruch po ukosie w prwy dolny rog
+			{
+				pomx = x1 + 1;
+				pomy = y1 + 1;
+				while (pomx != x2 || pomy != y2)
+				{
+					if (plansza[pomx][pomy] != " ")
+					{
+						return false;
+					}
+					pomx++;
+					pomy++;
+				}
+				return true;
+			}
+			else if (x2>x1 && y2<y1) //ruch po ukosie w lewy dolny rog
+			{
+				pomx = x1 + 1;
+				pomy = y1 - 1;
+				while (pomx != x2 || pomy != y2)
+				{
+					if (plansza[pomx][pomy] != " ")
+					{
+						return false;
+					}
+					pomx++;
+					pomy--;
+				}
+				return true;
+			}
+			else if (x2<x1 && y2<y1) //ruch w lewy gorny rog
+			{
+				pomx = x1 - 1;
+				pomy = y1 - 1;
+				while (pomx != x2 || pomy != y2)
+				{
+					if (plansza[pomx][pomy] != " ")
+					{
+						return false;
+					}
+					pomx--;
+					pomy--;
+				}
+				return true;
+			}
+		}break;
+		case'n':
+		{
+			return true;
+			/*if ((x2 == x1 - 2 && y2 == y1 - 1) || (x2 == x1 - 2 && y2 == y1 + 1))
+			{
+				if (plansza[x1 - 1][y1] != " " && plansza[x1 - 2][y1] != " ")
+				{
+					return true;
+				}
+				else return false;
+			}
+			else if ((x2 == x1 - 1 && y2 == y1 + 2) || (x2 == x1 + 1 && y2 == y1 + 2))
+			{
+				if (plansza[x1][y1+1] != " " && plansza[x1][y1+2] != " ")
+				{
+					return true;
+				}
+				else return false;
+			}
+			else if (x2 == x1 + 2 && y2 == y1 + 1)
+			{
+
+			}
+			else if (x2 == x1 + 2 && y2 == y1 - 1)
+			{
+
+			}
+			else if (x2 == x1 + 1 && y2 == y1 - 2)
+			{
+
+			}
+			else if (x2 == x1 - 1 && y2 == y1 - 2)
+			{
+
+			}*/
+		}break;
+		case'p':
+		{
+			if (abs(x1 - x2) > 1) //ruch o dwa pola 
+			{
+				if (x1 > x2)
+				{
+					if (plansza[x1 - 1][y1] != " ")
+					{
+						return false;
+					}
+					else
+						return true;
+				}
+				else
+				{
+					if (plansza[x2 - 1][y1] != " ")
+					{
+						return false;
+					}
+					else
+						return true;
+				}
+			}
+			else return true; //ruch jedno pole do przodu/tylu
+		}break;
+	}
 	return false;
 }
 void wypelnbiciaH(int xH,int yH, bool uklad) //jak uklad=0 to bia³e s¹ na dole tablicy, uklad=1 to przypadek przeciwny
@@ -684,172 +1007,237 @@ void wypelnbiciaH(int xH,int yH, bool uklad) //jak uklad=0 to bia³e s¹ na dole t
 					{
 						if (i == xH - 1)
 						{
-							if (xH - 1 >= 0 && xH - 1 < 8 && yH - 1 >= 0 && yH - 1 < 8 && plansza[xH - 1][yH - 1] != " " && j < yH)
-							{
-								;
-							}
-							else if (xH - 1 >= 0 && xH - 1 < 8 && yH - 1 >= 0 && yH - 1 < 8 && plansza[xH - 1][yH] != " " && j < yH)//q z lewej strony krola
-							{
-								for (int b = i; b < yH - 1; b++)
-								{
-									;
-								}
-							}
-							bicieK[7] = true;
-							bicieK[0] = true;
-							bicieK[1] = true;
+							if (wolnebicie(i, j, xH - 1, yH - 1, 'q'))
+								bicieK[7] = true;
+							if (wolnebicie(i, j, xH - 1, yH, 'q'))
+								bicieK[0] = true;
+							if (wolnebicie(i, j, xH - 1, yH + 1, 'q'))
+								bicieK[1] = true;
 						}
 						else if (i == xH)
 						{
-							bicieK[6] = true;
-							bicieK[2] = true;
+							if (wolnebicie(i, j, xH, yH - 1, 'q'))
+								bicieK[6] = true;
+							if (wolnebicie(i, j, xH, yH + 1, 'q'))
+								bicieK[2] = true;
 						}
 						else if (i == xH + 1)
 						{
-							bicieK[5] = true;
-							bicieK[4] = true;
-							bicieK[3] = true;
+							if (wolnebicie(i, j, xH + 1, yH - 1, 'q'))
+								bicieK[5] = true;
+							if (wolnebicie(i, j, xH + 1, yH, 'q'))
+								bicieK[4] = true;
+							if (wolnebicie(i, j, xH + 1, yH + 1, 'q'))
+								bicieK[3] = true;
 						}
 						if (j == yH - 1)
 						{
-							bicieK[7] = true;
-							bicieK[6] = true;
-							bicieK[5] = true;
+							if (wolnebicie(i, j, xH - 1, yH - 1, 'q'))
+								bicieK[7] = true;
+							if (wolnebicie(i, j, xH, yH - 1, 'q'))
+								bicieK[6] = true;
+							if (wolnebicie(i, j, xH + 1, yH - 1, 'q'))
+								bicieK[5] = true;
 						}
 						else if (j == yH)
 						{
-							bicieK[4] = true;
-							bicieK[0] = true;
+							if (wolnebicie(i, j, xH - 1, yH, 'q'))
+								bicieK[0] = true;
+							if (wolnebicie(i, j, xH + 1, yH, 'q'))
+								bicieK[4] = true;
 						}
 						else if (j == yH + 1)
 						{
-							bicieK[1] = true;
-							bicieK[2] = true;
-							bicieK[3] = true;
+							if (wolnebicie(i, j, xH - 1, yH + 1, 'q'))
+								bicieK[1] = true;
+							if (wolnebicie(i, j, xH, yH + 1, 'q'))
+								bicieK[2] = true;
+							if (wolnebicie(i, j, xH + 1, yH + 1, 'q'))
+								bicieK[3] = true;
 						}
 						// \ ukosna
-						if (j - i == (yH - 1) - (xH + 1)) bicieK[5] = true;
+						if (j - i == (yH - 1) - (xH + 1)) 
+						{
+							if (wolnebicie(i, j, xH + 1, yH - 1, 'q'))
+								bicieK[5] = true;
+						}
 						else if (j - i == yH - (xH + 1))
 						{
-							bicieK[4] = true;
-							bicieK[6] = true;
+						if (wolnebicie(i, j, xH + 1, yH, 'q'))
+								bicieK[4] = true;
+							if (wolnebicie(i, j, xH, yH - 1, 'q'))
+								bicieK[6] = true;
 						}
 						else if (j - i == yH - xH)
 						{
-							bicieK[3] = true;
-							bicieK[7] = true;
+							if (wolnebicie(i, j, xH + 1, yH + 1, 'q'))
+								bicieK[3] = true;
+							if (wolnebicie(i, j, xH - 1, yH - 1, 'q'))
+								bicieK[7] = true;
 						}
 						else if (j - i == yH - (xH - 1))
 						{
-							bicieK[0] = true;
-							bicieK[2] = true;
+							if (wolnebicie(i, j, xH - 1, yH, 'q'))
+								bicieK[0] = true;
+							if (wolnebicie(i, j, xH, yH + 1, 'q'))
+								bicieK[2] = true;
 						}
 						else if (j - i == (yH + 1) - (xH - 1))
 						{
-							bicieK[1] = true;
+							if (wolnebicie(i, j, xH - 1, yH + 1, 'q'))
+								bicieK[1] = true;
 						}
 						// / ukosna
-						if (j + i == (yH + 1) + (xH + 1)) bicieK[3] = true;
+						if (j + i == (yH + 1) + (xH + 1))
+						{
+							if (wolnebicie(i, j, xH + 1, yH + 1, 'q'))
+								bicieK[3] = true;
+						}
 						else if (j + i == yH + (xH + 1))
 						{
-							bicieK[4] = true;
-							bicieK[2] = true;
+							if (wolnebicie(i, j, xH + 1, yH, 'q'))
+								bicieK[4] = true;
+							if (wolnebicie(i, j, xH, yH + 1, 'q'))
+								bicieK[2] = true;
 						}
 						else if (j + i == yH + xH)
 						{
-							bicieK[5] = true;
-							bicieK[1] = true;
+							if (wolnebicie(i, j, xH + 1, yH - 1, 'q'))
+								bicieK[5] = true;
+							if (wolnebicie(i, j, xH - 1, yH + 1, 'q'))
+								bicieK[1] = true;
 						}
 						else if (j + i == yH + (xH - 1))
 						{
-							bicieK[0] = true;
-							bicieK[6] = true;
+							if (wolnebicie(i, j, xH - 1, yH, 'q'))
+								bicieK[0] = true;
+							if (wolnebicie(i, j, xH, yH - 1, 'q'))
+								bicieK[6] = true;
 						}
 						else if (j + i == (yH - 1) + (xH - 1))
 						{
-							bicieK[7] = true;
+							if (wolnebicie(i, j, xH - 1, yH - 1, 'q'))
+								bicieK[7] = true;
 						}
 					}break;
 					case 'r': //wieza
 					{
 						if (i == xH - 1)
 						{
-							bicieK[7] = true;
-							bicieK[0] = true;
-							bicieK[1] = true;
+							if (wolnebicie(i, j, xH - 1, yH - 1, 'r'))
+								bicieK[7] = true;
+							if (wolnebicie(i, j, xH - 1, yH, 'r'))
+								bicieK[0] = true;
+							if (wolnebicie(i, j, xH - 1, yH + 1, 'r'))
+								bicieK[1] = true;
 						}
 						else if (i == xH)
 						{
-							bicieK[6] = true;
-							bicieK[2] = true;
+							if (wolnebicie(i, j, xH , yH - 1, 'r'))
+								bicieK[6] = true;
+							if (wolnebicie(i, j, xH , yH + 1, 'r'))
+								bicieK[2] = true;
 						}
 						else if (i == xH + 1)
 						{
-							bicieK[5] = true;
-							bicieK[4] = true;
-							bicieK[3] = true;
+							if(wolnebicie(i, j, xH + 1, yH - 1, 'r'))
+								bicieK[5] = true;
+							if (wolnebicie(i, j, xH + 1, yH, 'r'))
+								bicieK[4] = true;
+							if (wolnebicie(i, j, xH + 1, yH + 1, 'r'))
+								bicieK[3] = true;
 						}
 						if (j == yH - 1)
 						{
-							bicieK[7] = true;
-							bicieK[6] = true;
-							bicieK[5] = true;
+							if (wolnebicie(i, j, xH - 1, yH-1, 'r'))
+								bicieK[7] = true;
+							if (wolnebicie(i, j, xH, yH-1, 'r'))
+								bicieK[6] = true;
+							if (wolnebicie(i, j, xH + 1, yH-1, 'r'))
+								bicieK[5] = true;
 						}
 						else if (j == yH)
 						{
-							bicieK[4] = true;
-							bicieK[0] = true;
+							if (wolnebicie(i, j, xH-1, yH, 'r'))
+								bicieK[0] = true;
+							if (wolnebicie(i, j, xH+1, yH, 'r'))
+								bicieK[4] = true;
 						}
 						else if (j == yH + 1)
 						{
-							bicieK[1] = true;
-							bicieK[2] = true;
-							bicieK[3] = true;
+							if (wolnebicie(i, j, xH - 1, yH + 1, 'r'))
+								bicieK[1] = true;
+							if (wolnebicie(i, j, xH, yH + 1, 'r'))
+								bicieK[2] = true;
+							if(wolnebicie(i, j, xH+1, yH + 1, 'r'))
+								bicieK[3] = true;
 						}
 					}break;
 					case 'b': //goniec-po ukosie
 					{
 						// \ ukosna
-						if (j - i == (yH - 1) - (xH + 1)) bicieK[5] = true;
+						if (j - i == (yH - 1) - (xH + 1))
+						{
+							if(wolnebicie(i, j, xH + 1, yH - 1, 'b'))
+								bicieK[5] = true;
+						}
 						else if (j - i == yH - (xH + 1))
 						{
-							bicieK[4]=true;
-							bicieK[6] = true;
+							if(wolnebicie(i, j, xH + 1, yH, 'b'))
+								bicieK[4]=true;
+							if(wolnebicie(i, j, xH , yH - 1, 'b'))
+								bicieK[6] = true;
 						}
 						else if (j - i == yH - xH)
 						{
-							bicieK[3] = true;
-							bicieK[7] = true;
+							if(wolnebicie(i, j, xH + 1, yH + 1, 'b'))
+								bicieK[3] = true;
+							if(wolnebicie(i, j, xH - 1, yH - 1, 'b'))
+								bicieK[7] = true;
 						}
 						else if (j-i==yH-(xH-1))
 						{
-							bicieK[0] = true;
-							bicieK[2] = true;
+							if(wolnebicie(i, j, xH - 1, yH , 'b'))
+								bicieK[0] = true;
+							if (wolnebicie(i, j, xH , yH + 1, 'b'))
+								bicieK[2] = true;
 						}
 						else if (j - i == (yH + 1) - (xH - 1))
 						{
-							bicieK[1] = true;
+							if (wolnebicie(i, j, xH - 1, yH + 1, 'b'))
+								bicieK[1] = true;
 						}
 						// / ukosna
-						if (j + i == (yH + 1) + (xH + 1)) bicieK[3] = true;
+						if (j + i == (yH + 1) + (xH + 1))
+						{
+							if (wolnebicie(i, j, xH + 1, yH + 1, 'b'))
+								bicieK[3] = true;
+						}
 						else if (j + i == yH + (xH + 1))
 						{
-							bicieK[4] = true;
-							bicieK[2] = true;
+							if (wolnebicie(i, j, xH + 1, yH , 'b'))
+								bicieK[4] = true;
+							if (wolnebicie(i, j, xH, yH + 1, 'b'))
+								bicieK[2] = true;
 						}
 						else if (j + i == yH + xH)
 						{
-							bicieK[5] = true;
-							bicieK[1] = true;
+							if (wolnebicie(i, j, xH + 1, yH - 1, 'b'))
+								bicieK[5] = true;
+							if (wolnebicie(i, j, xH - 1, yH + 1, 'b'))
+								bicieK[1] = true;
 						}
 						else if (j + i == yH + (xH - 1))
 						{
-							bicieK[0] = true;
-							bicieK[6] = true;
+							if (wolnebicie(i, j, xH - 1, yH , 'b'))
+								bicieK[0] = true;
+							if (wolnebicie(i, j, xH , yH - 1, 'b'))
+								bicieK[6] = true;
 						}
 						else if (j + i == (yH - 1) + (xH - 1))
 						{
-							bicieK[7] = true;
+							if (wolnebicie(i, j, xH - 1, yH - 1, 'b'))
+								bicieK[7] = true;
 						}
 					}break;
 					case 'n': //kon
@@ -894,44 +1282,82 @@ void wypelnbiciaH(int xH,int yH, bool uklad) //jak uklad=0 to bia³e s¹ na dole t
 					{
 						if (!uklad)
 						{
-							if (i - 1 >= 0 && i - 1 == xH + 1 )
+							if (i == xH && j == yH - 2)
 							{
-								if(j == yH)
-									bicieK[4] = true;
-								else if (j == yH - 1)
-									bicieK[5] = true;
-								else if (j == yH + 1)
-									bicieK[3] = true;
+								bicieK[7] = true;
 							}
-							else if (i - 2 >= 0 && i - 2 == xH + 1)
+							else if (i == xH + 1 && j == yH - 2)
 							{
-								if (j == yH)
-									bicieK[4] = true;
-								else if (j == yH - 1)
-									bicieK[5] = true;
-								else if (j == yH + 1)
-									bicieK[3] = true;
+								bicieK[6] = true;
+							}
+							else if (i == xH + 2 && j == yH - 2)
+							{
+								bicieK[5] = true;
+							}
+							else if (i == xH + 2 && j == yH - 1)
+							{
+								bicieK[4] = true;
+							}
+							else if (i == xH + 2 && j == yH )
+							{
+								bicieK[3] = true;
+								bicieK[5] = true;
+							}
+							else if (i == xH + 2 && j == yH +1)
+							{
+								bicieK[4] = true;
+							}
+							else if (i == xH + 2 && j == yH + 2)
+							{
+								bicieK[3] = true;
+							}
+							else if (i == xH + 1 && j == yH + 2)
+							{
+								bicieK[2] = true;
+							}
+							else if (i == xH  && j == yH + 2)
+							{
+								bicieK[1] = true;
 							}
 						}
 						else
 						{
-							if (i + 1 >= 0 && i + 1 == xH - 1)
+							if (i == xH  && j == yH - 2)
 							{
-								if (j == yH)
-									bicieK[4] = true;
-								else if (j == yH - 1)
-									bicieK[5] = true;
-								else if (j == yH + 1)
-									bicieK[3] = true;
+								bicieK[5] = true;
 							}
-							else if (i + 2 >= 0 && i + 2 == xH - 1)
+							else if (i == xH - 1 && j == yH - 2)
 							{
-								if (j == yH)
-									bicieK[4] = true;
-								else if (j == yH - 1)
-									bicieK[5] = true;
-								else if (j == yH + 1)
-									bicieK[3] = true;
+								bicieK[6] = true;
+							}
+							else if (i == xH - 2 && j == yH - 2)
+							{
+								bicieK[7] = true;
+							}
+							else if (i == xH - 2 && j == yH - 1)
+							{
+								bicieK[0] = true;
+							}
+							else if (i == xH - 2 && j == yH)
+							{
+								bicieK[7] = true;
+								bicieK[1] = true;
+							}
+							else if (i == xH - 2 && j == yH +1)
+							{
+								bicieK[0] = true;
+							}
+							else if (i == xH - 2 && j == yH + 2)
+							{
+								bicieK[1] = true;
+							}
+							else if (i == xH - 1 && j == yH + 2)
+							{
+								bicieK[2] = true;
+							}
+							else if (i == xH && j == yH + 2)
+							{
+								bicieK[3] = true;
 							}
 						}
 					}break;
@@ -1008,203 +1434,265 @@ string czyonmozemat(int x, int y, int xH,int yH)
 	int currx = x;
 	int curry = y;
 	string wynik = "";
+	bool ok=true;
 	switch (c)
 	{
 		case'k': //krol
 		{
 			for (int i = 0; i < 8; i++)
 			{
-				if (i == 0 && currx-1>=0 && currx-1<8  && wolnebicie(x, y, x - 1, y, 'k'))// &&plansza[x-1][y]== " " )//ten ostatni warunek chyba jest niedobry??
+				if (i == 0 && currx-1>=0 && currx-1<8  && wolnebicie(x, y, x - 1, y, 'k'))
 				{
 					czyscbicia();
-					plansza[currx][curry] = " ";
+					if (ok)
+					{
+						plansza[currx][curry] = " ";
+						ok = false;
+					}
+					else
+						plansza[currx][curry] = kopia[currx][curry];
 					plansza[x - 1][y] = c;
 					currx = x - 1;
 					curry = y;
 					wypelnbiciaH(xH,yH,uklad);
-					//wpiszwstepnebiciaK(xH, yH);
 					if (czybicieK(xH,yH))
 					{
-						char pomoc2 = currx + 48;
+						char pomoc2 = 8-currx + 48;
 						wynik =  a+ b + zIntNaAbc(curry) + pomoc2;
 						return wynik;
 					}
 				}
-				if (i == 1  && x - 1 >= 0 && x - 1 < 8 && y+1>=0 && y+1<8 && wolnebicie(x, y, x - 1, y+1, 'k'))// && plansza[x-1][y+1]==" ")
+				if (i == 1  && x - 1 >= 0 && x - 1 < 8 && y+1>=0 && y+1<8 && wolnebicie(x, y, x - 1, y+1, 'k'))
 				{
 					czyscbicia();
-					plansza[currx][curry] = " ";
+					if (ok)
+					{
+						plansza[currx][curry] = " ";
+						ok = false;
+					}
+					else
+						plansza[currx][curry] = kopia[currx][curry];
 					plansza[x - 1][y+1] = c;
 					currx = x-1;
 					curry = y+1;
 					wypelnbiciaH(xH, yH, uklad);
-					//wpiszwstepnebiciaK(xH, yH);
 					if (czybicieK(xH,yH))
 					{
-						char pomoc2 = currx + 48;
+						char pomoc2 = 8-currx + 48;
 						wynik = a + b + zIntNaAbc(curry) + pomoc2;
 						return wynik;
 					}
 				}
-				if (i == 2 && x >= 0 && x < 8 && y + 1 >= 0 && y + 1 < 8 && wolnebicie(x, y, x , y+1, 'k'))//&& plansza[x ][y + 1] == " ")
+				if (i == 2 && x >= 0 && x < 8 && y + 1 >= 0 && y + 1 < 8 && wolnebicie(x, y, x , y+1, 'k'))
 				{
 					czyscbicia();
-					plansza[currx][curry] = " ";
+					if (ok)
+					{
+						plansza[currx][curry] = " ";
+						ok = false;
+					}
+					else
+						plansza[currx][curry] = kopia[currx][curry];
 					plansza[x ][y+1] = c;
 					currx = x;
 					curry = y + 1;
 					wypelnbiciaH(xH, yH, uklad);
-					//wpiszwstepnebiciaK(xH, yH);
 					if (czybicieK(xH,yH))
 					{
-						char pomoc2 = currx + 48;
+						char pomoc2 = 8-currx + 48;
 						wynik = a + b + zIntNaAbc(curry) + pomoc2;
 						return wynik;
 					}
 				}
-				if (i == 3 && x + 1 >= 0 && x + 1 < 8 && y + 1 >= 0 && y + 1 < 8 && wolnebicie(x, y, x + 1, y+1, 'k'))//&& plansza[x + 1][y + 1] == " ")
+				if (i == 3 && x + 1 >= 0 && x + 1 < 8 && y + 1 >= 0 && y + 1 < 8 && wolnebicie(x, y, x + 1, y+1, 'k'))
 				{
 					czyscbicia();
-					plansza[currx][curry] = " ";
+					if (ok)
+					{
+						plansza[currx][curry] = " ";
+						ok = false;
+					}
+					else
+						plansza[currx][curry] = kopia[currx][curry];
 					plansza[x + 1][y+1] = c;
 					currx=x+1;
 					curry = y+1;
 					wypelnbiciaH(xH, yH, uklad);
-					//wpiszwstepnebiciaK(xH, yH);
 					if (czybicieK(xH, yH))
 					{
-						char pomoc2 = currx + 48;
+						char pomoc2 = 8-currx + 48;
 						wynik = a + b + zIntNaAbc(curry) + pomoc2;
 						return wynik;
 					}
 				}
-				if (i == 4 && x + 1 >= 0 && x + 1 < 8 && y  >= 0 && y  < 8 && wolnebicie(x, y, x + 1, y, 'k'))//&& plansza[x + 1][y ] == " ")
+				if (i == 4 && x + 1 >= 0 && x + 1 < 8 && y  >= 0 && y  < 8 && wolnebicie(x, y, x + 1, y, 'k'))
 				{
 					czyscbicia();
-					plansza[currx][curry] = " ";
+					if (ok)
+					{
+						plansza[currx][curry] = " ";
+						ok = false;
+					}
+					else
+						plansza[currx][curry] = kopia[currx][curry];
 					plansza[x + 1][y] = c;
 					currx = x+1;
 					curry = y;
 					wypelnbiciaH(xH, yH, uklad);
-					//wpiszwstepnebiciaK(xH, yH);
 					if (czybicieK(xH, yH))
 					{
-						char pomoc2 = currx + 48;
+						char pomoc2 = 8-currx + 48;
 						wynik = a + b + zIntNaAbc(curry) + pomoc2;
 						return wynik;
 					}
 				}
-				if (i == 5 && x + 1 >= 0 && x + 1 < 8 && y - 1 >= 0 && y - 1 < 8 && wolnebicie(x, y, x + 1, y-1, 'k'))// && plansza[x + 1][y - 1] == " ")
+				if (i == 5 && x + 1 >= 0 && x + 1 < 8 && y - 1 >= 0 && y - 1 < 8 && wolnebicie(x, y, x + 1, y-1, 'k'))
 				{
 					czyscbicia();
-					plansza[currx][curry] = " ";
+					if (ok)
+					{
+						plansza[currx][curry] = " ";
+						ok = false;
+					}
+					else
+						plansza[currx][curry] = kopia[currx][curry];
 					plansza[x + 1][y-1] = c;
 					currx = x + 1;
 					curry = y-1;
 					wypelnbiciaH(xH, yH, uklad);
-					//wpiszwstepnebiciaK(xH, yH);
 					if (czybicieK(xH, yH))
 					{
-						char pomoc2 = currx + 48;
+						char pomoc2 = 8-currx + 48;
 						wynik = a + b + zIntNaAbc(curry) + pomoc2;
 						return wynik;
 					}
 				}
-				if (i == 6 && x  >= 0 && x  < 8 && y - 1 >= 0 && y - 1 < 8 && wolnebicie(x, y, x , y-1, 'k'))//&& plansza[x ][y - 1] == " ")
+				if (i == 6 && x  >= 0 && x  < 8 && y - 1 >= 0 && y - 1 < 8 && wolnebicie(x, y, x , y-1, 'k'))
 				{
 					czyscbicia();
-					plansza[currx][curry] = " ";
+					if (ok)
+					{
+						plansza[currx][curry] = " ";
+						ok = false;
+					}
+					else
+						plansza[currx][curry] = kopia[currx][curry];
 					plansza[x ][y-1] = c;
 					currx = x;
 					curry = y-1;
 					wypelnbiciaH(xH, yH, uklad);
-					//wpiszwstepnebiciaK(xH, yH);
 					if (czybicieK(xH, yH))
 					{
-						char pomoc2 = currx + 48;
+						char pomoc2 = 8-currx + 48;
 						wynik = a + b + zIntNaAbc(curry) + pomoc2;
 						return wynik;
 					}
 				}
-				if (i == 7 && x - 1 >= 0 && x - 1 < 8 && y - 1 >= 0 && y - 1 < 8 && wolnebicie(x, y, x - 1, y-1, 'k'))// && plansza[x - 1][y - 1] == " ")
+				if (i == 7 && x - 1 >= 0 && x - 1 < 8 && y - 1 >= 0 && y - 1 < 8 && wolnebicie(x, y, x - 1, y-1, 'k'))
 				{
 					czyscbicia();
-					plansza[currx][curry] = " ";
+					if (ok)
+					{
+						plansza[currx][curry] = " ";
+						ok = false;
+					}
+					else
+						plansza[currx][curry] = kopia[currx][curry];
 					plansza[x - 1][y-1] = c;
 					currx = x - 1;
 					curry = y-1;
 					wypelnbiciaH(xH, yH, uklad);
-					//wpiszwstepnebiciaK(xH, yH);
 					if (czybicieK(xH, yH))
 					{
-						char pomoc2 = currx + 48;
+						char pomoc2 = 8-currx + 48;
 						wynik = a + b + zIntNaAbc(curry) + pomoc2;
 						return wynik;
 					}
 				}
 			}
+			plansza[currx][curry] = kopia[currx][curry];
 		}break;
 		case'q'://krolowa
 		{
 			for (int i = 1; i < 8; i++)
 			{
-				if (x - i >= 0 && x - i < 8 && wolnebicie(x, y, x - i, y, 'q'))// && plansza[x - i][y] == " ") //w gore
+				if (x - i >= 0 && x - i < 8 && wolnebicie(x, y, x - i, y, 'q')) //w gore
 				{
 					czyscbicia();
-					plansza[currx][curry] = " ";
+					if (ok)
+					{
+						plansza[currx][curry] = " ";
+						ok = false;
+					}
+					else
+						plansza[currx][curry] = kopia[currx][curry];
 					plansza[x - i][y] = c;
 					currx = x - i;
 					curry = y;
 					wypelnbiciaH(xH, yH, uklad);
-					//wpiszwstepnebiciaK(xH, yH);
 					if (czybicieK(xH, yH))
 					{
-						char pomoc2 = currx + 48;
+						char pomoc2 = 8-currx + 48;
 						wynik = a + b + zIntNaAbc(curry) + pomoc2;
 						return wynik;
 					}
 				}
-				if (x + i >= 0 && x + i < 8 && wolnebicie(x, y, x + i, y, 'q'))//&& plansza[x + i][y ] == " ") //w dol
+				if (x + i >= 0 && x + i < 8 && wolnebicie(x, y, x + i, y, 'q')) //w dol
 				{
 					czyscbicia();
-					plansza[currx][curry] = " ";
+					if (ok)
+					{
+						plansza[currx][curry] = " ";
+						ok = false;
+					}
+					else
+						plansza[currx][curry] = kopia[currx][curry];
 					plansza[x + i][y] = c;
 					currx = x + i;
 					curry = y;
 					wypelnbiciaH(xH, yH, uklad);
-					//wpiszwstepnebiciaK(xH, yH);
 					if (czybicieK(xH, yH))
 					{
-						char pomoc2 = currx + 48;
+						char pomoc2 = 8-currx + 48;
 						wynik = a + b + zIntNaAbc(curry) + pomoc2;
 						return wynik;
 					}
 				}
-				if (y - i >= 0 && y - i < 8 && wolnebicie(x, y, x , y-i, 'q'))// && plansza[x ][y - i] == " ") //w lewo
+				if (y - i >= 0 && y - i < 8 && wolnebicie(x, y, x , y-i, 'q')) //w lewo
 				{
 					czyscbicia();
-					plansza[currx][curry] = " ";
+					if (ok)
+					{
+						plansza[currx][curry] = " ";
+						ok = false;
+					}
+					else
+						plansza[currx][curry] = kopia[currx][curry];
 					plansza[x][y - i] = c;
 					currx = x;
 					curry = y - i;
 					wypelnbiciaH(xH, yH, uklad);
-					//wpiszwstepnebiciaK(xH, yH);
 					if (czybicieK(xH, yH))
 					{
-						char pomoc2 = currx + 48;
+						char pomoc2 = 8-currx + 48;
 						wynik = a + b + zIntNaAbc(curry) + pomoc2;
 						return wynik;
 					}
 				}
-				if (y + i >= 0 && y + i < 8 && wolnebicie(x, y, x , y+i, 'q'))// && plansza[x][y + i] == " ")//w prawo
+				if (y + i >= 0 && y + i < 8 && wolnebicie(x, y, x , y+i, 'q'))//w prawo
 				{
 					czyscbicia();
-					plansza[currx][curry] = " ";
+					if (ok)
+					{
+						plansza[currx][curry] = " ";
+						ok = false;
+					}
+					else
+						plansza[currx][curry] = kopia[currx][curry];
 					plansza[x][y + i] = c;
 					currx = x;
 					curry = y + i;
 					wypelnbiciaH(xH, yH, uklad);
-					//wpiszwstepnebiciaK(xH, yH);
 					if (czybicieK(xH, yH))
 					{
 						char pomoc2 = liczbachar(currx);
@@ -1212,378 +1700,492 @@ string czyonmozemat(int x, int y, int xH,int yH)
 						return wynik;
 					}
 				}
-				if (x - i >= 0 && x - i < 8 && y - i >= 0 && y - i < 8 && wolnebicie(x, y, x - i, y-i, 'q'))// && plansza[x - i][y - i] == " ") //po ukosie w prawy gorny rog
+				if (x - i >= 0 && x - i < 8 && y - i >= 0 && y - i < 8 && wolnebicie(x, y, x - i, y-i, 'q')) //po ukosie w prawy gorny rog
 				{
 					czyscbicia();
-					plansza[currx][curry] = " ";
+					if (ok)
+					{
+						plansza[currx][curry] = " ";
+						ok = false;
+					}
+					else
+						plansza[currx][curry] = kopia[currx][curry];
 					plansza[x - i][y - i] = c;
 					currx = x - i;
 					curry = y - i;
 					wypelnbiciaH(xH, yH, uklad);
-					//wpiszwstepnebiciaK(xH, yH);
 					if (czybicieK(xH, yH))
 					{
-						char pomoc2 = currx + 48;
+						char pomoc2 = 8-currx + 48;
 						wynik = a + b + zIntNaAbc(curry) + pomoc2;
 						return wynik;
 					}
 				}
-				if (x - i >= 0 && x - i < 8 && y + i >= 0 && y + i < 8 && wolnebicie(x, y, x - i, y+i, 'q'))// && plansza[x - i][y + i] == " ") //po ukosie w lewy gorny rog
+				if (x - i >= 0 && x - i < 8 && y + i >= 0 && y + i < 8 && wolnebicie(x, y, x - i, y+i, 'q')) //po ukosie w lewy gorny rog
 				{
 					czyscbicia();
-					plansza[currx][curry] = " ";
+					if (ok)
+					{
+						plansza[currx][curry] = " ";
+						ok = false;
+					}
+					else
+						plansza[currx][curry] = kopia[currx][curry];
 					plansza[x - i][y + i] = c;
 					currx = x - i;
 					curry = y + i;
 					wypelnbiciaH(xH, yH, uklad);
-					//wpiszwstepnebiciaK(xH, yH);
 					if (czybicieK(xH, yH))
 					{
-						char pomoc2 = currx + 48;
+						char pomoc2 =8- currx + 48;
 						wynik = a + b + zIntNaAbc(curry) + pomoc2;
 						return wynik;
 					}
 				}
-				if (x + i >= 0 && x + i < 8 && y + i >= 0 && y + i < 8 && wolnebicie(x, y, x + i, y+i, 'q'))//&& plansza[x + i][y + i] == " ") //po ukosie w prawy dolny rog
+				if (x + i >= 0 && x + i < 8 && y + i >= 0 && y + i < 8 && wolnebicie(x, y, x + i, y+i, 'q')) //po ukosie w prawy dolny rog
 				{
 					czyscbicia();
-					plansza[currx][curry] = " ";
+					if (ok)
+					{
+						plansza[currx][curry] = " ";
+						ok = false;
+					}
+					else
+						plansza[currx][curry] = kopia[currx][curry];
 					plansza[x + i][y + i] = c;
 					currx = x + i;
 					curry = y + i;
 					wypelnbiciaH(xH, yH, uklad);
-					//wpiszwstepnebiciaK(xH, yH);
 					if (czybicieK(xH, yH))
 					{
-						char pomoc2 = currx + 48;
+						char pomoc2 = 8-currx + 48;
 						wynik = a + b + zIntNaAbc(curry) + pomoc2;
 						return wynik;
 					}
 				}
-				if (x + i >= 0 && x + i < 8 && y - i >= 0 && y - i < 8 && wolnebicie(x, y, x + i, y-i, 'q'))//&& plansza[x +i][y - i] == " ") //po ukosie w lewy dolny rog
+				if (x + i >= 0 && x + i < 8 && y - i >= 0 && y - i < 8 && wolnebicie(x, y, x + i, y-i, 'q'))//po ukosie w lewy dolny rog
 				{
 					czyscbicia();
-					plansza[currx][curry] = " ";
+					if (ok)
+					{
+						plansza[currx][curry] = " ";
+						ok = false;
+					}
+					else
+						plansza[currx][curry] = kopia[currx][curry];
 					plansza[x + i][y - i] = c;
 					currx = x + i;
 					curry = y - i;
 					wypelnbiciaH(xH, yH, uklad);
-					//wpiszwstepnebiciaK(xH, yH);
 					if (czybicieK(xH, yH))
 					{
-						char pomoc2 = currx + 48;
+						char pomoc2 = 8-currx + 48;
 						wynik = a + b + zIntNaAbc(curry) + pomoc2;
 						return wynik;
 					}
 				}
 			}
+			plansza[currx][curry] = kopia[currx][curry];
 		}break;
 		case'r'://wieza
 		{
 			for (int i = 1; i < 8; i++)
 			{
-				if (x - i >= 0 && x -i< 8 && wolnebicie(x, y, x - i, y, 'r'))// && plansza[x - i][y ] == " ") //w gore
+				if (x - i >= 0 && x -i< 8 && wolnebicie(x, y, x - i, y, 'r')) //w gore
 				{
 					czyscbicia();
-					plansza[currx][curry] = " ";
+					if (ok)
+					{
+						plansza[currx][curry] = " ";
+						ok = false;
+					}
+					else
+						plansza[currx][curry] = kopia[currx][curry];
 					plansza[x - i][y ] = c;
 					currx = x - i;
 					curry = y;
 					wypelnbiciaH(xH, yH, uklad);
-					//wpiszwstepnebiciaK(xH, yH);
 					if (czybicieK(xH, yH))
 					{
-						char pomoc2 = currx + 48;
+						char pomoc2 = 8-currx + 48;
 						wynik = a + b + zIntNaAbc(curry) + pomoc2;
 						return wynik;
 					}
 				}
-				if (x+i>=0 && x+i<8 && wolnebicie(x, y, x + i, y, 'r'))// && plansza[x + i][y ] == " ") //w dol
+				if (x+i>=0 && x+i<8 && wolnebicie(x, y, x + i, y, 'r')) //w dol
 				{
 					czyscbicia();
-					plansza[currx][curry] = " ";
+					if (ok)
+					{
+						plansza[currx][curry] = " ";
+						ok = false;
+					}
+					else
+						plansza[currx][curry] = kopia[currx][curry];
 					plansza[x + i][y ] = c;
 					currx = x +i;
 					curry = y ;
 					wypelnbiciaH(xH, yH, uklad);
-					//wpiszwstepnebiciaK(xH, yH);
 					if (czybicieK(xH, yH))
 					{
-						char pomoc2 = currx + 48;
+						char pomoc2 = 8-currx + 48;
 						wynik = a + b + zIntNaAbc(curry) + pomoc2;
 						return wynik;
 					}
 				}
-				if (y-i>=0 && y-i<8 && wolnebicie(x, y, x , y-i, 'r'))//&& plansza[x ][y - i] == " ") //w lewo
+				if (y-i>=0 && y-i<8 && wolnebicie(x, y, x , y-i, 'r')) //w lewo
 				{
 					czyscbicia();
-					plansza[currx][curry] = " ";
+					if (ok)
+					{
+						plansza[currx][curry] = " ";
+						ok = false;
+					}
+					else
+						plansza[currx][curry] = kopia[currx][curry];
 					plansza[x ][y - i] = c;
 					currx = x ;
 					curry = y - i;
 					wypelnbiciaH(xH, yH, uklad);
-					//wpiszwstepnebiciaK(xH, yH);
 					if (czybicieK(xH, yH))
 					{
-						char pomoc2 = currx + 48;
+						char pomoc2 = 8-currx + 48;
 						wynik = a + b + zIntNaAbc(curry) + pomoc2;
 						return wynik;
 					}
 				}
-				if (y + i >= 0 && y + i < 8 && wolnebicie(x, y, x , y+i, 'r'))//&& plansza[x ][y + i] == " ")//w prawo
+				if (y + i >= 0 && y + i < 8 && wolnebicie(x, y, x , y+i, 'r'))//w prawo
 				{
 					czyscbicia();
-					plansza[currx][curry] = " ";
+					if (ok)
+					{
+						plansza[currx][curry] = " ";
+						ok = false;
+					}
+					else
+						plansza[currx][curry] = kopia[currx][curry];
 					plansza[x ][y + i] = c;
 					currx = x ;
 					curry = y + i;
 					wypelnbiciaH(xH, yH, uklad);
-					//wpiszwstepnebiciaK(xH, yH);
 					if (czybicieK(xH, yH))
 					{
-						char pomoc2 = currx + 48;
+						char pomoc2 = 8-currx + 48;
 						wynik = a + b + zIntNaAbc(curry) + pomoc2;
 						return wynik;
 					}
 				}
 			}
+			plansza[currx][curry] = kopia[currx][curry];
 		}break;
 		case'b'://goniec
 		{
 			for (int i = 1; i < 8; i++)
 			{
-				if (x-i>=0 && x-i<8 && y-i>=0 && y-i<8 && wolnebicie(x, y, x - i, y-i, 'b'))// && plansza[x - i][y - i] == " ")
+				if (x-i>=0 && x-i<8 && y-i>=0 && y-i<8 && wolnebicie(x, y, x - i, y-i, 'b'))
 				{
 					czyscbicia();
-					plansza[currx][curry] = " ";
+					if (ok)
+					{
+						plansza[currx][curry] = " ";
+						ok = false;
+					}
+					else
+						plansza[currx][curry] = kopia[currx][curry];
 					plansza[x-i][y - i] = c;
 					currx = x-i;
 					curry = y - i;
 					wypelnbiciaH(xH, yH, uklad);
-					//wpiszwstepnebiciaK(xH, yH);
 					if (czybicieK(xH, yH))
 					{
-						char pomoc2 = currx + 48;
+						char pomoc2 = 8-currx + 48;
 						wynik = a + b + zIntNaAbc(curry) + pomoc2;
 						return wynik;
 					}
 				}
-				if (x - i >= 0 && x - i < 8 && y + i >= 0 && y + i < 8 && wolnebicie(x, y, x - i, y + i, 'b'))// && plansza[x - i][y + i] == " ")
+				if (x - i >= 0 && x - i < 8 && y + i >= 0 && y + i < 8 && wolnebicie(x, y, x - i, y + i, 'b'))
 				{
 					czyscbicia();
-					plansza[currx][curry] = " ";
+					if (ok)
+					{
+						plansza[currx][curry] = " ";
+						ok = false;
+					}
+					else
+						plansza[currx][curry] = kopia[currx][curry];
 					plansza[x-i][y + i] = c;
 					currx = x-i;
 					curry = y + i;
 					wypelnbiciaH(xH, yH, uklad);
-					//wpiszwstepnebiciaK(xH, yH);
 					if (czybicieK(xH, yH))
 					{
-						char pomoc2 = currx + 48;
+						char pomoc2 = 8-currx + 48;
 						wynik = a + b + zIntNaAbc(curry) + pomoc2;
 						return wynik;
 					}
 				}
-				if (x + i >= 0 && x + i < 8 && y + i >= 0 && y + i < 8 && wolnebicie(x, y, x + i, y + i, 'b'))// && plansza[x + i][y + i] == " ")
+				if (x + i >= 0 && x + i < 8 && y + i >= 0 && y + i < 8 && wolnebicie(x, y, x + i, y + i, 'b'))
 				{
 					czyscbicia();
-					plansza[currx][curry] = " ";
+					if (ok)
+					{
+						plansza[currx][curry] = " ";
+						ok = false;
+					}
+					else
+						plansza[currx][curry] = kopia[currx][curry];
 					plansza[x+i][y + i] = c;
 					currx = x+i;
 					curry = y + i;
 					wypelnbiciaH(xH, yH, uklad);
-					//wpiszwstepnebiciaK(xH, yH);
 					if (czybicieK(xH, yH))
 					{
-						char pomoc2 = currx + 48;
+						char pomoc2 = 8-currx + 48;
 						wynik = a + b + zIntNaAbc(curry) + pomoc2;
 						return wynik;
 					}
 				}
-				if (x + i >= 0 && x + i < 8 && y - i >= 0 && y - i < 8 && wolnebicie(x, y, x + i, y - i, 'b'))// && plansza[x + i][y - i] == " ")
+				if (x + i >= 0 && x + i < 8 && y - i >= 0 && y - i < 8 && wolnebicie(x, y, x + i, y - i, 'b'))
 				{
 					czyscbicia();
-					plansza[currx][curry] = " ";
+					if (ok)
+					{
+						plansza[currx][curry] = " ";
+						ok = false;
+					}
+					else
+						plansza[currx][curry] = kopia[currx][curry];
 					plansza[x+i][y - i] = c;
 					currx = x+i;
 					curry = y - i;
 					wypelnbiciaH(xH, yH, uklad);
-					//wpiszwstepnebiciaK(xH, yH);
 					if (czybicieK(xH, yH))
 					{
-						char pomoc2 = currx + 48;
+						char pomoc2 = 8-currx + 48;
 						wynik = a + b + zIntNaAbc(curry) + pomoc2;
 						return wynik;
 					}
 				}
 			}
+			plansza[currx][curry] = kopia[currx][curry];
 		}break;
 		case'n': //skoczek
 		{
 			for (int i = 0; i < 8; i++)
 			{
-				if (i == 0 && x-2>=0 && x-2<8 && y-1>=0 && y-1<8 && wolnebicie(x, y, x - 2, y - 1, 'n'))//&& plansza[x - 2][y - 1] == " ")
+				if (i == 0 && x-2>=0 && x-2<8 && y-1>=0 && y-1<8 && wolnebicie(x, y, x - 2, y - 1, 'n'))
 				{
 					czyscbicia();
-					plansza[currx][curry] = " ";
+					if (ok)
+					{
+						plansza[currx][curry] = " ";
+						ok = false;
+					}
+					else
+						plansza[currx][curry] = kopia[currx][curry];
 					plansza[x - 2][y - 1] = c;
 					currx = x - 2;
 					curry = y - 1;
 					wypelnbiciaH(xH, yH, uklad);
-					//wpiszwstepnebiciaK(xH, yH);
 					if (czybicieK(xH, yH))
 					{
-						char pomoc2 = currx + 48;
+						char pomoc2 = 8-currx + 48;
 						wynik = a + b + zIntNaAbc(curry) + pomoc2;
 						return wynik;
 					}
 				}
-				if (i == 1 && x - 2 >= 0 && x - 2 < 8 && y + 1 >= 0 && y + 1 < 8 && wolnebicie(x, y, x - 2, y +1, 'n'))// && plansza[x - 2][y + 1] == " ")
+				if (i == 1 && x - 2 >= 0 && x - 2 < 8 && y + 1 >= 0 && y + 1 < 8 && wolnebicie(x, y, x - 2, y +1, 'n'))
 				{
 					czyscbicia();
-					plansza[currx][curry] = " ";
+					if (ok)
+					{
+						plansza[currx][curry] = " ";
+						ok = false;
+					}
+					else
+						plansza[currx][curry] = kopia[currx][curry];
 					plansza[x - 2][y + 1] = c;
 					currx = x - 2;
 					curry = y + 1;
 					wypelnbiciaH(xH, yH, uklad);
-					//wpiszwstepnebiciaK(xH, yH);
 					if (czybicieK(xH, yH))
 					{
-						char pomoc2 = currx + 48;
+						char pomoc2 = 8-currx + 48;
 						wynik = a + b + zIntNaAbc(curry) + pomoc2;
 						return wynik;
 					}
 				}
-				if (i == 2 && x - 1 >= 0 && x - 1 < 8 && y + 2 >= 0 && y +2 < 8 && wolnebicie(x, y, x - 1, y +2, 'n'))// && plansza[x - 1][y + 2] == " ")
+				if (i == 2 && x - 1 >= 0 && x - 1 < 8 && y + 2 >= 0 && y +2 < 8 && wolnebicie(x, y, x - 1, y +2, 'n'))
 				{
 					czyscbicia();
-					plansza[currx][curry] = " ";
+					if (ok)
+					{
+						plansza[currx][curry] = " ";
+						ok = false;
+					}
+					else
+						plansza[currx][curry] = kopia[currx][curry];
 					plansza[x - 1][y + 2] = c;
 					currx = x - 1;
 					curry = y + 2;
 					wypelnbiciaH(xH, yH, uklad);
-					//wpiszwstepnebiciaK(xH, yH);
 					if (czybicieK(xH, yH))
 					{
-						char pomoc2 = currx + 48;
+						char pomoc2 = 8-currx + 48;
 						wynik = a + b + zIntNaAbc(curry) + pomoc2;
 						return wynik;
 					}
 				}
-				if (i == 3 && x + 1 >= 0 && x + 1 < 8 && y + 2 >= 0 && y + 2 < 8 && wolnebicie(x, y, x +1, y +2, 'n'))// && plansza[x + 1][y + 2] == " ")
+				if (i == 3 && x + 1 >= 0 && x + 1 < 8 && y + 2 >= 0 && y + 2 < 8 && wolnebicie(x, y, x +1, y +2, 'n'))
 				{
 					czyscbicia();
-					plansza[currx][curry] = " ";
+					if (ok)
+					{
+						plansza[currx][curry] = " ";
+						ok = false;
+					}
+					else
+						plansza[currx][curry] = kopia[currx][curry];
 					plansza[x + 1][y + 2] = c;
 					currx = x + 1;
 					curry = y + 2;
 					wypelnbiciaH(xH, yH, uklad);
-					//wpiszwstepnebiciaK(xH, yH);
 					if (czybicieK(xH, yH))
 					{
-						char pomoc2 = currx + 48;
+						char pomoc2 = 8-currx + 48;
 						wynik = a + b + zIntNaAbc(curry) + pomoc2;
 						return wynik;
 					}
 				}
-				if (i == 4 && x + 2 >= 0 && x + 2 < 8 && y + 1 >= 0 && y + 1 < 8 && wolnebicie(x, y, x +2, y +1, 'n'))// && plansza[x + 2][y + 1] == " ")
+				if (i == 4 && x + 2 >= 0 && x + 2 < 8 && y + 1 >= 0 && y + 1 < 8 && wolnebicie(x, y, x +2, y +1, 'n'))
 				{
 					czyscbicia();
-					plansza[currx][curry] = " ";
+					if (ok)
+					{
+						plansza[currx][curry] = " ";
+						ok = false;
+					}
+					else
+						plansza[currx][curry] = kopia[currx][curry];
 					plansza[x + 2][y + 1] = c;
 					currx = x + 2;
 					curry = y + 1;
 					wypelnbiciaH(xH, yH, uklad);
-					//wpiszwstepnebiciaK(xH, yH);
 					if (czybicieK(xH, yH))
 					{
-						char pomoc2 = currx + 48;
+						char pomoc2 = 8-currx + 48;
 						wynik = a + b + zIntNaAbc(curry) + pomoc2;
 						return wynik;
 					}
 				}
-				if (i == 5 && x + 2 >= 0 && x + 2 < 8 && y - 1 >= 0 && y - 1 < 8 && wolnebicie(x, y, x +2, y - 1, 'n'))//&& plansza[x + 2][y - 1] == " ")
+				if (i == 5 && x + 2 >= 0 && x + 2 < 8 && y - 1 >= 0 && y - 1 < 8 && wolnebicie(x, y, x +2, y - 1, 'n'))
 				{
 					czyscbicia();
-					plansza[currx][curry] = " ";
+					if (ok)
+					{
+						plansza[currx][curry] = " ";
+						ok = false;
+					}
+					else
+						plansza[currx][curry] = kopia[currx][curry];
 					plansza[x + 2][y - 1] = c;
 					currx = x + 2;
 					curry = y - 1;
 					wypelnbiciaH(xH, yH, uklad);
-					//wpiszwstepnebiciaK(xH, yH);
 					if (czybicieK(xH, yH))
 					{
-						char pomoc2 = currx + 48;
+						char pomoc2 = 8-currx + 48;
 						wynik = a + b + zIntNaAbc(curry) + pomoc2;
 						return wynik;
 					}
 				}
-				if (i == 6 && x +1 >= 0 && x + 1 < 8 && y - 2 >= 0 && y - 2 < 8 && wolnebicie(x, y, x +1, y - 2, 'n'))// && plansza[x + 1][y - 2] == " ")
+				if (i == 6 && x +1 >= 0 && x + 1 < 8 && y - 2 >= 0 && y - 2 < 8 && wolnebicie(x, y, x +1, y - 2, 'n'))
 				{
 					czyscbicia();
-					plansza[currx][curry] = " ";
+					if (ok)
+					{
+						plansza[currx][curry] = " ";
+						ok = false;
+					}
+					else
+						plansza[currx][curry] = kopia[currx][curry];
 					plansza[x + 1][y - 2] = c;
 					currx = x + 1;
 					curry = y - 2;
 					wypelnbiciaH(xH, yH, uklad);
-					//wpiszwstepnebiciaK(xH, yH);
 					if (czybicieK(xH, yH))
 					{
-						char pomoc2 = currx + 48;
+						char pomoc2 = 8-currx + 48;
 						wynik = a + b + zIntNaAbc(curry) + pomoc2;
 						return wynik;
 					}
 				}
-				if (i == 7 && x - 1 >= 0 && x - 1 < 8 && y - 2 >= 0 && y - 2 < 8 && wolnebicie(x, y, x - 1, y - 2, 'n'))// && plansza[x - 1][y - 2] == " ")
+				if (i == 7 && x - 1 >= 0 && x - 1 < 8 && y - 2 >= 0 && y - 2 < 8 && wolnebicie(x, y, x - 1, y - 2, 'n'))
 				{
 					czyscbicia();
-					plansza[currx][curry] = " ";
+					if (ok)
+					{
+						plansza[currx][curry] = " ";
+						ok = false;
+					}
+					else
+						plansza[currx][curry] = kopia[currx][curry];
 					plansza[x - 1][y -2] = c;
 					currx = x - 1;
 					curry = y -2;
 					wypelnbiciaH(xH, yH, uklad);
-					//wpiszwstepnebiciaK(xH, yH);
 					if (czybicieK(xH, yH))
 					{
-						char pomoc2 = currx + 48;
+						char pomoc2 = 8-currx + 48;
 						wynik = a + b + zIntNaAbc(curry) + pomoc2;
 						return wynik;
 					}
 				}
 			}
+			plansza[currx][curry] = kopia[currx][curry];
 		}break;
 		case'p': //pionek
 		{
 			if (uklad == 0) //biale sa na dole
 			{
-				if (x - 1 >= 0 && x - 1 < 8 && wolnebicie(x, y, x - 1, y , 'p'))//&& plansza[x - 1][y] == " ")
+				if (x - 1 >= 0 && x - 1 < 8 && wolnebicie(x, y, x - 1, y , 'p'))
 				{
 					czyscbicia();
-					plansza[currx][curry] = " ";
+					if (ok)
+					{
+						plansza[currx][curry] = " ";
+						ok = false;
+					}
+					else
+						plansza[currx][curry] = kopia[currx][curry];
 					plansza[x - 1][y] = c;
 					currx = x - 1;
 					curry = y;
 					wypelnbiciaH(xH, yH, uklad);
-					//wpiszwstepnebiciaK(xH, yH);
 					if (czybicieK(xH, yH))
 					{
-						char pomoc2 = currx + 48;
+						char pomoc2 = 8-currx + 48;
 						wynik = a + b + zIntNaAbc(curry) + pomoc2;
 						return wynik;
 					}
 				}
-				if (x - 2 >= 0 && x - 2 < 8 && wolnebicie(x, y, x - 2, y, 'p'))// && plansza[x - 2][y ] == " ")
+				if (x - 2 >= 0 && x - 2 < 8 && wolnebicie(x, y, x - 2, y, 'p'))
 				{
 					czyscbicia();
-					plansza[currx][curry] = " ";
+					if (ok)
+					{
+						plansza[currx][curry] = " ";
+						ok = false;
+					}
+					else
+						plansza[currx][curry] = kopia[currx][curry];
 					plansza[x - 2][y] = c;
 					currx = x - 2;
 					curry = y;
 					wypelnbiciaH(xH, yH, uklad);
-					//wpiszwstepnebiciaK(xH, yH);
 					if (czybicieK(xH, yH))
 					{
-						char pomoc2 = currx + 48;
+						char pomoc2 = 8-currx + 48;
 						wynik = a + b + zIntNaAbc(curry) + pomoc2;
 						return wynik;
 					}
@@ -1591,45 +2193,57 @@ string czyonmozemat(int x, int y, int xH,int yH)
 			}
 			else
 			{
-				if (x + 1 >= 0 && x + 1 < 8 && wolnebicie(x, y, x +1, y , 'p'))// && plansza[x + 1][y] == " ")
+				if (x + 1 >= 0 && x + 1 < 8 && wolnebicie(x, y, x +1, y , 'p'))
 				{
 					czyscbicia();
-					plansza[currx][curry] = " ";
+					if (ok)
+					{
+						plansza[currx][curry] = " ";
+						ok = false;
+					}
+					else
+						plansza[currx][curry] = kopia[currx][curry];
 					plansza[x + 1][y] = c;
 					currx = x + 1;
 					curry = y;
 					wypelnbiciaH(xH, yH, uklad);
-					//wpiszwstepnebiciaK(xH, yH);
 					if (czybicieK(xH, yH))
 					{
-						char pomoc2 = currx + 48;
+						char pomoc2 = 8-currx + 48;
 						wynik = a + b + zIntNaAbc(curry) + pomoc2;
 						return wynik;
 					}
 				}
-				if (x + 2 >= 0 && x + 2 < 8 && wolnebicie(x, y, x +2, y , 'p'))// && plansza[x + 2][y] == " ")
+				if (x + 2 >= 0 && x + 2 < 8 && wolnebicie(x, y, x +2, y , 'p'))
 				{
 					czyscbicia();
-					plansza[currx][curry] = " ";
+					if (ok)
+					{
+						plansza[currx][curry] = " ";
+						ok = false;
+					}
+					else
+						plansza[currx][curry] = kopia[currx][curry];
 					plansza[x + 2][y] = c;
 					currx = x + 2;
 					curry = y;
 					wypelnbiciaH(xH, yH, uklad);
-					//wpiszwstepnebiciaK(xH, yH);
 					if (czybicieK(xH, yH))
 					{
-						char pomoc2 = currx + 48;
+						char pomoc2 = 8-currx + 48;
 						wynik = a + b + zIntNaAbc(curry) + pomoc2;
 						return wynik;
 					}
 				}
 			}
+			plansza[currx][curry] = kopia[currx][curry];
 		}break;
 		default: 
 		{
 			return "";
 		}break;
 	}
+	plansza[x][y] = kopia[x][y];
 	return "";
 }
 
