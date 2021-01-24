@@ -8,7 +8,7 @@
 #include <windows.h>
 #endif // __unix__
 
-#include "gamefunc.h"
+#include "grytreningowe.cpp"
 
 void initboard(figura board[8][8],int tryb)
 {
@@ -858,7 +858,7 @@ void inputMsg(bool local, int ktora, int *mesydz, char *msg)
 }
 
 
-int chessGame(bool mode)
+int chessGame(bool mode, int czywczytac, int display)
 {
     figura board[8][8];
     std::ofstream plik;
@@ -869,17 +869,12 @@ int chessGame(bool mode)
     time_t now = time(0);
     tm *ltm = localtime(&now);
 
-    int czywczytac,display;
     std::cout<<"Zaczynamy gre\n";
     std::cout<<"Instrukcje:\n"<<"Aby poruszyc sie figura nalezy wpisac koordynaty poczatku ruchu i końca np \"a2a4\", malymi literami, razem\n";
     std::cout<<"Zeby poprosic o remis wpisz \"draw\"\n";
     std::cout<<"Zeby przerwac gre z mozliwoscia kontynuacji wpisz \"stop\"\n";
     std::cout<<"Zeby zakonczyc gre bez zapisywania wpisz \"quit\"\n";
     std::cout<<"Zeby poddac sie wpisz \"surr\"\n"<<"\n";
-    std::cout<<"Chcesz rozpoczac nowa gre, czy kontynuowac zapisana rozgrywke?\n"<<"1 - nowa gra, 2 - zapisana gra\n";
-    std::cin>>czywczytac;
-    std::cout<<"Perspektywa 1 - biale, 2 - czarne\n";
-    std::cin>>display;
 
     ////zapisywanie tagow PGN
 

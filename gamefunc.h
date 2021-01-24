@@ -6,7 +6,7 @@ typedef struct figura
 {
     unsigned char fig; //' ', 'P', 'R', 'B', 'N', 'Q', 'K'
     int tim; //1 = bialy, 2 = czarny, -1 - puste
-} figura;
+}figura;
 
 typedef struct savedMove
 {
@@ -46,4 +46,4 @@ bool checkRoszada(savedMove &ruch);
 
 void roszadaMove(savedMove &ruch, std::ostringstream &dane, int tura);
 
-int chessGame(bool mode);
+int chessGame(bool mode, int czywczytac, int display);

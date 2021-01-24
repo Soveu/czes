@@ -3,21 +3,13 @@
 #include <math.h>
 #include <cstdlib>
 #include <ctime>
+#include "gamefunc.h"
 using namespace std;
-typedef struct figura
-{
-	unsigned char fig; //' ', 'P', 'R', 'B', 'N', 'Q', 'K'
-	int tim; //1 = bialy, 2 = czarny
-} figura;
 
 string plansza[8][8]; //moze zmieniac sie w zaleznosci od robionych ruchow
 string kopia[8][8]; //niezmienia swojego utawienia od poczatku gry do konca
 int uklad; //jezeli uklad=0 to biale figury sa na dole planszy, w przeciwnym przypadku sa na gorze
 bool bicieK[8]; //tablica,ktora zawiera pola wokol krola czarnego, 0-gdy pole nie jest bite, 1-gdy pole jest bite
-void printBoard(figura board[8][8], int tryb /*1==biale 0==czarne*/)//potrzebna do wyswietlania na ekran planszy w unicode
-{
-	return;
-}
 void printboard(string tab[8][8]) //wpisywanie do tablicy struktur planszy
 {
 	figura board[8][8];
@@ -344,7 +336,7 @@ void gra(string szachy[8][8], int liczbarand) //opcja druga reneruje losowo gre 
 			szachy[0][2] = "B";//czarny goniec
 			szachy[0][5] = "R";//czarna wieza
 			szachy[0][6] = "K";//czarny krol
-			szachy[1][0] = "P";//czarny pionek 
+			szachy[1][0] = "P";//czarny pionek
 			szachy[1][1] = "P";
 			szachy[1][4] = "B";
 			szachy[1][5] = "P";
@@ -573,7 +565,7 @@ bool wolnebicie(int x1, int y1, int x2, int y2, char figura) //,int uklad)
 {
 	switch (figura)
 	{
-		case 'k': 
+		case 'k':
 		{
 			return true;
 		}break;
@@ -639,7 +631,7 @@ bool wolnebicie(int x1, int y1, int x2, int y2, char figura) //,int uklad)
 					return true;
 				}
 			}
-			else //tak samo jak goniec 
+			else //tak samo jak goniec
 			{
 				int pomx, pomy;
 				if (x2<x1 && y2>y1) //ruch po ukosie w prawy gorny rog
@@ -866,7 +858,7 @@ bool wolnebicie(int x1, int y1, int x2, int y2, char figura) //,int uklad)
 		}break;
 		case'p':
 		{
-			if (abs(x1 - x2) > 1) //ruch o dwa pola 
+			if (abs(x1 - x2) > 1) //ruch o dwa pola
 			{
 				if (x1 > x2)
 				{
@@ -996,7 +988,7 @@ void wypelnbiciaH(int xH,int yH, bool uklad) //jak uklad=0 to bia³e s¹ na dole t
 								bicieK[3] = true;
 						}
 						// \ ukosna
-						if (j - i == (yH - 1) - (xH + 1)) 
+						if (j - i == (yH - 1) - (xH + 1))
 						{
 							if (wolnebicie(i, j, xH + 1, yH - 1, 'q'))
 								bicieK[5] = true;
@@ -2178,7 +2170,7 @@ string czyonmozemat(int x, int y, int xH,int yH)
 			}
 			plansza[currx][curry] = kopia[currx][curry];
 		}break;
-		default: 
+		default:
 		{
 			return "";
 		}break;
@@ -2217,13 +2209,13 @@ string jakisruchdomata()
 				if (ruchwygrana != "")
 				{
 					return ruchwygrana;
-				}	
+				}
 			}
 		}
 	}
 	return "";
 }
-int main()
+int gratreningowa()
 {
 	printf("WYBIERZ JEDNA Z TRZECH OPCJI: \n");
 	printf("1 - czytanie z pliku o formacie PGN \n");
