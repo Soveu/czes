@@ -98,6 +98,12 @@ int main(int argc, const char* argv[])
         switch(odp)
         {
         case 1:
+            std::cout<<"Zaczynamy gre\n";
+            std::cout<<"Instrukcje:\n"<<"Aby poruszyc sie figura nalezy wpisac koordynaty poczatku ruchu i końca np \"a2a4\", malymi literami, razem\n";
+            std::cout<<"Zeby poprosic o remis wpisz \"draw\"\n";
+            std::cout<<"Zeby przerwac gre z mozliwoscia kontynuacji wpisz \"stop\"\n";
+            std::cout<<"Zeby zakonczyc gre bez zapisywania wpisz \"quit\"\n";
+            std::cout<<"Zeby poddac sie wpisz \"surr\"\n"<<"\n";
             std::cout<<"Chcesz wczytac zapisana gre w formacie PGN? T/N\n";
             std::cin>>od;
             if(od=='T')
@@ -106,7 +112,6 @@ int main(int argc, const char* argv[])
                 wczytac=1;
 
             std::cout<<"Tryb wyswietlania: biale na dole - B, czarne na dole - C\n";
-
             std::cin>>od;
             if(od=='B')
                 disp=1;
@@ -115,9 +120,7 @@ int main(int argc, const char* argv[])
 
             chessGame(true,wczytac,disp);
             std::cout<<"Czy chcesz wyjsc z programu? T/N";
-
             std::cin>>od;
-
             if(od=='T')
                 cont=false;
             else
@@ -128,9 +131,7 @@ int main(int argc, const char* argv[])
             //nie wiem czy cos tu trzeba
             gratreningowa();
             std::cout<<"Czy chcesz wyjsc z programu? T/N";
-
             std::cin>>od;
-
             if(od=='T')
                 cont=false;
             else
@@ -147,12 +148,6 @@ int main(int argc, const char* argv[])
             break;
         }
     }
-
-
-
-
-
-
     return 0;
 }
 

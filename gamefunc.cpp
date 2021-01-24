@@ -869,13 +869,6 @@ int chessGame(bool mode, int czywczytac, int display)
     time_t now = time(0);
     tm *ltm = localtime(&now);
 
-    std::cout<<"Zaczynamy gre\n";
-    std::cout<<"Instrukcje:\n"<<"Aby poruszyc sie figura nalezy wpisac koordynaty poczatku ruchu i końca np \"a2a4\", malymi literami, razem\n";
-    std::cout<<"Zeby poprosic o remis wpisz \"draw\"\n";
-    std::cout<<"Zeby przerwac gre z mozliwoscia kontynuacji wpisz \"stop\"\n";
-    std::cout<<"Zeby zakonczyc gre bez zapisywania wpisz \"quit\"\n";
-    std::cout<<"Zeby poddac sie wpisz \"surr\"\n"<<"\n";
-
     ////zapisywanie tagow PGN
 
     dane<<"[Event \"-\"]\n";
