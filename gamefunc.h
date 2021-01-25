@@ -6,7 +6,7 @@ typedef struct figura
 {
     unsigned char fig; //' ', 'P', 'R', 'B', 'N', 'Q', 'K'
     int tim; //1 = bialy, 2 = czarny, -1 - puste
-} figura;
+}figura;
 
 typedef struct savedMove
 {
@@ -38,12 +38,12 @@ char converter(int znak);
 
 void checkStar(std::string &edytowane, std::ostringstream &strim);
 
-void basicMove(savedMove &ruch, std::ostringstream &dane, int tura);
+void basicMove(savedMove &ruch, std::ostringstream &dane, int tura, char f);
 
-void zbicieMove(savedMove &ruch, std::ostringstream &dane, int tura);
+void zbicieMove(savedMove &ruch, std::ostringstream &dane, int tura, char f);
 
 bool checkRoszada(savedMove &ruch);
 
 void roszadaMove(savedMove &ruch, std::ostringstream &dane, int tura);
 
-int chessGame(bool mode);
+int chessGame(bool mode, int czywczytac, int display);
