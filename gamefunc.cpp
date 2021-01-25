@@ -136,9 +136,9 @@ void printBoard(figura board[8][8],int tryb /*1==biale 0==czarne*/)
             if(i%2==1)
             {
 #ifndef __unix__
-                if(board[tryb==1?7-y:y][tryb==0?7-x:x].tim==1)
+                if(board[tryb==1?7-y:y][tryb==1?x:7-x].tim==1)
                     SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_GREEN | BACKGROUND_RED | BACKGROUND_GREEN | FOREGROUND_INTENSITY | BACKGROUND_BLUE | BACKGROUND_INTENSITY);
-                else if(board[tryb==1?7-y:y][tryb==0?7-x:x].tim==2)
+                else if(board[tryb==1?7-y:y][tryb==1?x:7-x].tim==2)
                     SetConsoleTextAttribute(hConsole, FOREGROUND_RED | BACKGROUND_RED | BACKGROUND_GREEN | FOREGROUND_INTENSITY | BACKGROUND_BLUE | BACKGROUND_INTENSITY);
                 else
                     SetConsoleTextAttribute(hConsole, BACKGROUND_RED | BACKGROUND_GREEN | FOREGROUND_INTENSITY | BACKGROUND_BLUE | BACKGROUND_INTENSITY);
@@ -146,9 +146,9 @@ void printBoard(figura board[8][8],int tryb /*1==biale 0==czarne*/)
 #ifdef __unix__
 
                 std::cout<<BLACK_BG;
-                if(board[tryb==1?7-y:y][tryb==0?7-x:x].tim==1)
+                if(board[tryb==1?7-y:y][tryb==1?x:7-x].tim==1)
                     std::cout<<WHITE_FG;//white
-                else if(board[tryb==1?7-y:y][tryb==0?7-x:x].tim==2)
+                else if(board[tryb==1?7-y:y][tryb==1?x:7-x].tim==2)
                     std::cout<<BLACK_FG;//black
 #endif
 
@@ -156,42 +156,42 @@ void printBoard(figura board[8][8],int tryb /*1==biale 0==czarne*/)
             else
             {
 #ifndef __unix__
-                if(board[tryb==1?7-y:y][tryb==0?7-x:x].tim==1)
+                if(board[tryb==1?7-y:y][tryb==1?x:7-x].tim==1)
                     SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_GREEN| BACKGROUND_BLUE | FOREGROUND_INTENSITY | BACKGROUND_INTENSITY);
-                else if(board[tryb==1?7-y:y][tryb==0?7-x:x].tim==2)
+                else if(board[tryb==1?7-y:y][tryb==1?x:7-x].tim==2)
                     SetConsoleTextAttribute(hConsole, FOREGROUND_RED | BACKGROUND_BLUE | FOREGROUND_INTENSITY | BACKGROUND_INTENSITY);
                 else
                     SetConsoleTextAttribute(hConsole, BACKGROUND_BLUE | FOREGROUND_INTENSITY | BACKGROUND_INTENSITY);
 #endif
 #ifdef __unix__
                 std::cout<<WHITE_BG;
-                if(board[tryb==1?7-y:y][tryb==0?7-x:x].tim==1)
+                if(board[tryb==1?7-y:y][tryb==1?x:7-x].tim==1)
                     std::cout<<WHITE_FG;//white
-                else if(board[tryb==1?7-y:y][tryb==0?7-x:x].tim==2)
+                else if(board[tryb==1?7-y:y][tryb==1?x:7-x].tim==2)
                     std::cout<<BLACK_FG;//black
 
 #endif
             }
             i++;
 #ifndef __unix__
-            std::cout<<board[tryb==1?7-y:y][tryb==0?7-x:x].fig<<" ";
+            std::cout<<board[tryb==1?7-y:y][tryb==1?x:7-x].fig<<" ";
 #endif
 
 #ifdef __unix__
 
-            if(board[tryb==1?7-y:y][tryb==0?7-x:x].fig==' ')
+            if(board[tryb==1?7-y:y][tryb==1?x:7-x].fig==' ')
                 std::cout<<PIECES[0]<<" ";
-            if(board[tryb==1?7-y:y][tryb==0?7-x:x].fig=='P')
+            if(board[tryb==1?7-y:y][tryb==1?x:7-x].fig=='P')
                 std::cout<<PIECES[1]<<" ";
-            if(board[tryb==1?7-y:y][tryb==0?7-x:x].fig=='B')
+            if(board[tryb==1?7-y:y][tryb==1?x:7-x].fig=='B')
                 std::cout<<PIECES[2]<<" ";
-            if(board[tryb==1?7-y:y][tryb==0?7-x:x].fig=='N')
+            if(board[tryb==1?7-y:y][tryb==1?x:7-x].fig=='N')
                 std::cout<<PIECES[3]<<" ";
-            if(board[tryb==1?7-y:y][tryb==0?7-x:x].fig=='R')
+            if(board[tryb==1?7-y:y][tryb==1?x:7-x].fig=='R')
                 std::cout<<PIECES[4]<<" ";
-            if(board[tryb==1?7-y:y][tryb==0?7-x:x].fig=='Q')
+            if(board[tryb==1?7-y:y][tryb==1?x:7-x].fig=='Q')
                 std::cout<<PIECES[5]<<" ";
-            if(board[tryb==1?7-y:y][tryb==0?7-x:x].fig=='K')
+            if(board[tryb==1?7-y:y][tryb==1?x:7-x].fig=='K')
                 std::cout<<PIECES[6]<<" ";
 #endif
         }
