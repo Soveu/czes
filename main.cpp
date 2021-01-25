@@ -88,49 +88,42 @@ int main(int argc, const char* argv[])
       std::cout << "Command not supported!" << std::endl;
     }
     */
-    int odp, wczytac,disp;
+    int odp,disp;
     bool cont=true;
     char od;
     std::cout<<"Wybierz tryb gry:\n 1 - hot-seat  2 - zagadki szachowe  3 - gra sieciowa 4 - wyjscie z programu\n";
-     while(cont)
+    while(cont)
     {
         std::cin>>odp;
         switch(odp)
         {
         case 1:
             std::cout<<"Zaczynamy gre\n";
-            std::cout<<"Instrukcje:\n"<<"Aby poruszyc sie figura nalezy wpisac koordynaty poczatku ruchu i koÅ„ca np \"a2a4\", malymi literami, razem\n";
+            std::cout<<"Instrukcje:\n"<<"Aby poruszyc sie figura nalezy wpisac koordynaty poczatku ruchu i koñca np \"a2a4\", malymi literami, razem\n";
             std::cout<<"Zeby poprosic o remis wpisz \"draw\"\n";
-            std::cout<<"Zeby przerwac gre z mozliwoscia kontynuacji wpisz \"stop\"\n";
-            std::cout<<"Zeby zakonczyc gre bez zapisywania wpisz \"quit\"\n";
+            std::cout<<"Zeby zakonczyc gre wpisz \"quit\"\n";
             std::cout<<"Zeby poddac sie wpisz \"surr\"\n"<<"\n";
-            std::cout<<"Chcesz wczytac zapisana gre w formacie PGN? T/N\n";
-            std::cin>>od;
-            if(od=='T')
-                wczytac=2;
-            else
-                wczytac=1;
 
-            std::cout<<"Tryb wyswietlania: biale na dole - B, czarne na dole - C\n";
+            std::cout<<"Tryb wyswietlania: b - biale na dole, c - czarne na dole \n";
             std::cin>>od;
-            if(od=='B')
+            if(od=='b')
                 disp=1;
             else
                 disp=2;
 
-            chessGame(true,wczytac,disp);
-            std::cout<<"Czy chcesz wyjsc z programu? T/N";
+            chessGame(true,1,disp);
+            std::cout<<"Czy chcesz wyjsc z programu? T/N \n";
             std::cin>>od;
             if(od=='T')
                 cont=false;
             else
-                std::cout<<"Wybierz tryb gry:\n 1 - hot-seat  2 - zagadki szachowe  3 - gra sieciowa 4 - wyjscie z programu\n";
+                std::cout<<"Wybierz tryb gry:\n 1 - hot-seat  2 - zagadki szachowe  3 - gra sieciowa 4 - wyjscie z programu \n";
 
             break;
         case 2:
             //nie wiem czy cos tu trzeba
             gratreningowa();
-            std::cout<<"Czy chcesz wyjsc z programu? T/N";
+            std::cout<<"Czy chcesz wyjsc z programu? T/N \n";
             std::cin>>od;
             if(od=='T')
                 cont=false;

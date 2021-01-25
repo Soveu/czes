@@ -38,9 +38,9 @@ char converter(int znak);
 
 void checkStar(std::string &edytowane, std::ostringstream &strim);
 
-void basicMove(savedMove &ruch, std::ostringstream &dane, int tura);
+void basicMove(savedMove &ruch, std::ostringstream &dane, int tura, char f);
 
-void zbicieMove(savedMove &ruch, std::ostringstream &dane, int tura);
+void zbicieMove(savedMove &ruch, std::ostringstream &dane, int tura, char f);
 
 bool checkRoszada(savedMove &ruch);
 

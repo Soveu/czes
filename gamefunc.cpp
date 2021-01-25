@@ -12,8 +12,24 @@
 
 void initboard(figura board[8][8],int tryb)
 {
-    //tryb 1 - wczytanie nowej tablicy //tryb 2 - wczytanie z pgn
-    if(tryb==1)
+    //tryb 1 - wczytanie nowej tablicy //tryb 2 - wczytanie z PGN
+    if(tryb==2)
+    {
+        /////////////////////////////////////////////MIEJSCE NA IMPORT Z PGN////////////////////////////////////////
+        //mozesz napisac calosc importu tutaj, mozesz napisac osobne funkcje i w tym miejscu ich uzywac jak wolisz//
+        //																										  //
+        //																										  //
+        //																										  //
+        //																										  //
+        //																										  //
+        //																										  //
+        //																										  //
+        //																										  //
+        //																										  //
+        //																										  //
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    }
+    else
     {
         board[0][0].fig='R';
         board[0][0].tim=1;
@@ -70,28 +86,6 @@ void initboard(figura board[8][8],int tryb)
             board[6][i].tim=2;
         }
     }
-    else if(tryb==2)
-    {
-        /////////////////////////////////////////////MIEJSCE NA IMPORT Z PGN////////////////////////////////////////
-        //mozesz napisac calosc importu tutaj, mozesz napisac osobne funkcje i w tym miejscu ich uzywac jak wolisz//
-        //																										  //
-        //																										  //
-        //																										  //
-        //																										  //
-        //																										  //
-        //																										  //
-        //																										  //
-        //																										  //
-        //																										  //
-        //																										  //
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    }
-    else
-    {
-        std::cout<<"Bledny tryb\n";
-
-    }
-
 }
 
 void printBoard(figura board[8][8],int tryb /*1==biale 0==czarne*/)
@@ -839,13 +833,15 @@ void inputMsg(bool local, int ktora, int *mesydz, char *msg)
         char f;
         int n;
         if(ktora==1)
-        {//////////////char
+        {
+            //////////////char
             std::cin>>f;
             *msg=f;
             return;
         }
         else
-        {//////////////int
+        {
+            //////////////int
             std::cin>>n;
             *mesydz=n;
             return;
@@ -863,11 +859,27 @@ int chessGame(bool mode, int czywczytac, int display)
     figura board[8][8];
     std::ofstream plik;
     std::ostringstream dane;
+    std::ostringstream nazwapliku;
     std::string edycja;
-    plik.open("temp.txt");
     int licznik=1;
     time_t now = time(0);
     tm *ltm = localtime(&now);
+
+    ////plik PGN
+
+    nazwapliku<<1900+ltm->tm_year;
+    nazwapliku<<"-";
+    nazwapliku<< 1+ltm->tm_mon;
+    nazwapliku<<"-";
+    nazwapliku<< ltm->tm_mday;
+    nazwapliku<<"-";
+    nazwapliku<<ltm->tm_hour;
+    nazwapliku<<"-";
+    nazwapliku<<ltm->tm_min;
+    nazwapliku<<"-";
+    nazwapliku<<ltm->tm_sec;
+    nazwapliku<<".pgn";
+    plik.open(nazwapliku.str());
 
     ////zapisywanie tagow PGN
 
@@ -911,6 +923,12 @@ int chessGame(bool mode, int czywczytac, int display)
         {
             outputMsg(mode,7,tura);
             inputMsg(mode,1,NULL,&odp);////<-------------zapytanie o zapisanie do PGN
+            if(odp=='T')
+            {
+                plik<<dane.str();
+                plik.flush();
+            }
+
 
             break;
         }
@@ -918,6 +936,12 @@ int chessGame(bool mode, int czywczytac, int display)
         {
             outputMsg(mode,8,tura);
             inputMsg(mode,1,NULL,&odp);////<-------------zapytanie o zapisanie do PGN
+            if(odp=='T')
+            {
+                plik<<dane.str();
+                plik.flush();
+            }
+
 
             break;
         }
@@ -925,6 +949,12 @@ int chessGame(bool mode, int czywczytac, int display)
         {
             outputMsg(mode,(tura==1?10:9),tura);
             inputMsg(mode,1,NULL,&odp);////<-------------zapytanie o zapisanie do PGN
+            if(odp=='T')
+            {
+                plik<<dane.str();
+                plik.flush();
+            }
+
 
             break;
         }
@@ -1052,11 +1082,11 @@ int chessGame(bool mode, int czywczytac, int display)
                 }
 
                 printBoard(board,display);
-
+                char f='x';
                 /////zamiana pionka po dojsciu na koniec planszy
                 if(yK==(tura==1?7:0)&&board[yK][xK].fig=='P')
                 {
-                    char f;
+
                     outputMsg(mode,5,tura);
                     while(1)
                     {
@@ -1134,25 +1164,22 @@ int chessGame(bool mode, int czywczytac, int display)
                 {
                     if(temp.fig!=' ')
                     {
-                        zbicieMove(prevMove, dane, tura);
+                        zbicieMove(prevMove, dane, tura, f);
                     }
                     else
                     {
-                        basicMove(prevMove, dane, tura);
+                        basicMove(prevMove, dane, tura, f);
                     }
                 }
 
-                if(licznik==4&&tura==2)
-                {
-                    plik<<dane.str();
-                    plik.flush();
-                }
 
 
                 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
                 if(prevMove.mat)
                 {
+                    plik<<dane.str();
+                    plik.flush();
                     outputMsg(mode,8+tura,tura);
                     inputMsg(mode,1,NULL,&odp);////<-------------zapytanie o zapisanie do PGN
                     break;
@@ -1179,14 +1206,12 @@ int chessGame(bool mode, int czywczytac, int display)
     plik.close();
     return 1;
 }
-
 bool checkRoszada(savedMove& prevMove)
 {
     if(prevMove.coords[1]==4&&prevMove.fig=='K'&&(prevMove.coords[3]==2||prevMove.coords[3]==6))
         return 1;
     else
         return 0;
-
 }
 
 void roszadaMove(savedMove& prevMove, std::ostringstream &dane, int tura)
@@ -1198,6 +1223,10 @@ void roszadaMove(savedMove& prevMove, std::ostringstream &dane, int tura)
     if(prevMove.coords[3]==6)
     {
         dane<<"O-O";
+    }
+    if(prevMove.szach==false&&prevMove.mat==false)
+    {
+        dane<<" *";
     }
     if(prevMove.szach==true&&prevMove.mat==false)
     {
@@ -1213,7 +1242,7 @@ void roszadaMove(savedMove& prevMove, std::ostringstream &dane, int tura)
     }
 }
 
-void zbicieMove(savedMove& prevMove, std::ostringstream &dane, int tura)
+void zbicieMove(savedMove& prevMove, std::ostringstream &dane, int tura, char f)
 {
     switch(prevMove.fig)
     {
@@ -1265,7 +1294,16 @@ void zbicieMove(savedMove& prevMove, std::ostringstream &dane, int tura)
         dane<<prevMove.coords[2]+1;
         break;
     }
-    if(prevMove.szach==true)
+    if(f!='x')
+    {
+        dane<<"=";
+        dane<<f;
+    }
+    if(prevMove.szach==false&&prevMove.mat==false)
+    {
+        dane<<" *";
+    }
+    if(prevMove.szach==true&&prevMove.mat==false)
     {
         dane<<"+";
         dane<<" *";
@@ -1273,14 +1311,14 @@ void zbicieMove(savedMove& prevMove, std::ostringstream &dane, int tura)
     if(prevMove.mat==true)
     {
         if(tura==1)
-            dane<<" 1-0";
+            dane<<"# 1-0";
         if(tura==2)
-            dane<<" 0-1";
+            dane<<"# 0-1";
     }
 
 }
 
-void basicMove(savedMove& prevMove, std::ostringstream &dane, int tura)
+void basicMove(savedMove& prevMove, std::ostringstream &dane, int tura, char f)
 {
     switch(prevMove.fig)
     {
@@ -1324,18 +1362,26 @@ void basicMove(savedMove& prevMove, std::ostringstream &dane, int tura)
         dane<<prevMove.coords[2]+1;
         break;
     }
-    if(prevMove.szach==true)
+    if(f!='x')
+    {
+        dane<<"=";
+        dane<<f;
+    }
+    if(prevMove.szach==false&&prevMove.mat==false)
+    {
+        dane<<" *";
+    }
+    if(prevMove.szach==true&&prevMove.mat==false)
     {
         dane<<"+";
         dane<<" *";
     }
-
     if(prevMove.mat==true)
     {
         if(tura==1)
-            dane<<" 1-0";
+            dane<<"# 1-0";
         if(tura==2)
-            dane<<" 0-1";
+            dane<<"# 0-1";
     }
 }
 

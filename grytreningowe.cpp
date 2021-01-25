@@ -841,19 +841,15 @@ bool wolnebicie(int x1, int y1, int x2, int y2, char figura) //,int uklad)
 			}
 			else if (x2 == x1 + 2 && y2 == y1 + 1)
 			{
-
 			}
 			else if (x2 == x1 + 2 && y2 == y1 - 1)
 			{
-
 			}
 			else if (x2 == x1 + 1 && y2 == y1 - 2)
 			{
-
 			}
 			else if (x2 == x1 - 1 && y2 == y1 - 2)
 			{
-
 			}*/
 		}break;
 		case'p':
@@ -884,7 +880,7 @@ bool wolnebicie(int x1, int y1, int x2, int y2, char figura) //,int uklad)
 	}
 	return false;
 }
-void wypelnbiciaH(int xH,int yH, bool uklad) //jak uklad=0 to bia≥e sπ na dole tablicy, uklad=1 to przypadek przeciwny
+void wypelnbiciaH(int xH,int yH, bool uklad) //jak uklad=0 to bia≈Çe s≈° na dole tablicy, uklad=1 to przypadek przeciwny
 {
 	wpiszwstepnebiciaK(xH,yH);
 	for (int i = 0; i < 8; i++)
