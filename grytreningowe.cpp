@@ -8,7 +8,7 @@ using namespace std;
 
 string plansza[8][8]; //moze zmieniac sie w zaleznosci od robionych ruchow
 string kopia[8][8]; //niezmienia swojego utawienia od poczatku gry do konca
-int uklad; //jezeli uklad=0 to biale figury sa na dole planszy, w przeciwnym przypadku sa na gorze
+int uklad=0; //jezeli uklad=0 to biale figury sa na dole planszy, w przeciwnym przypadku sa na gorze
 bool bicieK[8]; //tablica,ktora zawiera pola wokol krola czarnego, 0-gdy pole nie jest bite, 1-gdy pole jest bite
 void printboard(string tab[8][8]) //wpisywanie do tablicy struktur planszy
 {
@@ -19,47 +19,47 @@ void printboard(string tab[8][8]) //wpisywanie do tablicy struktur planszy
 		{
 			if (tab[i][j] == " ")
 			{
-				board[i][j].fig = ' ';
-				board[i][j].tim = -1;
+				board[7-i][j].fig = ' ';
+				board[7-i][j].tim = -1;
 			}
 			else if (tab[i][j] == "P" || tab[i][j] == "R" || tab[i][j] == "B" || tab[i][j] == "N" || tab[i][j] == "Q" || tab[i][j] == "K")
 			{
-				board[i][j].fig = tab[i][j][0];
-				board[i][j].tim = 2;
+				board[7-i][j].fig = tab[i][j][0];
+				board[7-i][j].tim = 2;
 			}
 			else if (tab[i][j] == "p")
 			{
-				board[i][j].fig = 'P';
-				board[i][j].tim = 1;
+				board[7-i][j].fig = 'P';
+				board[7-i][j].tim = 1;
 			}
 			else if (tab[i][j] == "r")
 			{
-				board[i][j].fig = 'R';
-				board[i][j].tim = 1;
+				board[7-i][j].fig = 'R';
+				board[7-i][j].tim = 1;
 			}
 			else if (tab[i][j] == "b")
 			{
-				board[i][j].fig = 'B';
-				board[i][j].tim = 1;
+				board[7-i][j].fig = 'B';
+				board[7-i][j].tim = 1;
 			}
 			else if (tab[i][j] == "n")
 			{
-				board[i][j].fig = 'N';
-				board[i][j].tim = 1;
+				board[7-i][j].fig = 'N';
+				board[7-i][j].tim = 1;
 			}
 			else if (tab[i][j] == "q")
 			{
-				board[i][j].fig = 'Q';
-				board[i][j].tim = 1;
+				board[7-i][j].fig = 'Q';
+				board[7-i][j].tim = 1;
 			}
 			else if (tab[i][j] == "k")
 			{
-				board[i][j].fig = 'K';
-				board[i][j].tim = 1;
+				board[7-i][j].fig = 'K';
+				board[7-i][j].tim = 1;
 			}
 		}
 	}
-	printBoard(board, uklad /*1==biale 0==czarne*/);
+	printBoard(board, uklad+1 /*1==biale 0==czarne*/);
 }
 void gra(string szachy[8][8], int liczbarand) //opcja druga reneruje losowo gre jedna z dziesieciu
 {
